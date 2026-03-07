@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndieWebStudios — Durban</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --black: #0a0905;
+  --dark:  #100f0c;
+  --card:  #141310;
+  --rule:  #1e1c18;
+  --rule2: #2e2c25;
+  --gold:  #c8a85a;
+  --gold2: #e8c87a;
+  --cream: #f5f0e8;
+  --warm:  #b0a890;
+  --dim:   #504838;
+  --mute:  #2a2820;
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  background:var(--black);
+  color:var(--warm);
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* GRAIN — heavy, atmospheric */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+  opacity:.9;mix-blend-mode:multiply;
+}
+
+/* CURSOR */
+#cur{position:fixed;width:5px;height:5px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#curR{position:fixed;width:26px;height:26px;border:1px solid rgba(200,168,90,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+.hv #cur{transform:translate(-50%,-50%) scale(2)}
+.hv #curR{width:44px;height:44px;border-color:var(--gold)}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;
+  border-bottom:1px solid transparent;
+  transition:border-color .4s,background .4s;
+}
+nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur(20px)}
+
+.logo{
+  font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--cream);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.logo-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.logo em{color:var(--gold);font-style:normal}
+
+.nav-links{display:flex;align-items:center;gap:0;list-style:none}
+.nav-links li a{
+  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);text-decoration:none;
+  padding:.4rem 1.1rem;border-left:1px solid var(--rule);
+  transition:color .2s;
+}
+.nav-links li a:hover{color:var(--cream)}
+.nav-links li:last-child a{border-right:1px solid var(--rule)}
+.nav-cta{
+  margin-left:20px;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:.55rem 1.3rem;background:var(--gold);color:var(--black);
+  text-decoration:none;cursor:none;transition:background .2s,box-shadow .2s;white-space:nowrap;
+}
+.nav-cta:hover{background:var(--gold2);box-shadow:0 0 28px rgba(200,168,90,.35)}
+
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:1px solid var(--rule);padding:10px;cursor:none}
+.ham span{display:block;width:18px;height:1px;background:var(--cream);transition:transform .25s,opacity .2s}
+.ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+.mob{position:fixed;inset:0;z-index:490;background:var(--black);display:flex;flex-direction:column;justify-content:center;padding:6rem 48px;opacity:0;pointer-events:none;transition:opacity .3s}
+.mob.open{opacity:1;pointer-events:all}
+.mob a{display:block;font-family:'Anton',sans-serif;font-size:clamp(2.8rem,10vw,5rem);letter-spacing:.04em;color:var(--cream);text-decoration:none;border-top:1px solid var(--rule);padding:.7rem 0;transition:color .2s}
+.mob a:last-of-type{border-bottom:1px solid var(--rule)}
+.mob a:hover{color:var(--gold)}
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 48px 64px;
+  position:relative;overflow:hidden;
+}
+
+/* warm atmospheric glow — like stage lighting */
+.hero-glow{
+  position:absolute;top:-20%;left:-10%;
+  width:90vw;height:90vh;
+  background:radial-gradient(ellipse 50% 45% at 25% 30%, rgba(200,168,90,.06) 0%, transparent 65%);
+  pointer-events:none;
+}
+.hero-glow2{
+  position:absolute;bottom:-5%;right:5%;
+  width:60vw;height:60vh;
+  background:radial-gradient(ellipse, rgba(160,120,40,.04) 0%, transparent 65%);
+  pointer-events:none;
+}
+
+/* faint huge bg text */
+.hero-bg-text{
+  position:absolute;bottom:-3rem;right:-1vw;
+  font-family:'Anton',sans-serif;
+  font-size:clamp(20rem,38vw,44rem);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(200,168,90,.05);
+  line-height:1;pointer-events:none;user-select:none;letter-spacing:-.02em;
+}
+
+/* vertical text on left edge */
+.hero-vert{
+  position:absolute;left:16px;top:50%;
+  transform:translateY(-50%) rotate(-90deg);
+  font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;
+  color:var(--rule2);white-space:nowrap;
+}
+
+.hero-tag{
+  font-size:.55rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2.5rem;
+  opacity:0;animation:fadeUp .5s .15s forwards;
+}
+
+.hero-hl{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(5.5rem,16vw,19rem);
+  line-height:.86;letter-spacing:-.01em;
+  color:var(--cream);
+  position:relative;z-index:1;
+  opacity:0;animation:fadeUp .9s .3s forwards;
+}
+.hero-hl .ghost{
+  -webkit-text-stroke:1px rgba(200,168,90,.22);
+  color:transparent;
+}
+.hero-hl .indent{
+  display:block;
+  padding-left:clamp(2rem,7vw,11rem);
+}
+
+.hero-bot{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  flex-wrap:wrap;gap:2rem;
+  margin-top:4rem;padding-top:2.5rem;
+  border-top:1px solid var(--rule);
+  position:relative;z-index:1;
+  opacity:0;animation:fadeUp .6s .55s forwards;
+}
+.hero-sub{font-size:.74rem;line-height:1.85;color:var(--warm);max-width:380px}
+.hero-sub strong{color:var(--cream);font-weight:400}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-shrink:0}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════════════
+   TICKER
+══════════════════════════ */
+.ticker{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--dark);overflow:hidden}
+.ticker-row{padding:.75rem 0;overflow:hidden;display:flex}
+.ticker-row+.ticker-row{border-top:1px solid var(--rule)}
+.ticker-track{display:flex;white-space:nowrap;animation:tick 28s linear infinite}
+.ticker-track.rev{animation-direction:reverse}
+.t-item{font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--mute);padding:0 2.5rem;flex-shrink:0}
+.t-item.sep{color:var(--gold);opacity:.35;padding:0 .6rem;font-size:.6rem}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══════════════════════════
+   SHARED SECTION STYLES
+══════════════════════════ */
+section{padding:13rem 48px}
+.inner{max-width:1200px;margin:0 auto}
+.sec-label{
+  font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:5rem;
+  display:flex;align-items:center;gap:1.4rem;
+}
+.sec-label::before{content:'—';color:var(--dim)}
+
+.big-title{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(4rem,8.5vw,10rem);
+  line-height:.88;letter-spacing:.01em;
+  color:var(--cream);
+}
+.big-title em{color:var(--gold);font-style:normal}
+.big-title .ghost{-webkit-text-stroke:1px rgba(200,168,90,.2);color:transparent}
+
+/* ══════════════════════════
+   STATEMENT
+══════════════════════════ */
+.statement{position:relative;overflow:hidden;border-top:1px solid var(--rule)}
+.stmt-glow{position:absolute;top:50%;right:-5%;width:700px;height:700px;background:radial-gradient(circle,rgba(200,168,90,.04) 0%,transparent 60%);transform:translateY(-50%);pointer-events:none}
+
+.stmt-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,3.5vw,3.6rem);
+  font-weight:300;line-height:1.35;
+  color:var(--warm);max-width:1000px;
+  margin-bottom:6rem;
+}
+.stmt-body strong{color:var(--cream);font-weight:600}
+.stmt-body em{color:var(--gold);font-style:italic}
+
+.stmt-rule{width:100%;height:1px;background:var(--rule);margin:5rem 0}
+
+.stmt-stats{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--rule)}
+.stat{flex:1;min-width:130px;padding:2.5rem;border-right:1px solid var(--rule)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Anton',sans-serif;font-size:3.5rem;color:var(--cream);line-height:1}
+.stat-n em{color:var(--gold);font-style:normal}
+.stat-l{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:.5rem}
+
+/* ══════════════════════════
+   SERVICES
+══════════════════════════ */
+.svc-section{border-top:1px solid var(--rule)}
+.svc-head{display:grid;grid-template-columns:1fr 340px;gap:4rem;margin-bottom:7rem;align-items:end}
+.svc-sub{font-size:.7rem;line-height:1.9;color:var(--dim)}
+
+.svc-item{
+  display:grid;grid-template-columns:52px 1fr 240px;
+  gap:3rem;align-items:center;
+  padding:2.8rem 0;border-top:1px solid var(--rule);
+  transition:background .25s;
+}
+.svc-item:last-child{border-bottom:1px solid var(--rule)}
+.svc-item:hover{background:rgba(200,168,90,.03)}
+.svc-num{font-size:.5rem;letter-spacing:.22em;color:var(--dim)}
+.svc-name{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(2rem,4vw,4.2rem);
+  color:var(--cream);letter-spacing:.02em;
+  transition:color .25s;
+}
+.svc-item:hover .svc-name{color:var(--gold)}
+.svc-desc{font-size:.63rem;line-height:1.8;color:var(--dim);text-align:right}
+
+/* ══════════════════════════
+   SELECTED WORKS
+══════════════════════════ */
+.works-section{border-top:1px solid var(--rule);background:var(--dark)}
+.works-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:2rem}
+.works-sub{font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);line-height:2;text-align:right}
+
+.work-item{
+  display:grid;grid-template-columns:64px 1fr 160px 36px;
+  gap:3rem;align-items:center;
+  padding:3.8rem 0;border-top:1px solid var(--rule);
+  text-decoration:none;
+  transition:background .2s;
+  margin-top:0;
+}
+.work-item:first-of-type{margin-top:5rem}
+.work-item:last-child{border-bottom:1px solid var(--rule)}
+.work-item:hover{background:rgba(200,168,90,.025)}
+.w-yr{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.w-name{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(2.5rem,5vw,5.5rem);
+  color:var(--cream);letter-spacing:.01em;line-height:.88;
+  transition:color .25s;
+}
+.work-item:hover .w-name{color:var(--gold)}
+.w-cat{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);line-height:2;text-align:right;transition:color .25s}
+.work-item:hover .w-cat{color:var(--gold)}
+.w-arr{font-size:1.1rem;color:var(--rule2);transition:color .2s,transform .2s}
+.work-item:hover .w-arr{color:var(--gold);transform:translate(4px,-4px)}
+.work-item.ghost-row{opacity:.16;pointer-events:none}
+
+/* ══════════════════════════
+   TESTIMONIALS
+══════════════════════════ */
+.testi-section{border-top:1px solid var(--rule);position:relative;overflow:hidden}
+.testi-glow{position:absolute;bottom:-10%;left:0;width:600px;height:400px;background:radial-gradient(ellipse,rgba(200,168,90,.04) 0%,transparent 65%);pointer-events:none}
+
+.q-open{
+  font-family:'Cormorant Garamond',serif;
+  font-size:7rem;color:var(--gold);opacity:.12;
+  line-height:.4;margin-bottom:1.5rem;display:block;
+}
+.q-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:clamp(1.9rem,4vw,3.8rem);
+  color:var(--cream);line-height:1.32;margin-bottom:3rem;
+}
+.q-by{
+  font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:1.2rem;
+}
+.q-by::before{content:'';width:28px;height:1px;background:var(--gold);flex-shrink:0}
+
+.q2{margin-top:9rem;padding-top:6rem;border-top:1px solid var(--rule);text-align:right}
+.q2 .q-text{font-size:clamp(1.5rem,3vw,2.8rem)}
+.q2 .q-by{justify-content:flex-end}
+.q2 .q-by::before{display:none}
+.q2 .q-by::after{content:'';width:28px;height:1px;background:var(--gold);flex-shrink:0}
+
+/* ══════════════════════════
+   PROCESS
+══════════════════════════ */
+.process-section{border-top:1px solid var(--rule);background:var(--dark)}
+.proc-item{
+  display:grid;grid-template-columns:90px 1fr 1fr;
+  gap:4rem;padding:4.5rem 0;border-top:1px solid var(--rule);
+  opacity:.18;transition:opacity .45s;
+}
+.proc-item:last-child{border-bottom:1px solid var(--rule)}
+.proc-item:hover{opacity:1}
+.proc-n{
+  font-family:'Anton',sans-serif;font-size:5rem;
+  color:var(--rule2);line-height:1;transition:color .35s;
+}
+.proc-item:hover .proc-n{color:var(--gold)}
+.proc-name{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(1.8rem,3vw,3.2rem);
+  color:var(--cream);letter-spacing:.02em;line-height:.95;
+}
+.proc-desc{font-size:.68rem;line-height:1.9;color:var(--dim)}
+
+/* ══════════════════════════
+   CTA
+══════════════════════════ */
+.cta-section{border-top:1px solid var(--rule);position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:600px;background:radial-gradient(ellipse,rgba(200,168,90,.07) 0%,transparent 58%);pointer-events:none}
+.cta-inner{position:relative;z-index:1}
+
+.cta-hl{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(4.5rem,13vw,16rem);
+  line-height:.85;letter-spacing:-.01em;
+  color:var(--cream);margin-bottom:7rem;
+}
+.cta-hl em{color:var(--gold);font-style:normal}
+.cta-hl .ghost{-webkit-text-stroke:1px rgba(200,168,90,.18);color:transparent}
+
+.cta-row{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:3rem;
+  padding-top:3.5rem;border-top:1px solid var(--rule);
+}
+.cta-info-l{font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
+.cta-info-v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:var(--cream)}
+.cta-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.88rem 2rem;text-decoration:none;cursor:none;display:inline-block;transition:box-shadow .2s,transform .15s,background .2s}
+.btn-fill{background:var(--gold);color:var(--black)}
+.btn-fill:hover{background:var(--gold2);box-shadow:0 0 32px rgba(200,168,90,.4);transform:translateY(-2px)}
+.btn-out{background:transparent;color:var(--warm);border:1px solid var(--rule2)}
+.btn-out:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ══════════════════════════
+   FOOTER
+══════════════════════════ */
+footer{border-top:1px solid var(--rule);background:var(--dark)}
+
+.ft-top{
+  display:grid;grid-template-columns:1.3fr 1fr 1.2fr;
+  gap:5rem;padding:6rem 48px;
+  border-bottom:1px solid var(--rule);
+}
+
+.ft-logo{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:.15em;color:var(--cream);text-decoration:none;display:flex;align-items:center;gap:10px;margin-bottom:1.8rem}
+.ft-logo-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2.5s ease-in-out infinite}
+.ft-logo em{color:var(--gold);font-style:normal}
+.ft-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:1.05rem;line-height:1.7;color:var(--dim);max-width:240px;margin-bottom:2.5rem}
+.ft-tagline em{color:var(--gold)}
+.ft-legal{font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);line-height:2}
+.ft-legal span{color:var(--gold)}
+
+.ft-nav-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
+.ft-nav{display:flex;flex-direction:column}
+.ft-nav a{display:flex;align-items:center;gap:.65rem;text-decoration:none;padding:.85rem 0;border-bottom:1px solid var(--rule);color:var(--warm);font-family:'Anton',sans-serif;font-size:1.35rem;letter-spacing:.04em;transition:color .2s}
+.ft-nav a:first-child{border-top:1px solid var(--rule)}
+.ft-nav a .fn{font-family:'IBM Plex Mono',monospace;font-size:.44rem;letter-spacing:.15em;color:var(--dim);transition:color .2s;flex-shrink:0}
+.ft-nav a:hover{color:var(--gold)}
+.ft-nav a:hover .fn{color:var(--gold)}
+
+.ft-contact-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
+.ft-contact-items{display:flex;flex-direction:column;gap:2rem}
+.ft-item-l{font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:.35rem}
+.ft-item-v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--cream);text-decoration:none;transition:color .2s;display:block}
+a.ft-item-v:hover{color:var(--gold)}
+.ft-wa{display:inline-flex;align-items:center;gap:.55rem;margin-top:2.5rem;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1.3rem;background:rgba(37,211,102,.06);color:#25D366;border:1px solid rgba(37,211,102,.15);text-decoration:none;cursor:none;transition:background .2s,border-color .2s}
+.ft-wa:hover{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.38)}
+.ft-wa-dot{width:5px;height:5px;background:#25D366;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+
+.ft-bot{padding:1.2rem 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-bot span{font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.ft-bot em{color:var(--gold);font-style:normal}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:2rem;right:2rem;z-index:800;width:50px;height:50px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 28px rgba(37,211,102,.28);text-decoration:none;cursor:none;transition:transform .2s;animation:wapulse 3s ease-in-out infinite}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:23px;height:23px;fill:#fff}
+@keyframes wapulse{0%,100%{box-shadow:0 4px 28px rgba(37,211,102,.28)}50%{box-shadow:0 4px 44px rgba(37,211,102,.52)}}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* RESPONSIVE */
+@media(max-width:880px){
+  nav{padding:0 20px}
+  .nav-links,.nav-cta{display:none}
+  .ham{display:flex}
+  .hero{padding:0 20px 52px}
+  .hero-vert,.hero-bg-text{display:none}
+  section{padding:7rem 20px}
+  .svc-head{grid-template-columns:1fr;gap:2rem}
+  .svc-item{grid-template-columns:44px 1fr;gap:1.5rem}
+  .svc-desc{display:none}
+  .work-item{grid-template-columns:1fr auto;gap:1.5rem}
+  .w-yr,.w-cat{display:none}
+  .proc-item{grid-template-columns:60px 1fr;gap:2rem}
+  .proc-desc{grid-column:2}
+  .stmt-stats{flex-direction:column}
+  .stat{border-right:none;border-bottom:1px solid var(--rule)}
+  .cta-hl{font-size:clamp(3.5rem,14vw,7rem)}
+  .cta-row{flex-direction:column;align-items:flex-start}
+  .ft-top{grid-template-columns:1fr;gap:3rem;padding:3.5rem 20px}
+  .ft-bot{padding:1.2rem 20px;flex-direction:column;text-align:center}
+  .mob{padding:6rem 20px}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="curR"></div>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/27611498474?text=Hi%20IndieWebStudios!" class="wa-float" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <a href="#svc">Services</a>
+  <a href="#works">Work</a>
+  <a href="#proc">Process</a>
+  <a href="https://wa.me/27611498474?text=Hi!" target="_blank" style="color:var(--gold);border-top:none;margin-top:2rem;font-size:1.4rem">Start a Project →</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo"><span class="logo-dot"></span>Indie<em>Web</em>Studios</a>
+  <ul class="nav-links">
+    <li><a href="#svc">Services</a></li>
+    <li><a href="#works">Work</a></li>
+    <li><a href="#proc">Process</a></li>
+  </ul>
+  <a href="https://wa.me/27611498474?text=Hi!" target="_blank" class="nav-cta">Start a Project</a>
+  <button class="ham" id="ham"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-bg-text">IWS</div>
+  <div class="hero-vert">Web Design Studio · Durban ZA · Est. 2024</div>
+
+  <div class="hero-tag">Web Design Studio · Durban, South Africa</div>
+
+  <h1 class="hero-hl">
+    We Build<br>
+    <span class="indent">Websites</span><br>
+    That <span class="ghost">Actually</span> Work.
+  </h1>
+
+  <div class="hero-bot">
+    <p class="hero-sub">South African businesses deserve <strong>world-class websites.</strong> We build them fast, beautiful, and built to convert — starting at R1,000.</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/27611498474?text=Hi!" target="_blank" class="btn btn-fill">WhatsApp Us →</a>
+      <a href="#works" class="btn btn-out">Our Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-row">
+    <div class="ticker-track">
+      <span class="t-item">Web Design</span><span class="t-item sep">◆</span><span class="t-item">Mobile First</span><span class="t-item sep">◆</span><span class="t-item">Free Hosting</span><span class="t-item sep">◆</span><span class="t-item">Durban Studio</span><span class="t-item sep">◆</span><span class="t-item">7-Day Delivery</span><span class="t-item sep">◆</span><span class="t-item">Clean Code</span><span class="t-item sep">◆</span><span class="t-item">WhatsApp Ready</span><span class="t-item sep">◆</span><span class="t-item">R1,000 Flat</span><span class="t-item sep">◆</span>
+      <span class="t-item">Web Design</span><span class="t-item sep">◆</span><span class="t-item">Mobile First</span><span class="t-item sep">◆</span><span class="t-item">Free Hosting</span><span class="t-item sep">◆</span><span class="t-item">Durban Studio</span><span class="t-item sep">◆</span><span class="t-item">7-Day Delivery</span><span class="t-item sep">◆</span><span class="t-item">Clean Code</span><span class="t-item sep">◆</span><span class="t-item">WhatsApp Ready</span><span class="t-item sep">◆</span><span class="t-item">R1,000 Flat</span><span class="t-item sep">◆</span>
+    </div>
+  </div>
+  <div class="ticker-row">
+    <div class="ticker-track rev">
+      <span class="t-item">Custom Design</span><span class="t-item sep">◆</span><span class="t-item">No Templates</span><span class="t-item sep">◆</span><span class="t-item">Google Ready</span><span class="t-item sep">◆</span><span class="t-item">Full Stack Dev</span><span class="t-item sep">◆</span><span class="t-item">Real Results</span><span class="t-item sep">◆</span><span class="t-item">No Hidden Fees</span><span class="t-item sep">◆</span>
+      <span class="t-item">Custom Design</span><span class="t-item sep">◆</span><span class="t-item">No Templates</span><span class="t-item sep">◆</span><span class="t-item">Google Ready</span><span class="t-item sep">◆</span><span class="t-item">Full Stack Dev</span><span class="t-item sep">◆</span><span class="t-item">Real Results</span><span class="t-item sep">◆</span><span class="t-item">No Hidden Fees</span><span class="t-item sep">◆</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ STATEMENT ═══════════ -->
+<section class="statement">
+  <div class="stmt-glow"></div>
+  <div class="inner">
+    <div class="sec-label rv">Studio Belief</div>
+    <p class="stmt-body rv d1">
+      Most businesses in South Africa are <strong>completely invisible online.</strong>
+      Not because they aren't great at what they do —
+      but because nobody built them a site worth <em>finding.</em>
+      That's exactly what we fix.
+    </p>
+    <div class="stmt-rule"></div>
+    <div class="stmt-stats rv d2">
+      <div class="stat"><div class="stat-n">R<em>1K</em></div><div class="stat-l">Flat rate, no surprises</div></div>
+      <div class="stat"><div class="stat-n">4</div><div class="stat-l">Pages, custom built</div></div>
+      <div class="stat"><div class="stat-n">7<em>d</em></div><div class="stat-l">Live in days</div></div>
+      <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Free hosting, always</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section class="svc-section" id="svc">
+  <div class="inner svc-inner">
+    <div class="svc-head rv">
+      <h2 class="big-title">What We<br><em>Do.</em></h2>
+      <p class="svc-sub">Everything your business needs to look credible and convert visitors. Nothing you don't. One flat price.</p>
+    </div>
+    <div class="svc-item rv"><span class="svc-num">01</span><span class="svc-name">Custom Design</span><span class="svc-desc">No Wix. No WordPress. Built from scratch so you look like you paid 10× more.</span></div>
+    <div class="svc-item rv"><span class="svc-num">02</span><span class="svc-name">Mobile First</span><span class="svc-desc">Most of your customers are on phones. Perfect on every screen.</span></div>
+    <div class="svc-item rv"><span class="svc-num">03</span><span class="svc-name">Free Hosting</span><span class="svc-desc">World-class infrastructure. Fast. Always online. Zero monthly fees.</span></div>
+    <div class="svc-item rv"><span class="svc-num">04</span><span class="svc-name">WhatsApp Ready</span><span class="svc-desc">A live button so customers reach you instantly. How SA does business.</span></div>
+    <div class="svc-item rv"><span class="svc-num">05</span><span class="svc-name">7-Day Delivery</span><span class="svc-desc">Not weeks, not months. Live within a week of saying yes.</span></div>
+  </div>
+</section>
+
+<!-- ═══════════ WORKS ═══════════ -->
+<section class="works-section" id="works">
+  <div class="inner">
+    <div class="works-head rv">
+      <h2 class="big-title">Selected<br><em>Works.</em></h2>
+      <div class="works-sub">Real sites.<br>Real clients.<br>Durban, ZA.</div>
+    </div>
+    <a href="#" class="work-item rv">
+      <span class="w-yr">2024</span>
+      <span class="w-name">Local Business Site</span>
+      <span class="w-cat">Web Design<br>HTML / CSS / JS</span>
+      <span class="w-arr">↗</span>
+    </a>
+    <a href="#" class="work-item rv d1">
+      <span class="w-yr">2024</span>
+      <span class="w-name">Personal Brand Site</span>
+      <span class="w-cat">Web Design<br>HTML / CSS / JS</span>
+      <span class="w-arr">↗</span>
+    </a>
+    <div class="work-item ghost-row rv d2">
+      <span class="w-yr">2025</span>
+      <span class="w-name">Your Business Here</span>
+      <span class="w-cat">8 spots left</span>
+      <span class="w-arr">↗</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TESTIMONIALS ═══════════ -->
+<section class="testi-section" id="reviews">
+  <div class="testi-glow"></div>
+  <div class="inner">
+    <div class="rv">
+      <span class="q-open">"</span>
+      <p class="q-text">He built our website fast and it looks incredible on mobile. We've already had customers say they found us online because of it.</p>
+      <div class="q-by">Roxy — Local Client, Durban</div>
+    </div>
+    <div class="q2 rv d1">
+      <p class="q-text">Proper website, proper price. No nonsense, no waiting. Exactly what a small business needs.</p>
+      <div class="q-by">Local Business Owner, Durban</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROCESS ═══════════ -->
+<section class="process-section" id="proc">
+  <div class="inner">
+    <h2 class="big-title rv" style="margin-bottom:7rem">Simple<br>as <em>That.</em></h2>
+    <div class="proc-item rv">
+      <div class="proc-n">01</div>
+      <div class="proc-name">WhatsApp Us</div>
+      <div class="proc-desc">Tell us about your business in 5 minutes. We respond same day, every time. No forms. Just a message.</div>
+    </div>
+    <div class="proc-item rv d1">
+      <div class="proc-n">02</div>
+      <div class="proc-name">We Design It</div>
+      <div class="proc-desc">Fully custom — your brand, colours, and content. You get a full preview before anything goes live.</div>
+    </div>
+    <div class="proc-item rv d2">
+      <div class="proc-n">03</div>
+      <div class="proc-name">You Approve</div>
+      <div class="proc-desc">Request changes. We don't launch until you're 100% happy with every detail.</div>
+    </div>
+    <div class="proc-item rv d3">
+      <div class="proc-n">04</div>
+      <div class="proc-name">You're Live</div>
+      <div class="proc-desc">Live within 7 days. Hosted, fast, ready to bring in customers. No monthly bills. Done.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <div class="inner cta-inner">
+    <div class="sec-label rv">// Ready when you are</div>
+    <h2 class="cta-hl rv d1">
+      Let's<br>
+      Build<br>
+      <em>Something.</em>
+    </h2>
+    <div class="cta-row rv d2">
+      <div>
+        <div class="cta-info-l">WhatsApp</div>
+        <div class="cta-info-v">061 149 8474</div>
+      </div>
+      <div>
+        <div class="cta-info-l">Email</div>
+        <div class="cta-info-v">miguelmarcoramcharan@gmail.com</div>
+      </div>
+      <div class="cta-btns">
+        <a href="https://wa.me/27611498474?text=Hi%20IndieWebStudios!" target="_blank" class="btn btn-fill">WhatsApp Now →</a>
+        <a href="mailto:miguelmarcoramcharan@gmail.com" class="btn btn-out">Send Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <a href="#" class="ft-logo"><span class="ft-logo-dot"></span>Indie<em>Web</em>Studios</a>
+      <p class="ft-tagline">Making South African small businesses <em>impossible to ignore</em> online.</p>
+      <div class="ft-legal">© 2025 <span>IndieWebStudios.co.za</span><br>Durban, South Africa</div>
+    </div>
+    <div>
+      <div class="ft-nav-lbl">// Navigate</div>
+      <div class="ft-nav">
+        <a href="#svc"><span class="fn">01</span>Services</a>
+        <a href="#works"><span class="fn">02</span>Work</a>
+        <a href="#proc"><span class="fn">03</span>Process</a>
+        <a href="#reviews"><span class="fn">04</span>Reviews</a>
+        <a href="#contact"><span class="fn">05</span>Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-contact-lbl">// Get In Touch</div>
+      <div class="ft-contact-items">
+        <div>
+          <div class="ft-item-l">WhatsApp</div>
+          <a href="https://wa.me/27611498474" target="_blank" class="ft-item-v">061 149 8474</a>
+        </div>
+        <div>
+          <div class="ft-item-l">Email</div>
+          <a href="mailto:miguelmarcoramcharan@gmail.com" class="ft-item-v">miguelmarcoramcharan@gmail.com</a>
+        </div>
+        <div>
+          <div class="ft-item-l">Location</div>
+          <span class="ft-item-v">Durban, South Africa</span>
+        </div>
+      </div>
+      <a href="https://wa.me/27611498474?text=Hi%20IndieWebStudios!" target="_blank" class="ft-wa">
+        <span class="ft-wa-dot"></span>Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2025 <em>IndieWebStudios</em> · All rights reserved</span>
+    <span>Durban · South Africa · Est. 2024</span>
+  </div>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('hv');curR.classList.add('hv')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('hv');curR.classList.remove('hv')});
+});
+
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>40));
+
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{
+  const o=mob.classList.toggle('open');
+  ham.classList.toggle('open',o);
+  document.body.style.overflow=o?'hidden':'';
+});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  mob.classList.remove('open');ham.classList.remove('open');document.body.style.overflow='';
+}));
+
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.06});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
