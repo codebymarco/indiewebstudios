@@ -62,12 +62,14 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .logo-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 3s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 .logo em{color:var(--gold);font-style:normal}
+.sa-flag{font-size:.95rem;line-height:1;margin-left:2px;opacity:.85}
 
 .nav-links{display:flex;align-items:center;gap:0;list-style:none}
 .nav-links li a{
-  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  font-family:'Anton',sans-serif;
+  font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--dim);text-decoration:none;
-  padding:.4rem 1.1rem;border-left:1px solid var(--rule);
+  padding:.4rem 1.3rem;border-left:1px solid var(--rule);
   transition:color .2s;
 }
 .nav-links li a:hover{color:var(--cream)}
@@ -133,18 +135,13 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
   color:var(--rule2);white-space:nowrap;
 }
 
-.hero-tag{
-  font-size:.55rem;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:2.5rem;
-  opacity:0;animation:fadeUp .5s .15s forwards;
-}
-
 .hero-hl{
   font-family:'Anton',sans-serif;
   font-size:clamp(5.5rem,16vw,19rem);
   line-height:.86;letter-spacing:-.01em;
   color:var(--cream);
   position:relative;z-index:1;
+  padding-top:calc(64px + 6vw);
   opacity:0;animation:fadeUp .9s .3s forwards;
 }
 .hero-hl .ghost{
@@ -264,20 +261,29 @@ section{padding:13rem 48px}
   display:grid;grid-template-columns:64px 1fr 160px 36px;
   gap:3rem;align-items:center;
   padding:3.8rem 0;border-top:1px solid var(--rule);
-  text-decoration:none;
-  transition:background .2s;
-  margin-top:0;
+  text-decoration:none;transition:background .2s;
+  margin-top:0;position:relative;overflow:hidden;
 }
 .work-item:first-of-type{margin-top:5rem}
 .work-item:last-child{border-bottom:1px solid var(--rule)}
 .work-item:hover{background:rgba(200,168,90,.025)}
-.w-yr{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.w-name{
-  font-family:'Anton',sans-serif;
-  font-size:clamp(2.5rem,5vw,5.5rem);
-  color:var(--cream);letter-spacing:.01em;line-height:.88;
-  transition:color .25s;
+
+/* hover thumbnail */
+.w-thumb{
+  position:absolute;right:220px;top:50%;
+  transform:translateY(-50%) translateY(6px) scale(.94);
+  width:150px;height:95px;
+  object-fit:cover;object-position:top;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s,transform .35s;
+  border:1px solid var(--rule2);
+  filter:grayscale(25%) contrast(1.05);
+  z-index:2;
 }
+.work-item:hover .w-thumb{opacity:1;transform:translateY(-50%) translateY(0) scale(1)}
+
+.w-yr{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.w-name{font-family:'Anton',sans-serif;font-size:clamp(2.5rem,5vw,5.5rem);color:var(--cream);letter-spacing:.01em;line-height:.88;transition:color .25s}
 .work-item:hover .w-name{color:var(--gold)}
 .w-cat{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);line-height:2;text-align:right;transition:color .25s}
 .work-item:hover .w-cat{color:var(--gold)}
@@ -431,7 +437,7 @@ a.ft-item-v:hover{color:var(--gold)}
   .svc-item{grid-template-columns:44px 1fr;gap:1.5rem}
   .svc-desc{display:none}
   .work-item{grid-template-columns:1fr auto;gap:1.5rem}
-  .w-yr,.w-cat{display:none}
+  .w-yr,.w-cat,.w-thumb{display:none}
   .proc-item{grid-template-columns:60px 1fr;gap:2rem}
   .proc-desc{grid-column:2}
   .stmt-stats{flex-direction:column}
@@ -456,19 +462,22 @@ a.ft-item-v:hover{color:var(--gold)}
 
 <!-- MOBILE MENU -->
 <div class="mob" id="mob">
-  <a href="#svc">Services</a>
-  <a href="#works">Work</a>
-  <a href="#proc">Process</a>
-  <a href="https://wa.me/27611498474?text=Hi!" target="_blank" style="color:var(--gold);border-top:none;margin-top:2rem;font-size:1.4rem">Start a Project →</a>
+  <a href="index.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
 </div>
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="logo"><span class="logo-dot"></span>Indie<em>Web</em>Studios</a>
+  <a href="#" class="logo"><span class="logo-dot"></span>Indie<em>Web</em>Studios<span class="sa-flag" title="South Africa">🇿🇦</span></a>
   <ul class="nav-links">
-    <li><a href="#svc">Services</a></li>
-    <li><a href="#works">Work</a></li>
-    <li><a href="#proc">Process</a></li>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
   <a href="https://wa.me/27611498474?text=Hi!" target="_blank" class="nav-cta">Start a Project</a>
   <button class="ham" id="ham"><span></span><span></span><span></span></button>
@@ -481,8 +490,6 @@ a.ft-item-v:hover{color:var(--gold)}
   <div class="hero-bg-text">IWS</div>
   <div class="hero-vert">Web Design Studio · Durban ZA · Est. 2024</div>
 
-  <div class="hero-tag">Web Design Studio · Durban, South Africa</div>
-
   <h1 class="hero-hl">
     We Build<br>
     <span class="indent">Websites</span><br>
@@ -490,7 +497,7 @@ a.ft-item-v:hover{color:var(--gold)}
   </h1>
 
   <div class="hero-bot">
-    <p class="hero-sub">South African businesses deserve <strong>world-class websites.</strong> We build them fast, beautiful, and built to convert — starting at R1,000.</p>
+    <p class="hero-sub">South African businesses deserve <strong>world-class websites.</strong> We build them fast, beautiful, and built to convert.</p>
     <div class="hero-actions">
       <a href="https://wa.me/27611498474?text=Hi!" target="_blank" class="btn btn-fill">WhatsApp Us →</a>
       <a href="#works" class="btn btn-out">Our Work</a>
@@ -499,20 +506,7 @@ a.ft-item-v:hover{color:var(--gold)}
 </section>
 
 <!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-row">
-    <div class="ticker-track">
-      <span class="t-item">Web Design</span><span class="t-item sep">◆</span><span class="t-item">Mobile First</span><span class="t-item sep">◆</span><span class="t-item">Free Hosting</span><span class="t-item sep">◆</span><span class="t-item">Durban Studio</span><span class="t-item sep">◆</span><span class="t-item">7-Day Delivery</span><span class="t-item sep">◆</span><span class="t-item">Clean Code</span><span class="t-item sep">◆</span><span class="t-item">WhatsApp Ready</span><span class="t-item sep">◆</span><span class="t-item">R1,000 Flat</span><span class="t-item sep">◆</span>
-      <span class="t-item">Web Design</span><span class="t-item sep">◆</span><span class="t-item">Mobile First</span><span class="t-item sep">◆</span><span class="t-item">Free Hosting</span><span class="t-item sep">◆</span><span class="t-item">Durban Studio</span><span class="t-item sep">◆</span><span class="t-item">7-Day Delivery</span><span class="t-item sep">◆</span><span class="t-item">Clean Code</span><span class="t-item sep">◆</span><span class="t-item">WhatsApp Ready</span><span class="t-item sep">◆</span><span class="t-item">R1,000 Flat</span><span class="t-item sep">◆</span>
-    </div>
-  </div>
-  <div class="ticker-row">
-    <div class="ticker-track rev">
-      <span class="t-item">Custom Design</span><span class="t-item sep">◆</span><span class="t-item">No Templates</span><span class="t-item sep">◆</span><span class="t-item">Google Ready</span><span class="t-item sep">◆</span><span class="t-item">Full Stack Dev</span><span class="t-item sep">◆</span><span class="t-item">Real Results</span><span class="t-item sep">◆</span><span class="t-item">No Hidden Fees</span><span class="t-item sep">◆</span>
-      <span class="t-item">Custom Design</span><span class="t-item sep">◆</span><span class="t-item">No Templates</span><span class="t-item sep">◆</span><span class="t-item">Google Ready</span><span class="t-item sep">◆</span><span class="t-item">Full Stack Dev</span><span class="t-item sep">◆</span><span class="t-item">Real Results</span><span class="t-item sep">◆</span><span class="t-item">No Hidden Fees</span><span class="t-item sep">◆</span>
-    </div>
-  </div>
-</div>
+
 
 <!-- ═══════════ STATEMENT ═══════════ -->
 <section class="statement">
@@ -527,10 +521,9 @@ a.ft-item-v:hover{color:var(--gold)}
     </p>
     <div class="stmt-rule"></div>
     <div class="stmt-stats rv d2">
-      <div class="stat"><div class="stat-n">R<em>1K</em></div><div class="stat-l">Flat rate, no surprises</div></div>
-      <div class="stat"><div class="stat-n">4</div><div class="stat-l">Pages, custom built</div></div>
       <div class="stat"><div class="stat-n">7<em>d</em></div><div class="stat-l">Live in days</div></div>
-      <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Free hosting, always</div></div>
+      <div class="stat"><div class="stat-n"><em>∞</em></div><div class="stat-l">Ongoing support</div></div>
+      <div class="stat"><div class="stat-n">100<em>%</em></div><div class="stat-l">Custom, no templates</div></div>
     </div>
   </div>
 </section>
@@ -544,9 +537,8 @@ a.ft-item-v:hover{color:var(--gold)}
     </div>
     <div class="svc-item rv"><span class="svc-num">01</span><span class="svc-name">Custom Design</span><span class="svc-desc">No Wix. No WordPress. Built from scratch so you look like you paid 10× more.</span></div>
     <div class="svc-item rv"><span class="svc-num">02</span><span class="svc-name">Mobile First</span><span class="svc-desc">Most of your customers are on phones. Perfect on every screen.</span></div>
-    <div class="svc-item rv"><span class="svc-num">03</span><span class="svc-name">Free Hosting</span><span class="svc-desc">World-class infrastructure. Fast. Always online. Zero monthly fees.</span></div>
-    <div class="svc-item rv"><span class="svc-num">04</span><span class="svc-name">WhatsApp Ready</span><span class="svc-desc">A live button so customers reach you instantly. How SA does business.</span></div>
-    <div class="svc-item rv"><span class="svc-num">05</span><span class="svc-name">7-Day Delivery</span><span class="svc-desc">Not weeks, not months. Live within a week of saying yes.</span></div>
+    <div class="svc-item rv"><span class="svc-num">03</span><span class="svc-name">WhatsApp Ready</span><span class="svc-desc">A live button so customers reach you instantly. How SA does business.</span></div>
+    <div class="svc-item rv"><span class="svc-num">04</span><span class="svc-name">7-Day Delivery</span><span class="svc-desc">Not weeks, not months. Live within a week of saying yes.</span></div>
   </div>
 </section>
 
@@ -559,22 +551,32 @@ a.ft-item-v:hover{color:var(--gold)}
     </div>
     <a href="#" class="work-item rv">
       <span class="w-yr">2024</span>
-      <span class="w-name">Local Business Site</span>
-      <span class="w-cat">Web Design<br>HTML / CSS / JS</span>
+      <span class="w-name">Roxy Buchanan<br>Advanced Skincare</span>
+      <img class="w-thumb" src="/images/work1.png" alt="Roxy Buchanan Advanced Skincare">
+      <span class="w-cat">Skincare & Beauty<br>Web Design</span>
       <span class="w-arr">↗</span>
     </a>
     <a href="#" class="work-item rv d1">
       <span class="w-yr">2024</span>
-      <span class="w-name">Personal Brand Site</span>
-      <span class="w-cat">Web Design<br>HTML / CSS / JS</span>
+      <span class="w-name">El-Shaddai<br>Interiors</span>
+      <img class="w-thumb" src="/images/work2.png" alt="El-Shaddai Interiors">
+      <span class="w-cat">Interior Design<br>Web Design</span>
       <span class="w-arr">↗</span>
     </a>
-    <div class="work-item ghost-row rv d2">
-      <span class="w-yr">2025</span>
-      <span class="w-name">Your Business Here</span>
-      <span class="w-cat">8 spots left</span>
+    <a href="#" class="work-item rv d2">
+      <span class="w-yr">2024</span>
+      <span class="w-name">Stone<br>Pros</span>
+      <img class="w-thumb" src="/images/work3.png" alt="StonePros">
+      <span class="w-cat">Construction<br>Web Design</span>
       <span class="w-arr">↗</span>
-    </div>
+    </a>
+    <a href="#" class="work-item rv d3">
+      <span class="w-yr">2025</span>
+      <span class="w-name">Timb<br>&amp; Co</span>
+      <img class="w-thumb" src="/images/work4.png" alt="Timb&Co">
+      <span class="w-cat">Timber & Trade<br>Web Design</span>
+      <span class="w-arr">↗</span>
+    </a>
   </div>
 </section>
 
@@ -638,11 +640,11 @@ a.ft-item-v:hover{color:var(--gold)}
       </div>
       <div>
         <div class="cta-info-l">Email</div>
-        <div class="cta-info-v">miguelmarcoramcharan@gmail.com</div>
+        <div class="cta-info-v"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="523f3b3527373e3f3320313d20333f313a3320333c12353f333b3e7c313d3f">[email&#160;protected]</a></div>
       </div>
       <div class="cta-btns">
         <a href="https://wa.me/27611498474?text=Hi%20IndieWebStudios!" target="_blank" class="btn btn-fill">WhatsApp Now →</a>
-        <a href="mailto:miguelmarcoramcharan@gmail.com" class="btn btn-out">Send Email</a>
+        <a href="/cdn-cgi/l/email-protection#1d70747a687871707c6f7e726f7c707e757c6f7c735d7a707c7471337e7270" class="btn btn-out">Send Email</a>
       </div>
     </div>
   </div>
@@ -659,11 +661,11 @@ a.ft-item-v:hover{color:var(--gold)}
     <div>
       <div class="ft-nav-lbl">// Navigate</div>
       <div class="ft-nav">
-        <a href="#svc"><span class="fn">01</span>Services</a>
-        <a href="#works"><span class="fn">02</span>Work</a>
-        <a href="#proc"><span class="fn">03</span>Process</a>
-        <a href="#reviews"><span class="fn">04</span>Reviews</a>
-        <a href="#contact"><span class="fn">05</span>Contact</a>
+        <a href="index.html"><span class="fn">01</span>Home</a>
+        <a href="work.html"><span class="fn">02</span>Work</a>
+        <a href="services.html"><span class="fn">03</span>Services</a>
+        <a href="about.html"><span class="fn">04</span>About</a>
+        <a href="contact.html"><span class="fn">05</span>Contact</a>
       </div>
     </div>
     <div>
@@ -675,7 +677,7 @@ a.ft-item-v:hover{color:var(--gold)}
         </div>
         <div>
           <div class="ft-item-l">Email</div>
-          <a href="mailto:miguelmarcoramcharan@gmail.com" class="ft-item-v">miguelmarcoramcharan@gmail.com</a>
+          <a href="/cdn-cgi/l/email-protection#2845414f5d4d4445495a4b475a49454b40495a4946684f45494144064b4745" class="ft-item-v"><span class="__cf_email__" data-cfemail="503d393725353c3d3122333f22313d33383122313e10373d31393c7e333f3d">[email&#160;protected]</span></a>
         </div>
         <div>
           <div class="ft-item-l">Location</div>
@@ -693,7 +695,7 @@ a.ft-item-v:hover{color:var(--gold)}
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const cur=document.getElementById('cur'),curR=document.getElementById('curR');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
