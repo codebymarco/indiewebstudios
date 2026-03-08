@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Work — IndieWebStudios</title>
+<title>Website Templates Durban — IndieWebStudios</title>
+<meta name="description" content="Free and premium website templates for South African small businesses. Built by IndieWebStudios, Durban. Mobile-first, fast, and ready to launch.">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -50,111 +51,85 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 
 /* HERO */
 .hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 72px;position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
-.hero-glow{position:absolute;top:-10%;right:-5%;width:70vw;height:80vh;background:radial-gradient(ellipse 50% 45% at 70% 30%,rgba(200,168,90,.05) 0%,transparent 65%);pointer-events:none}
-.hero-bg{position:absolute;bottom:-4rem;left:-1vw;font-family:'Anton',sans-serif;font-size:clamp(16rem,30vw,38rem);color:transparent;-webkit-text-stroke:1px rgba(200,168,90,.04);line-height:1;pointer-events:none;user-select:none;letter-spacing:-.02em}
+.hero-glow{position:absolute;top:-10%;left:-10%;width:80vw;height:80vh;background:radial-gradient(ellipse 50% 45% at 20% 30%,rgba(200,168,90,.06) 0%,transparent 65%);pointer-events:none}
+.hero-bg{position:absolute;bottom:-4rem;right:-1vw;font-family:'Anton',sans-serif;font-size:clamp(14rem,26vw,32rem);color:transparent;-webkit-text-stroke:1px rgba(200,168,90,.04);line-height:1;pointer-events:none;user-select:none;letter-spacing:-.02em}
 .hero-eyebrow{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem;opacity:0;animation:up .5s .1s forwards}
 .hero-eyebrow::before{content:'—';color:var(--dim)}
 .hero-hl{font-family:'Anton',sans-serif;font-size:clamp(4.5rem,12vw,14rem);line-height:.88;letter-spacing:-.01em;color:var(--cream);padding-top:calc(64px + 4vw);position:relative;z-index:1;opacity:0;animation:up .9s .25s forwards}
 .hero-hl em{color:var(--gold);font-style:normal}
 .hero-hl .ghost{-webkit-text-stroke:1px rgba(200,168,90,.2);color:transparent}
 .hero-hl .push{display:block;padding-left:clamp(2rem,6vw,9rem)}
-.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,1.8vw,1.6rem);color:var(--warm);line-height:1.65;max-width:560px;margin-top:3rem;position:relative;z-index:1;opacity:0;animation:up .6s .45s forwards}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,1.8vw,1.6rem);color:var(--warm);line-height:1.65;max-width:600px;margin-top:3rem;position:relative;z-index:1;opacity:0;animation:up .6s .45s forwards}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── PROJECT LIST ── */
-.projects-sec{padding:8rem 48px 6rem}
+/* TEMPLATES GRID */
+.templates-sec{padding:9rem 48px}
 .inner{max-width:1300px;margin:0 auto}
 .sec-label{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:5rem;display:flex;align-items:center;gap:1.4rem}
 .sec-label::before{content:'—';color:var(--dim)}
 
-/* Each project is a big full-width editorial block */
-.project{
-  border-top:1px solid var(--rule);
-  padding:6rem 0;
+.templates-grid{
   display:grid;
-  grid-template-columns:80px 1fr 480px;
-  gap:5rem;
-  align-items:start;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border:1px solid var(--rule);
 }
-.project:last-child{border-bottom:1px solid var(--rule)}
 
-.proj-num{font-family:'Anton',sans-serif;font-size:5rem;color:var(--rule2);line-height:1;padding-top:.5rem}
-
-.proj-left{}
-.proj-client-tag{font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
-.proj-name{
-  font-family:'Anton',sans-serif;
-  font-size:clamp(3rem,6vw,7rem);
-  color:var(--cream);letter-spacing:.01em;line-height:.88;
-  margin-bottom:2.5rem;
-}
-.proj-name em{color:var(--gold);font-style:normal}
-.proj-desc{
-  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
-  font-size:clamp(1rem,1.5vw,1.35rem);
-  color:var(--warm);line-height:1.75;
-  max-width:460px;margin-bottom:3rem;
-}
-.proj-tags{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem}
-.proj-tag{font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border:1px solid var(--rule2);padding:.25rem .75rem}
-.proj-link{
-  display:inline-flex;align-items:center;gap:.7rem;
-  font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--warm);text-decoration:none;
-  border-bottom:1px solid var(--rule2);padding-bottom:2px;
-  transition:color .2s,border-color .2s;
-  cursor:none;
-}
-.proj-link:hover{color:var(--gold);border-color:var(--gold)}
-.proj-link-arrow{transition:transform .2s}
-.proj-link:hover .proj-link-arrow{transform:translate(3px,-3px)}
-
-.proj-right{}
-.proj-img-wrap{
+.template-card{
+  border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  text-decoration:none;
+  display:flex;flex-direction:column;
+  transition:background .25s;
   position:relative;
-  width:100%;
-  aspect-ratio:16/10;
-  overflow:hidden;
-  border:1px solid var(--rule2);
-  background:var(--card);
 }
-.proj-img-wrap img{
+.template-card:nth-child(3n){border-right:none}
+.template-card:nth-last-child(-n+3){border-bottom:none}
+.template-card:hover{background:rgba(200,168,90,.03)}
+
+/* image */
+.tc-img{
+  width:100%;aspect-ratio:16/10;
+  overflow:hidden;
+  border-bottom:1px solid var(--rule);
+  background:var(--card);
+  position:relative;
+}
+.tc-img img{
   width:100%;height:100%;
   object-fit:cover;object-position:top;
   display:block;
-  filter:grayscale(15%) contrast(1.05);
+  filter:grayscale(20%) contrast(1.05);
   transition:transform .6s ease, filter .4s ease;
 }
-.project:hover .proj-img-wrap img{
-  transform:scale(1.03);
-  filter:grayscale(0%) contrast(1);
+.template-card:hover .tc-img img{
+  transform:scale(1.04);
+  filter:grayscale(0%) contrast(1.02);
 }
-/* index number watermark behind image */
-.proj-img-wrap::before{
-  content:attr(data-num);
-  position:absolute;bottom:-1rem;right:-1rem;
-  font-family:'Anton',sans-serif;
-  font-size:8rem;color:transparent;
-  -webkit-text-stroke:1px rgba(200,168,90,.07);
-  line-height:1;pointer-events:none;z-index:1;
+.tc-num{
+  position:absolute;top:1rem;left:1rem;
+  font-family:'Anton',sans-serif;font-size:.65rem;letter-spacing:.15em;
+  color:var(--gold);background:rgba(10,9,5,.8);
+  padding:.25rem .6rem;
 }
-.proj-img-caption{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.85rem 0 0;
-  font-size:.48rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-}
-.proj-img-caption span{color:var(--rule2)}
 
-/* CTA STRIP */
-.cta-strip{
-  padding:10rem 48px;
-  border-top:1px solid var(--rule);
-  background:var(--dark);
-  position:relative;overflow:hidden;
-}
+/* content */
+.tc-body{padding:2rem 2rem 2.5rem;flex:1;display:flex;flex-direction:column;gap:1rem}
+.tc-industry{font-size:.48rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.tc-name{font-family:'Anton',sans-serif;font-size:1.8rem;letter-spacing:.03em;color:var(--cream);line-height:.95;transition:color .25s}
+.template-card:hover .tc-name{color:var(--gold)}
+.tc-desc{font-size:.62rem;line-height:1.8;color:var(--dim);flex:1}
+.tc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid var(--rule);margin-top:auto}
+.tc-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.tc-tag{font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border:1px solid var(--rule);padding:.18rem .55rem}
+.tc-arrow{font-size:.9rem;color:var(--dim);transition:color .2s,transform .2s}
+.template-card:hover .tc-arrow{color:var(--gold);transform:translate(3px,-3px)}
+
+/* CTA */
+.cta-strip{padding:10rem 48px;border-top:1px solid var(--rule);background:var(--dark);position:relative;overflow:hidden}
 .cta-strip::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:400px;background:radial-gradient(ellipse,rgba(200,168,90,.06) 0%,transparent 58%);pointer-events:none}
-.cta-strip-inner{max-width:1300px;margin:0 auto;position:relative;z-index:1}
-.cta-hl{font-family:'Anton',sans-serif;font-size:clamp(3.5rem,9vw,11rem);line-height:.85;letter-spacing:-.01em;color:var(--cream);margin-bottom:5rem}
+.cta-inner{max-width:1300px;margin:0 auto;position:relative;z-index:1}
+.cta-hl{font-family:'Anton',sans-serif;font-size:clamp(3rem,8vw,10rem);line-height:.85;letter-spacing:-.01em;color:var(--cream);margin-bottom:5rem}
 .cta-hl em{color:var(--gold);font-style:normal}
 .cta-hl .ghost{-webkit-text-stroke:1px rgba(200,168,90,.18);color:transparent}
 .cta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:3rem;padding-top:3rem;border-top:1px solid var(--rule)}
@@ -203,21 +178,30 @@ a.ft-item-v:hover{color:var(--gold)}
 
 .rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
 .rv.in{opacity:1;transform:translateY(0)}
-.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.18s}.rv.d3{transition-delay:.26s}
 
 @media(max-width:960px){
   nav{padding:0 20px}
   .nav-links,.nav-cta{display:none}
   .ham{display:flex}
-  .hero,.projects-sec,.cta-strip{padding-left:20px;padding-right:20px}
-  .project{grid-template-columns:1fr;gap:3rem;padding:4rem 0}
-  .proj-num{font-size:3rem;padding-top:0}
-  .proj-name{font-size:clamp(2.5rem,9vw,4.5rem)}
-  .cta-hl{font-size:clamp(3rem,12vw,6rem)}
+  .hero,.templates-sec,.cta-strip{padding-left:20px;padding-right:20px}
+  .templates-sec{padding-top:6rem;padding-bottom:6rem}
+  .templates-grid{grid-template-columns:1fr 1fr}
+  .template-card:nth-child(3n){border-right:1px solid var(--rule)}
+  .template-card:nth-child(2n){border-right:none}
+  .template-card:nth-last-child(-n+3){border-bottom:1px solid var(--rule)}
+  .template-card:nth-last-child(-n+2){border-bottom:none}
+  .cta-hl{font-size:clamp(2.8rem,11vw,5rem)}
   .cta-row{flex-direction:column;align-items:flex-start}
   .ft-top{grid-template-columns:1fr;gap:3rem;padding:3.5rem 20px}
   .ft-bot{padding:1.2rem 20px;flex-direction:column;text-align:center}
   .mob{padding:6rem 20px}
+}
+@media(max-width:560px){
+  .templates-grid{grid-template-columns:1fr}
+  .template-card{border-right:none}
+  .template-card:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
+  .template-card:last-child{border-bottom:none}
 }
 </style>
 </head>
@@ -233,6 +217,7 @@ a.ft-item-v:hover{color:var(--gold)}
 <div class="mob" id="mob">
   <a href="index.html">Home</a>
   <a href="work.html">Work</a>
+  <a href="templates.html">Templates</a>
   <a href="about.html">About</a>
   <a href="contact.html">Contact</a>
 </div>
@@ -241,7 +226,8 @@ a.ft-item-v:hover{color:var(--gold)}
   <a href="index.html" class="logo"><span class="logo-dot"></span>Indie<em>Web</em>Studios<span class="sa-flag">🇿🇦</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="work.html" class="active">Work</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="templates.html" class="active">Templates</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -252,139 +238,130 @@ a.ft-item-v:hover{color:var(--gold)}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="hero-bg">WORK</div>
-  <div class="hero-eyebrow">Selected Projects</div>
+  <div class="hero-bg">TMPL</div>
+  <div class="hero-eyebrow">Website Templates · Durban, South Africa</div>
   <h1 class="hero-hl">
-    Our<br>
-    <span class="push"><em>Work.</em></span>
+    Free<br>
+    <span class="push">Website</span><br>
+    <em>Templates.</em>
   </h1>
-  <p class="hero-sub">Four Durban businesses. Four custom-built websites. Real clients, real results — each one built from scratch by a developer who actually gives a damn.</p>
+  <p class="hero-sub">Ready-to-use website templates built for South African small businesses. Mobile-first, fast, and designed to convert — pick one and we'll make it yours.</p>
 </section>
 
-<!-- PROJECTS -->
-<section class="projects-sec">
+<!-- TEMPLATES -->
+<section class="templates-sec">
   <div class="inner">
-    <div class="sec-label rv">2024 — 2025</div>
+    <div class="sec-label rv">All Templates</div>
+    <div class="templates-grid">
 
-    <!-- PROJECT 01 -->
-    <div class="project rv">
-      <div class="proj-num">01</div>
-      <div class="proj-left">
-        <div class="proj-client-tag">Skincare & Beauty · Durban</div>
-        <h2 class="proj-name">Roxy Buchanan<br><em>Advanced</em><br>Skincare</h2>
-        <p class="proj-desc">A premium skincare clinic needed a website that matched the quality of their treatments. Clean, sophisticated, and built to convert first-time visitors into booked appointments.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Web Design</span>
-          <span class="proj-tag">HTML</span>
-          <span class="proj-tag">CSS</span>
-          <span class="proj-tag">JavaScript</span>
-          <span class="proj-tag">Mobile First</span>
+      <a href="#" class="template-card rv">
+        <div class="tc-img">
+          <img src="/images/template.png" alt="Salon Website Template Durban">
+          <span class="tc-num">01</span>
         </div>
-        <a href="#" class="proj-link">Visit Site <span class="proj-link-arrow">↗</span></a>
-      </div>
-      <div class="proj-right">
-        <div class="proj-img-wrap" data-num="01">
-          <img src="/images/work1.png" alt="Roxy Buchanan Advanced Skincare">
+        <div class="tc-body">
+          <div class="tc-industry">Salon & Beauty</div>
+          <div class="tc-name">Glow</div>
+          <div class="tc-desc">A clean, modern template for salons, spas, and beauty studios. Booking-ready layout with services, gallery, and contact sections.</div>
+          <div class="tc-footer">
+            <div class="tc-tags"><span class="tc-tag">Beauty</span><span class="tc-tag">Salon</span></div>
+            <span class="tc-arrow">↗</span>
+          </div>
         </div>
-        <div class="proj-img-caption">
-          <span>Roxy Buchanan Advanced Skincare</span>
-          <span>2024</span>
+      </a>
+
+      <a href="#" class="template-card rv d1">
+        <div class="tc-img">
+          <img src="/images/template.png" alt="Restaurant Website Template Durban">
+          <span class="tc-num">02</span>
         </div>
-      </div>
+        <div class="tc-body">
+          <div class="tc-industry">Restaurant & Food</div>
+          <div class="tc-name">Plate</div>
+          <div class="tc-desc">Bold and appetising template for restaurants, cafés, and food businesses. Menu showcase, opening hours, and location built in.</div>
+          <div class="tc-footer">
+            <div class="tc-tags"><span class="tc-tag">Food</span><span class="tc-tag">Restaurant</span></div>
+            <span class="tc-arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="template-card rv d2">
+        <div class="tc-img">
+          <img src="/images/template.png" alt="Contractor Website Template Durban">
+          <span class="tc-num">03</span>
+        </div>
+        <div class="tc-body">
+          <div class="tc-industry">Contractor & Trades</div>
+          <div class="tc-name">Build</div>
+          <div class="tc-desc">Solid and professional template for contractors, builders, and trade businesses. Services, portfolio, and quote request built in.</div>
+          <div class="tc-footer">
+            <div class="tc-tags"><span class="tc-tag">Trades</span><span class="tc-tag">Construction</span></div>
+            <span class="tc-arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="template-card rv">
+        <div class="tc-img">
+          <img src="/images/template.png" alt="Interior Design Website Template Durban">
+          <span class="tc-num">04</span>
+        </div>
+        <div class="tc-body">
+          <div class="tc-industry">Interior Design</div>
+          <div class="tc-name">Space</div>
+          <div class="tc-desc">Editorial and refined template for interior designers and decorators. Portfolio-first layout with project showcases and enquiry form.</div>
+          <div class="tc-footer">
+            <div class="tc-tags"><span class="tc-tag">Design</span><span class="tc-tag">Interiors</span></div>
+            <span class="tc-arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="template-card rv d1">
+        <div class="tc-img">
+          <img src="/images/template.png" alt="Retail Shop Website Template Durban">
+          <span class="tc-num">05</span>
+        </div>
+        <div class="tc-body">
+          <div class="tc-industry">Retail & Shop</div>
+          <div class="tc-name">Store</div>
+          <div class="tc-desc">Clean retail template for shops and product-based businesses. Product highlights, story section, and WhatsApp order button included.</div>
+          <div class="tc-footer">
+            <div class="tc-tags"><span class="tc-tag">Retail</span><span class="tc-tag">Shop</span></div>
+            <span class="tc-arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="template-card rv d2">
+        <div class="tc-img">
+          <img src="/images/template.png" alt="General Business Website Template Durban">
+          <span class="tc-num">06</span>
+        </div>
+        <div class="tc-body">
+          <div class="tc-industry">General Business</div>
+          <div class="tc-name">Base</div>
+          <div class="tc-desc">A versatile template that works for any business. Services, about, testimonials, and contact — everything a small business needs to look professional.</div>
+          <div class="tc-footer">
+            <div class="tc-tags"><span class="tc-tag">Business</span><span class="tc-tag">General</span></div>
+            <span class="tc-arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
     </div>
-
-    <!-- PROJECT 02 -->
-    <div class="project rv">
-      <div class="proj-num">02</div>
-      <div class="proj-left">
-        <div class="proj-client-tag">Interior Design · Durban</div>
-        <h2 class="proj-name">El-Shaddai<br><em>Interiors</em></h2>
-        <p class="proj-desc">An interior design studio with serious taste deserved a site that showed it. Editorial layout, generous whitespace, and a portfolio showcase that lets their work breathe.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Web Design</span>
-          <span class="proj-tag">HTML</span>
-          <span class="proj-tag">CSS</span>
-          <span class="proj-tag">JavaScript</span>
-          <span class="proj-tag">Portfolio</span>
-        </div>
-        <a href="#" class="proj-link">Visit Site <span class="proj-link-arrow">↗</span></a>
-      </div>
-      <div class="proj-right">
-        <div class="proj-img-wrap" data-num="02">
-          <img src="/images/work2.png" alt="El-Shaddai Interiors">
-        </div>
-        <div class="proj-img-caption">
-          <span>El-Shaddai Interiors</span>
-          <span>2024</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 03 -->
-    <div class="project rv">
-      <div class="proj-num">03</div>
-      <div class="proj-left">
-        <div class="proj-client-tag">Construction & Stone · Durban</div>
-        <h2 class="proj-name">Stone<br><em>Pros</em></h2>
-        <p class="proj-desc">A stonework and construction company that needed to look as solid online as their work looks in person. Built tough, loads fast, and makes it easy for customers to get in touch.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Web Design</span>
-          <span class="proj-tag">HTML</span>
-          <span class="proj-tag">CSS</span>
-          <span class="proj-tag">JavaScript</span>
-          <span class="proj-tag">WhatsApp Ready</span>
-        </div>
-        <a href="#" class="proj-link">Visit Site <span class="proj-link-arrow">↗</span></a>
-      </div>
-      <div class="proj-right">
-        <div class="proj-img-wrap" data-num="03">
-          <img src="/images/work3.png" alt="StonePros">
-        </div>
-        <div class="proj-img-caption">
-          <span>StonePros</span>
-          <span>2024</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 04 -->
-    <div class="project rv">
-      <div class="proj-num">04</div>
-      <div class="proj-left">
-        <div class="proj-client-tag">Timber & Trade · Durban</div>
-        <h2 class="proj-name">Timb<br><em>&amp; Co</em></h2>
-        <p class="proj-desc">A timber and trade business with a story worth telling. Warm, textured design that mirrors the craft of their product — with a clean quote and contact system built right in.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Web Design</span>
-          <span class="proj-tag">HTML</span>
-          <span class="proj-tag">CSS</span>
-          <span class="proj-tag">JavaScript</span>
-          <span class="proj-tag">Mobile First</span>
-        </div>
-        <a href="#" class="proj-link">Visit Site <span class="proj-link-arrow">↗</span></a>
-      </div>
-      <div class="proj-right">
-        <div class="proj-img-wrap" data-num="04">
-          <img src="/images/work4.png" alt="Timb&Co">
-        </div>
-        <div class="proj-img-caption">
-          <span>Timb &amp; Co</span>
-          <span>2025</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- CTA STRIP -->
+<!-- CTA -->
 <section class="cta-strip">
-  <div class="cta-strip-inner">
-    <div class="sec-label rv">// Your business next</div>
+  <div class="cta-inner">
+    <div class="sec-label rv">// Want something custom?</div>
     <h2 class="cta-hl rv d1">
-      Want one<br>
-      <span class="ghost">like</span><br>
-      <em>these?</em>
+      Need it<br>
+      <span class="ghost">built</span><br>
+      <em>your way?</em>
     </h2>
     <div class="cta-row rv d2">
       <div>
@@ -416,8 +393,9 @@ a.ft-item-v:hover{color:var(--gold)}
       <div class="ft-nav">
         <a href="index.html"><span class="fn">01</span>Home</a>
         <a href="work.html"><span class="fn">02</span>Work</a>
-        <a href="about.html"><span class="fn">03</span>About</a>
-        <a href="contact.html"><span class="fn">04</span>Contact</a>
+        <a href="templates.html"><span class="fn">03</span>Templates</a>
+        <a href="about.html"><span class="fn">04</span>About</a>
+        <a href="contact.html"><span class="fn">05</span>Contact</a>
       </div>
     </div>
     <div>
