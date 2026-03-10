@@ -23,42 +23,21 @@
 }
 
 html{scroll-behavior:smooth;overflow-x:hidden}
-body{
-  background:var(--black);
-  color:var(--warm);
-  font-family:'IBM Plex Mono',monospace;
-  font-weight:300;
-  overflow-x:hidden;
-  cursor:none;
-}
+body{background:var(--black);color:var(--warm);font-family:'IBM Plex Mono',monospace;font-weight:300;overflow-x:hidden;cursor:none}
 
-body::after{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
-  opacity:.9;mix-blend-mode:multiply;
-}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");opacity:.9;mix-blend-mode:multiply}
 
 #cur{position:fixed;width:5px;height:5px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
 #curR{position:fixed;width:26px;height:26px;border:1px solid rgba(200,168,90,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
 .hv #cur{transform:translate(-50%,-50%) scale(2)}
 .hv #curR{width:44px;height:44px;border-color:var(--gold)}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  height:64px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 48px;
-  border-bottom:1px solid transparent;
-  transition:border-color .4s,background .4s;
-}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid transparent;transition:border-color .4s,background .4s}
 nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur(20px)}
-
 .logo{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);text-decoration:none;display:flex;align-items:center;gap:10px}
 .logo-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 3s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 .logo em{color:var(--gold);font-style:normal}
-.sa-flag{font-size:.95rem;line-height:1;margin-left:2px;opacity:.85}
-
 .nav-links{display:flex;align-items:center;gap:0;list-style:none}
 .nav-links li a{font-family:'Anton',sans-serif;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:.4rem 1.3rem;border-left:1px solid var(--rule);transition:color .2s}
 .nav-links li a:hover{color:var(--cream)}
@@ -66,57 +45,29 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .nav-links li:last-child a{border-right:1px solid var(--rule)}
 .nav-cta{margin-left:20px;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1.3rem;background:var(--gold);color:var(--black);text-decoration:none;cursor:none;transition:background .2s,box-shadow .2s;white-space:nowrap}
 .nav-cta:hover{background:var(--gold2);box-shadow:0 0 28px rgba(200,168,90,.35)}
-
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:1px solid var(--rule);padding:10px;cursor:none}
 .ham span{display:block;width:18px;height:1px;background:var(--cream);transition:transform .25s,opacity .2s}
 .ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .ham.open span:nth-child(2){opacity:0}
 .ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-
 .mob{position:fixed;inset:0;z-index:490;background:var(--black);display:flex;flex-direction:column;justify-content:center;padding:6rem 48px;opacity:0;pointer-events:none;transition:opacity .3s}
 .mob.open{opacity:1;pointer-events:all}
 .mob a{display:block;font-family:'Anton',sans-serif;font-size:clamp(2.8rem,10vw,5rem);letter-spacing:.04em;color:var(--cream);text-decoration:none;border-top:1px solid var(--rule);padding:.7rem 0;transition:color .2s}
 .mob a:last-of-type{border-bottom:1px solid var(--rule)}
 .mob a:hover{color:var(--gold)}
 
-/* ── HERO ── */
-.hero{
-  min-height:72vh;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 48px 72px;
-  position:relative;overflow:hidden;
-  border-bottom:1px solid var(--rule);
-}
-.hero-glow{position:absolute;top:-10%;right:-5%;width:70vw;height:80vh;background:radial-gradient(ellipse 50% 45% at 70% 30%, rgba(200,168,90,.05) 0%, transparent 65%);pointer-events:none}
+.hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 72px;position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.hero-glow{position:absolute;top:-10%;right:-5%;width:70vw;height:80vh;background:radial-gradient(ellipse 50% 45% at 70% 30%,rgba(200,168,90,.05) 0%,transparent 65%);pointer-events:none}
 .hero-bg-word{position:absolute;bottom:-4rem;left:-1vw;font-family:'Anton',sans-serif;font-size:clamp(16rem,30vw,38rem);color:transparent;-webkit-text-stroke:1px rgba(200,168,90,.04);line-height:1;pointer-events:none;user-select:none;letter-spacing:-.02em}
-
 .hero-eyebrow{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem;opacity:0;animation:up .5s .1s forwards}
 .hero-eyebrow::before{content:'—';color:var(--dim)}
-
-.hero-hl{
-  font-family:'Anton',sans-serif;
-  font-size:clamp(4.5rem,12vw,14rem);
-  line-height:.88;letter-spacing:-.01em;color:var(--cream);
-  padding-top:calc(64px + 4vw);
-  position:relative;z-index:1;
-  opacity:0;animation:up .9s .25s forwards;
-}
+.hero-hl{font-family:'Anton',sans-serif;font-size:clamp(4.5rem,12vw,14rem);line-height:.88;letter-spacing:-.01em;color:var(--cream);padding-top:calc(64px + 4vw);position:relative;z-index:1;opacity:0;animation:up .9s .25s forwards}
 .hero-hl em{color:var(--gold);font-style:normal}
 .hero-hl .ghost{-webkit-text-stroke:1px rgba(200,168,90,.2);color:transparent}
 .hero-hl .push{display:block;padding-left:clamp(2rem,6vw,9rem)}
-
-.hero-sub{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-  font-size:clamp(1.1rem,1.8vw,1.6rem);
-  color:var(--warm);line-height:1.65;
-  max-width:600px;margin-top:3rem;
-  position:relative;z-index:1;
-  opacity:0;animation:up .6s .45s forwards;
-}
-
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,1.8vw,1.6rem);color:var(--warm);line-height:1.65;max-width:600px;margin-top:3rem;position:relative;z-index:1;opacity:0;animation:up .6s .45s forwards}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── SHARED ── */
 .s{padding:11rem 48px}
 .inner{max-width:1200px;margin:0 auto}
 .sec-label{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:5rem;display:flex;align-items:center;gap:1.4rem}
@@ -125,65 +76,25 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .big-title em{color:var(--gold);font-style:normal}
 .big-title .ghost{-webkit-text-stroke:1px rgba(200,168,90,.2);color:transparent}
 
-/* ── STORY ── */
 .story{border-top:1px solid var(--rule);position:relative;overflow:hidden}
 .story-glow{position:absolute;bottom:-10%;left:-5%;width:700px;height:600px;background:radial-gradient(ellipse,rgba(200,168,90,.04) 0%,transparent 60%);pointer-events:none}
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start}
-.story-left{}
-.story-right{}
 .story-body{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.2rem,1.7vw,1.6rem);line-height:1.75;color:var(--warm);margin-bottom:3rem}
 .story-body strong{color:var(--cream);font-weight:600}
 .story-body em{color:var(--gold);font-style:italic}
-.story-body+.story-body{margin-top:2rem}
-
 .story-detail{font-size:.62rem;line-height:2;color:var(--dim);margin-top:4rem;padding-top:3rem;border-top:1px solid var(--rule)}
 .story-detail span{color:var(--gold)}
 
-/* ── FOUNDER ── */
 .founder{border-top:1px solid var(--rule);background:var(--dark)}
 .founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-
 .founder-photo-wrap{position:relative}
-.founder-photo{
-  width:100%;aspect-ratio:3/4;
-  background:var(--card);
-  border:1px solid var(--rule);
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;position:relative;
-}
-/* placeholder initials when no photo */
-.founder-photo-placeholder{
-  font-family:'Anton',sans-serif;
-  font-size:clamp(5rem,10vw,10rem);
-  color:var(--rule2);letter-spacing:.05em;
-  position:relative;z-index:1;
-}
+.founder-photo{width:100%;aspect-ratio:3/4;background:var(--card);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .founder-photo-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(200,168,90,.06) 0%,transparent 65%)}
-
-/* ── DARK OVERLAY on Marco's photo ── */
-.founder-photo-overlay{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  z-index:1;
-  pointer-events:none;
-}
-
-.founder-photo-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:1.5rem;background:linear-gradient(to top, rgba(10,9,5,.9) 0%, transparent 100%);
-  display:flex;align-items:flex-end;justify-content:space-between;
-  z-index:2;
-}
+.founder-photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:1;pointer-events:none}
+.founder-photo-label{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(10,9,5,.9) 0%,transparent 100%);display:flex;align-items:flex-end;justify-content:space-between;z-index:2}
 .founder-photo-name{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--cream)}
 .founder-photo-role{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-
-.founder-photo img{
-  width:100%;height:100%;object-fit:cover;
-  display:block;filter:grayscale(30%) contrast(1.05);
-}
-
-.founder-right{}
+.founder-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(30%) contrast(1.05)}
 .founder-tag{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;display:flex;align-items:center;gap:1.2rem}
 .founder-tag::before{content:'—';color:var(--dim)}
 .founder-title{font-family:'Anton',sans-serif;font-size:clamp(2.8rem,5vw,5.5rem);line-height:.9;letter-spacing:.01em;color:var(--cream);margin-bottom:3rem}
@@ -197,7 +108,6 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .founder-fact-label{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);width:110px;flex-shrink:0}
 .founder-fact-val{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--cream)}
 
-/* ── VALUES ── */
 .values{border-top:1px solid var(--rule)}
 .values-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--rule);margin-top:6rem}
 .value-item{padding:3.5rem;border-right:1px solid var(--rule);transition:background .3s}
@@ -208,15 +118,12 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .value-title{font-family:'Anton',sans-serif;font-size:1.6rem;letter-spacing:.03em;color:var(--cream);margin-bottom:1rem}
 .value-desc{font-size:.65rem;line-height:1.85;color:var(--dim)}
 
-/* ── LOCATION ── */
 .location{border-top:1px solid var(--rule);background:var(--dark);position:relative;overflow:hidden}
 .location-glow{position:absolute;top:50%;right:-5%;width:600px;height:500px;background:radial-gradient(ellipse,rgba(200,168,90,.04) 0%,transparent 60%);transform:translateY(-50%);pointer-events:none}
 .location-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-.location-left{}
 .location-city{font-family:'Anton',sans-serif;font-size:clamp(5rem,12vw,13rem);color:transparent;-webkit-text-stroke:1px rgba(200,168,90,.15);line-height:.85;letter-spacing:-.02em;margin-bottom:2rem}
 .location-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.4rem,2.2vw,2rem);color:var(--warm);line-height:1.5}
 .location-tagline em{color:var(--gold)}
-.location-right{}
 .location-body{font-size:.7rem;line-height:2;color:var(--dim);margin-bottom:3rem}
 .location-detail{display:flex;flex-direction:column;gap:0}
 .loc-row{display:flex;align-items:baseline;gap:1.5rem;padding:.85rem 0;border-bottom:1px solid var(--rule)}
@@ -224,7 +131,6 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .loc-lbl{font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);width:100px;flex-shrink:0}
 .loc-val{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--cream)}
 
-/* ── CTA ── */
 .cta-sec{border-top:1px solid var(--rule);position:relative;overflow:hidden}
 .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:500px;background:radial-gradient(ellipse,rgba(200,168,90,.07) 0%,transparent 58%);pointer-events:none}
 .cta-inner{position:relative;z-index:1}
@@ -235,15 +141,13 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
 .cta-info-l{font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
 .cta-info-v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:var(--cream)}
 .cta-btns{display:flex;gap:12px;flex-wrap:wrap}
-
-/* BUTTONS */
 .btn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.88rem 2rem;text-decoration:none;cursor:none;display:inline-block;transition:box-shadow .2s,transform .15s,background .2s}
 .btn-fill{background:var(--gold);color:var(--black)}
 .btn-fill:hover{background:var(--gold2);box-shadow:0 0 32px rgba(200,168,90,.4);transform:translateY(-2px)}
 .btn-out{background:transparent;color:var(--warm);border:1px solid var(--rule2)}
 .btn-out:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer{border-top:1px solid var(--rule);background:var(--dark)}
 .ft-top{display:grid;grid-template-columns:1.3fr 1fr 1.2fr;gap:5rem;padding:6rem 48px;border-bottom:1px solid var(--rule)}
 .ft-logo{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:.15em;color:var(--cream);text-decoration:none;display:flex;align-items:center;gap:10px;margin-bottom:1.8rem}
@@ -268,22 +172,29 @@ a.ft-item-v:hover{color:var(--gold)}
 .ft-wa{display:inline-flex;align-items:center;gap:.55rem;margin-top:2.5rem;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1.3rem;background:rgba(37,211,102,.06);color:#25D366;border:1px solid rgba(37,211,102,.15);text-decoration:none;cursor:none;transition:background .2s,border-color .2s}
 .ft-wa:hover{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.38)}
 .ft-wa-dot{width:5px;height:5px;background:#25D366;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+
+/* FOOTER SOCIAL */
+.ft-social-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;margin-top:2.5rem}
+.ft-social-icons{display:flex;gap:0}
+.ft-social-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--rule);color:var(--dim);text-decoration:none;cursor:none;transition:color .2s,border-color .2s,background .2s}
+.ft-social-icon:not(:first-child){border-left:none}
+.ft-social-icon svg{width:16px;height:16px;fill:currentColor;transition:transform .2s}
+.ft-social-icon:hover{color:var(--gold);border-color:var(--gold);background:rgba(200,168,90,.05)}
+.ft-social-icon:hover svg{transform:scale(1.15)}
+
 .ft-bot{padding:1.2rem 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .ft-bot span{font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .ft-bot em{color:var(--gold);font-style:normal}
 
-/* WA FLOAT */
 .wa-float{position:fixed;bottom:2rem;right:2rem;z-index:800;width:50px;height:50px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 28px rgba(37,211,102,.28);text-decoration:none;cursor:none;transition:transform .2s;animation:wapulse 3s ease-in-out infinite}
 .wa-float:hover{transform:scale(1.1)}
 .wa-float svg{width:23px;height:23px;fill:#fff}
 @keyframes wapulse{0%,100%{box-shadow:0 4px 28px rgba(37,211,102,.28)}50%{box-shadow:0 4px 44px rgba(37,211,102,.52)}}
 
-/* REVEAL */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
 .rv.in{opacity:1;transform:translateY(0)}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 
-/* RESPONSIVE */
 @media(max-width:880px){
   nav{padding:0 20px}
   .nav-links,.nav-cta{display:none}
@@ -332,11 +243,9 @@ a.ft-item-v:hover{color:var(--gold)}
   <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-bg-word">IWS</div>
-
   <div class="hero-eyebrow">About the Studio</div>
   <h1 class="hero-hl">
     Born in<br>
@@ -346,22 +255,15 @@ a.ft-item-v:hover{color:var(--gold)}
   <p class="hero-sub">A web design studio that actually gives a damn about the businesses it builds for — started in 2024 by a developer who got tired of watching great local businesses lose to bad websites.</p>
 </section>
 
-<!-- ═══ STORY ═══ -->
 <section class="s story">
   <div class="story-glow"></div>
   <div class="inner">
     <div class="sec-label rv">Our Story</div>
     <div class="story-grid">
       <div class="story-left">
-        <p class="story-body rv">
-          <strong>IndieWebStudios started with a simple observation:</strong> the best businesses in Durban — the ones with real skill, real service, real heart — were invisible online. Not because they didn't deserve to be found. Because the web had left them behind.
-        </p>
-        <p class="story-body rv d1">
-          Big agencies weren't interested. DIY builders produced <em>embarrassing results.</em> And the gap between "we have a website" and "our website actually works for us" had never been wider.
-        </p>
-        <p class="story-body rv d2">
-          So in 2024, we opened our doors in Durban with one purpose: <em>build world-class websites for the businesses that deserve them most.</em> No fluff. No agency overhead. Just craft.
-        </p>
+        <p class="story-body rv"><strong>IndieWebStudios started with a simple observation:</strong> the best businesses in Durban — the ones with real skill, real service, real heart — were invisible online. Not because they didn't deserve to be found. Because the web had left them behind.</p>
+        <p class="story-body rv d1">Big agencies weren't interested. DIY builders produced <em>embarrassing results.</em> And the gap between "we have a website" and "our website actually works for us" had never been wider.</p>
+        <p class="story-body rv d2">So in 2024, we opened our doors in Durban with one purpose: <em>build world-class websites for the businesses that deserve them most.</em> No fluff. No agency overhead. Just craft.</p>
         <div class="story-detail rv d3">
           <div>Founded <span>2024</span></div>
           <div>Based in <span>Durban, South Africa</span></div>
@@ -377,13 +279,10 @@ a.ft-item-v:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ═══ FOUNDER ═══ -->
 <section class="s founder">
   <div class="inner">
     <div class="sec-label rv">The Founder</div>
     <div class="founder-grid">
-
-      <!-- Photo -->
       <div class="founder-photo-wrap rv">
         <div class="founder-photo">
           <img src="/images/marco.jpeg" alt="Marco Ramcharan">
@@ -398,47 +297,23 @@ a.ft-item-v:hover{color:var(--gold)}
           </div>
         </div>
       </div>
-
-      <!-- Bio -->
       <div class="founder-right rv d1">
         <div class="founder-tag">Founder & Developer</div>
         <h2 class="founder-title">Marco<br><em>Ramcharan.</em></h2>
-
-        <p class="founder-bio">
-          <strong>Marco has been around computers his whole life.</strong> What started as pure curiosity grew into a full career in technology — today he works as a full stack developer building production software used by businesses across the world.
-        </p>
-        <p class="founder-bio">
-          IndieWebStudios is the other side of that coin. The chance to take that same technical skill and <em>point it at something closer to home</em> — the restaurants, salons, contractors, and creatives that make Durban what it is.
-        </p>
-        <p class="founder-bio">
-          When you work with IndieWebStudios, you're not dealing with an account manager or a junior designer. You're working directly with <em>the developer.</em> Every line of code, every design decision, every pixel — Marco.
-        </p>
-
+        <p class="founder-bio"><strong>Marco has been around computers his whole life.</strong> What started as pure curiosity grew into a full career in technology — today he works as a full stack developer building production software used by businesses across the world.</p>
+        <p class="founder-bio">IndieWebStudios is the other side of that coin. The chance to take that same technical skill and <em>point it at something closer to home</em> — the restaurants, salons, contractors, and creatives that make Durban what it is.</p>
+        <p class="founder-bio">When you work with IndieWebStudios, you're not dealing with an account manager or a junior designer. You're working directly with <em>the developer.</em> Every line of code, every design decision, every pixel — Marco.</p>
         <div class="founder-facts rv d2">
-          <div class="founder-fact">
-            <span class="founder-fact-label">Role</span>
-            <span class="founder-fact-val">Full Stack Developer & Studio Founder</span>
-          </div>
-          <div class="founder-fact">
-            <span class="founder-fact-label">Based</span>
-            <span class="founder-fact-val">Durban, South Africa</span>
-          </div>
-          <div class="founder-fact">
-            <span class="founder-fact-label">Background</span>
-            <span class="founder-fact-val">Software Engineering, Web Development</span>
-          </div>
-          <div class="founder-fact">
-            <span class="founder-fact-label">Studio</span>
-            <span class="founder-fact-val">IndieWebStudios, Est. 2024</span>
-          </div>
+          <div class="founder-fact"><span class="founder-fact-label">Role</span><span class="founder-fact-val">Full Stack Developer & Studio Founder</span></div>
+          <div class="founder-fact"><span class="founder-fact-label">Based</span><span class="founder-fact-val">Durban, South Africa</span></div>
+          <div class="founder-fact"><span class="founder-fact-label">Background</span><span class="founder-fact-val">Software Engineering, Web Development</span></div>
+          <div class="founder-fact"><span class="founder-fact-label">Studio</span><span class="founder-fact-val">IndieWebStudios, Est. 2024</span></div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ═══ VALUES ═══ -->
 <section class="s values">
   <div class="inner">
     <div class="sec-label rv">What We Stand For</div>
@@ -463,7 +338,6 @@ a.ft-item-v:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ═══ LOCATION ═══ -->
 <section class="s location">
   <div class="location-glow"></div>
   <div class="inner">
@@ -476,38 +350,21 @@ a.ft-item-v:hover{color:var(--gold)}
         <div class="sec-label" style="margin-bottom:3rem">Where We're From</div>
         <p class="location-body">Durban is one of South Africa's most vibrant cities — and some of its best businesses have never had a website worth their reputation. We're here to change that. Based in Durban, building for Durban, but with an eye on what the rest of the world is doing.</p>
         <div class="location-detail">
-          <div class="loc-row">
-            <span class="loc-lbl">City</span>
-            <span class="loc-val">Durban, KwaZulu-Natal</span>
-          </div>
-          <div class="loc-row">
-            <span class="loc-lbl">Country</span>
-            <span class="loc-val">South Africa 🇿🇦</span>
-          </div>
-          <div class="loc-row">
-            <span class="loc-lbl">Timezone</span>
-            <span class="loc-val">SAST (UTC+2)</span>
-          </div>
-          <div class="loc-row">
-            <span class="loc-lbl">Contact</span>
-            <span class="loc-val">WhatsApp or Email, always</span>
-          </div>
+          <div class="loc-row"><span class="loc-lbl">City</span><span class="loc-val">Durban, KwaZulu-Natal</span></div>
+          <div class="loc-row"><span class="loc-lbl">Country</span><span class="loc-val">South Africa 🇿🇦</span></div>
+          <div class="loc-row"><span class="loc-lbl">Timezone</span><span class="loc-val">SAST (UTC+2)</span></div>
+          <div class="loc-row"><span class="loc-lbl">Contact</span><span class="loc-val">WhatsApp or Email, always</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ CTA ═══ -->
 <section class="s cta-sec">
   <div class="cta-glow"></div>
   <div class="inner cta-inner">
     <div class="sec-label rv">// Let's talk</div>
-    <h2 class="cta-hl rv d1">
-      Ready to<br>
-      <span class="ghost">Get</span><br>
-      <em>Started?</em>
-    </h2>
+    <h2 class="cta-hl rv d1">Ready to<br><span class="ghost">Get</span><br><em>Started?</em></h2>
     <div class="cta-row rv d2">
       <div>
         <div class="cta-info-l">WhatsApp</div>
@@ -525,13 +382,30 @@ a.ft-item-v:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="ft-top">
     <div>
       <a href="/" class="ft-logo"><img src="/images/logo.png" alt="IndieWebStudios" style="height:30px;width:auto;display:block;margin-bottom:1.8rem"></a>
       <p class="ft-tagline">Making South African small businesses <em>impossible to ignore</em> online.</p>
-      <div class="ft-legal">© 2025 <span>IndieWebStudios.co.za</span><br>Durban, South Africa</div>
+      <div class="ft-social-lbl">// Follow Us</div>
+      <div class="ft-social-icons">
+        <a href="https://instagram.com/indiewebstudio" target="_blank" class="ft-social-icon" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://x.com/indewebstudio" target="_blank" class="ft-social-icon" aria-label="X">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/share/1DqwGZD1BJ/" target="_blank" class="ft-social-icon" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://za.pinterest.com/indiewebstudio/_profile/" target="_blank" class="ft-social-icon" aria-label="Pinterest">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+        </a>
+        <a href="https://youtube.com/@indiewebstudio" target="_blank" class="ft-social-icon" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+      <div class="ft-legal" style="margin-top:2rem">© 2025 <span>IndieWebStudios.co.za</span><br>Durban, South Africa</div>
     </div>
     <div>
       <div class="ft-nav-lbl">// Navigate</div>
@@ -579,10 +453,8 @@ document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.classList.add('hv');curR.classList.add('hv')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('hv');curR.classList.remove('hv')});
 });
-
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>40));
-
 const ham=document.getElementById('ham'),mob=document.getElementById('mob');
 ham.addEventListener('click',()=>{
   const o=mob.classList.toggle('open');
@@ -592,7 +464,6 @@ ham.addEventListener('click',()=>{
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   mob.classList.remove('open');ham.classList.remove('open');document.body.style.overflow='';
 }));
-
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.06});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 </script>
