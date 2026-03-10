@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Barber</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #000000;
+  --off-black: #0d0d0d;
+  --near-black: #111;
+  --border: #1f1f1f;
+  --white: #ffffff;
+  --dim: #555;
+  --dimmer: #333;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.35;
+}
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s, background 0.4s;
+}
+nav.scrolled {
+  background: rgba(0,0,0,0.97);
+  border-bottom-color: var(--border);
+}
+.nav-logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-book {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--white);
+  padding: 10px 24px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-book:hover { background: #ccc; }
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Anton', sans-serif;
+  font-size: 32vw;
+  color: #ffffff;
+  opacity: 0.025;
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  user-select: none;
+}
+.hero-top-label {
+  position: absolute;
+  top: 120px;
+  right: 48px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dim);
+  writing-mode: vertical-rl;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.hero-h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(6rem, 14vw, 14rem);
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  animation: fadeUp 0.9s 0.1s both;
+}
+.hero-right-block {
+  text-align: right;
+  max-width: 280px;
+  padding-bottom: 8px;
+  animation: fadeUp 0.9s 0.25s both;
+}
+.hero-sub {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.hero-cta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--white);
+  padding: 14px 32px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.hero-cta:hover { background: #ccc; }
+.hero-bottom-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  animation: fadeUp 0.6s 0.5s both;
+}
+.hero-bottom-item {
+  flex: 1;
+  padding: 20px 48px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hero-bottom-item:last-child { border-right: none; }
+.hbi-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.hbi-val {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* TICKER */
+.ticker {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--off-black);
+}
+.ticker-track {
+  display: flex;
+  animation: tick 20s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: 'Anton', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 12px 40px;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  transition: color 0.3s;
+}
+.ticker-item:hover { color: var(--white); }
+@keyframes tick {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* SERVICES */
+#services { border-bottom: 1px solid var(--border); }
+.section-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.section-big-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--dimmer);
+}
+.services-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.service-row {
+  padding: 48px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.service-row:nth-child(even) { border-right: none; }
+.service-row:nth-child(3), .service-row:nth-child(4) { border-bottom: none; }
+.service-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--white);
+  transition: width 0.5s cubic-bezier(0.77,0,0.175,1);
+}
+.service-row:hover { background: var(--off-black); }
+.service-row:hover::after { width: 100%; }
+.sr-left { flex: 1; }
+.sr-num {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--dimmer);
+  margin-bottom: 20px;
+  display: block;
+}
+.sr-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.8rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.sr-desc {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--dim);
+  line-height: 1.6;
+  max-width: 240px;
+}
+.sr-price {
+  font-family: 'Anton', sans-serif;
+  font-size: 3.5rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.sr-currency { font-size: 1.4rem; margin-top: 10px; color: var(--dim); }
+
+/* GALLERY */
+#gallery { border-bottom: 1px solid var(--border); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 480px;
+}
+.gallery-cell {
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  background: var(--off-black);
+}
+.gallery-cell:last-child { border-right: none; }
+.gallery-ph-inner {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.gallery-cell:hover .gallery-ph-inner { transform: scale(1.05); }
+.gallery-cell:nth-child(1) .gallery-ph-inner { background: #0a0a0a; }
+.gallery-cell:nth-child(2) .gallery-ph-inner { background: #0e0e0e; }
+.gallery-cell:nth-child(3) .gallery-ph-inner { background: #080808; }
+.gallery-cell:nth-child(4) .gallery-ph-inner { background: #0c0c0c; }
+.gallery-cell:nth-child(5) .gallery-ph-inner { background: #0a0a08; }
+.gallery-icon { opacity: 0.07; transition: opacity 0.4s; }
+.gallery-cell:hover .gallery-icon { opacity: 0.15; }
+.gallery-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 16px 20px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  border-top: 1px solid var(--border);
+  background: rgba(0,0,0,0.9);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+.gallery-cell:hover .gallery-caption { transform: translateY(0); }
+
+/* REVIEWS */
+#reviews { border-bottom: 1px solid var(--border); }
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.review-cell {
+  padding: 60px 48px;
+  border-right: 1px solid var(--border);
+}
+.review-cell:last-child { border-right: none; }
+.review-index {
+  font-family: 'Anton', sans-serif;
+  font-size: 5rem;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 32px;
+}
+.review-body {
+  font-family: 'Barlow', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: #aaa;
+  margin-bottom: 32px;
+}
+.review-name {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* CONTACT */
+#contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.contact-left {
+  padding: 80px 48px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.contact-heading {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(4rem, 7vw, 7rem);
+  line-height: 0.9;
+  margin-bottom: 60px;
+}
+.contact-info-block { display: flex; flex-direction: column; gap: 28px; }
+.ci-row {
+  display: flex;
+  gap: 24px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+.ci-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  width: 72px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.ci-value { font-size: 1rem; color: var(--white); line-height: 1.5; }
+.contact-right {
+  padding: 80px 48px;
+  display: flex;
+  flex-direction: column;
+}
+.form-field {
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+  transition: border-color 0.3s;
+}
+.form-field:focus-within { border-bottom-color: var(--white); }
+.field-label {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dim);
+  display: block;
+  margin-bottom: 10px;
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  outline: none;
+  -webkit-appearance: none;
+}
+.form-field select option { background: var(--black); }
+.form-field textarea { resize: none; height: 60px; }
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: var(--dimmer); }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.btn-submit {
+  margin-top: 40px;
+  font-family: 'Anton', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--white);
+  color: var(--black);
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+.btn-submit:hover { background: #ccc; }
+
+/* FOOTER */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 48px;
+  border-top: 1px solid var(--border);
+}
+.footer-logo { font-family: 'Anton', sans-serif; font-size: 1.2rem; letter-spacing: 0.1em; }
+.footer-copy { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--dim); text-transform: uppercase; }
+.footer-links { display: flex; gap: 32px; }
+.footer-links a {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">ELITE BARBER</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <a href="#contact" class="nav-book">Book Now</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-text">CUT</div>
+  <div class="hero-top-label">Durban — Est. 2016</div>
+  <div class="hero-content">
+    <h1 class="hero-h1">LOOK<br>SHARP.</h1>
+    <div class="hero-right-block">
+      <p class="hero-sub">Precision fades, clean beard work, real barbering. No rush. No shortcuts.</p>
+      <a href="#contact" class="hero-cta">Book Your Chair</a>
+    </div>
+  </div>
+  <div class="hero-bottom-bar">
+    <div class="hero-bottom-item">
+      <span class="hbi-label">Location</span>
+      <span class="hbi-val">Durban, KZN</span>
+    </div>
+    <div class="hero-bottom-item">
+      <span class="hbi-label">Hours</span>
+      <span class="hbi-val">Mon–Sat / 09–18</span>
+    </div>
+    <div class="hero-bottom-item">
+      <span class="hbi-label">From</span>
+      <span class="hbi-val">R80</span>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Precision Fades</span>
+    <span class="ticker-item">Skin Fades</span>
+    <span class="ticker-item">Beard Sculpting</span>
+    <span class="ticker-item">Hot Towel Shave</span>
+    <span class="ticker-item">Hair Design</span>
+    <span class="ticker-item">Walk-ins Welcome</span>
+    <span class="ticker-item">Durban's Finest</span>
+    <span class="ticker-item">Precision Fades</span>
+    <span class="ticker-item">Skin Fades</span>
+    <span class="ticker-item">Beard Sculpting</span>
+    <span class="ticker-item">Hot Towel Shave</span>
+    <span class="ticker-item">Hair Design</span>
+    <span class="ticker-item">Walk-ins Welcome</span>
+    <span class="ticker-item">Durban's Finest</span>
+  </div>
+</div>
+
+<section id="services">
+  <div class="section-label-row reveal">
+    <span class="section-label">What We Do</span>
+    <span class="section-big-num">02</span>
+  </div>
+  <div class="services-list reveal">
+    <div class="service-row">
+      <div class="sr-left">
+        <span class="sr-num">01</span>
+        <div class="sr-name">HAIRCUT</div>
+        <div class="sr-desc">Classic cuts and tapered sides, dialled to your style.</div>
+      </div>
+      <div class="sr-price"><span class="sr-currency">R</span>120</div>
+    </div>
+    <div class="service-row">
+      <div class="sr-left">
+        <span class="sr-num">02</span>
+        <div class="sr-name">SKIN FADE</div>
+        <div class="sr-desc">Zero to blended. The fade that turns heads.</div>
+      </div>
+      <div class="sr-price"><span class="sr-currency">R</span>140</div>
+    </div>
+    <div class="service-row">
+      <div class="sr-left">
+        <span class="sr-num">03</span>
+        <div class="sr-name">BEARD TRIM</div>
+        <div class="sr-desc">Lined up, shaped, and finished with oil.</div>
+      </div>
+      <div class="sr-price"><span class="sr-currency">R</span>80</div>
+    </div>
+    <div class="service-row">
+      <div class="sr-left">
+        <span class="sr-num">04</span>
+        <div class="sr-name">HAIR + BEARD</div>
+        <div class="sr-desc">The full package. Walk out looking sharp.</div>
+      </div>
+      <div class="sr-price"><span class="sr-currency">R</span>180</div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-label-row reveal">
+    <span class="section-label">The Work</span>
+    <span class="section-big-num">03</span>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-cell">
+      <div class="gallery-ph-inner">
+        <svg class="gallery-icon" width="80" height="80" viewBox="0 0 24 24" fill="white"><path d="M9.5 11.5L4 7V17L9.5 12.5V17L15 12L9.5 7V11.5Z"/></svg>
+      </div>
+      <div class="gallery-caption">Skin Fade</div>
+    </div>
+    <div class="gallery-cell">
+      <div class="gallery-ph-inner">
+        <svg class="gallery-icon" width="80" height="80" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="8" r="5"/><path d="M3 21v-1a9 9 0 0 1 18 0v1" stroke="white" stroke-width="1.5" fill="none"/></svg>
+      </div>
+      <div class="gallery-caption">Beard Work</div>
+    </div>
+    <div class="gallery-cell">
+      <div class="gallery-ph-inner">
+        <svg class="gallery-icon" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div class="gallery-caption">Full Cut</div>
+    </div>
+    <div class="gallery-cell">
+      <div class="gallery-ph-inner">
+        <svg class="gallery-icon" width="80" height="80" viewBox="0 0 24 24" fill="white"><path d="M14.5 4h-5L7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-3L14.5 4z"/><circle cx="12" cy="13" r="3" fill="black"/></svg>
+      </div>
+      <div class="gallery-caption">The Shop</div>
+    </div>
+    <div class="gallery-cell">
+      <div class="gallery-ph-inner">
+        <svg class="gallery-icon" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+      </div>
+      <div class="gallery-caption">Detail Work</div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="section-label-row reveal">
+    <span class="section-label">Word on the Street</span>
+    <span class="section-big-num">04</span>
+  </div>
+  <div class="reviews-grid reveal">
+    <div class="review-cell">
+      <div class="review-index">01</div>
+      <p class="review-body">"Best fade in Durban. Period. Been coming here three years and they never miss."</p>
+      <div class="review-name">— Sipho M.</div>
+    </div>
+    <div class="review-cell">
+      <div class="review-index">02</div>
+      <p class="review-body">"Clean shop, great atmosphere. Walk in stressed, walk out confident."</p>
+      <div class="review-name">— Luyanda K.</div>
+    </div>
+    <div class="review-cell">
+      <div class="review-index">03</div>
+      <p class="review-body">"They take their time and it shows. These guys actually care about their craft."</p>
+      <div class="review-name">— Devon R.</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-left reveal">
+    <div>
+      <div class="section-label" style="margin-bottom:28px">05 — Book</div>
+      <h2 class="contact-heading">RESERVE<br>YOUR<br>CHAIR.</h2>
+    </div>
+    <div class="contact-info-block">
+      <div class="ci-row">
+        <span class="ci-label">Address</span>
+        <span class="ci-value">Durban, KwaZulu-Natal<br>South Africa</span>
+      </div>
+      <div class="ci-row">
+        <span class="ci-label">Hours</span>
+        <span class="ci-value">Mon – Sat: 09:00 – 18:00</span>
+      </div>
+      <div class="ci-row">
+        <span class="ci-label">Phone</span>
+        <span class="ci-value">+27 (0) 31 000 0000</span>
+      </div>
+      <div class="ci-row">
+        <span class="ci-label">Instagram</span>
+        <span class="ci-value">@elitebarber.dbn</span>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right reveal">
+    <div class="form-row-2">
+      <div class="form-field">
+        <label class="field-label">Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="form-field">
+        <label class="field-label">Phone</label>
+        <input type="tel" placeholder="+27 ...">
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="field-label">Service</label>
+      <select>
+        <option value="" disabled selected>Select a service</option>
+        <option>Haircut — R120</option>
+        <option>Skin Fade — R140</option>
+        <option>Beard Trim — R80</option>
+        <option>Hair + Beard — R180</option>
+      </select>
+    </div>
+    <div class="form-row-2">
+      <div class="form-field">
+        <label class="field-label">Date</label>
+        <input type="date">
+      </div>
+      <div class="form-field">
+        <label class="field-label">Time</label>
+        <input type="time">
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="field-label">Notes</label>
+      <textarea placeholder="Anything specific..."></textarea>
+    </div>
+    <button class="btn-submit">Confirm Booking</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">ELITE BARBER</div>
+  <div class="footer-copy">© 2026 All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">WhatsApp</a>
+    <a href="#">TikTok</a>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
