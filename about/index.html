@@ -159,10 +159,21 @@ nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur
   position:relative;z-index:1;
 }
 .founder-photo-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(200,168,90,.06) 0%,transparent 65%)}
+
+/* ── DARK OVERLAY on Marco's photo ── */
+.founder-photo-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:1;
+  pointer-events:none;
+}
+
 .founder-photo-label{
   position:absolute;bottom:0;left:0;right:0;
   padding:1.5rem;background:linear-gradient(to top, rgba(10,9,5,.9) 0%, transparent 100%);
   display:flex;align-items:flex-end;justify-content:space-between;
+  z-index:2;
 }
 .founder-photo-name{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--cream)}
 .founder-photo-role{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
@@ -375,9 +386,8 @@ a.ft-item-v:hover{color:var(--gold)}
       <!-- Photo -->
       <div class="founder-photo-wrap rv">
         <div class="founder-photo">
-          <!-- Drop your photo here: replace the placeholder div below with <img src="your-photo.jpg" alt="Marco Ramcharan"> -->
-<!--           <div class="founder-photo-placeholder">MR</div> -->
           <img src="/images/marco.jpeg" alt="Marco Ramcharan">
+          <div class="founder-photo-overlay"></div>
           <div class="founder-photo-glow"></div>
           <div class="founder-photo-label">
             <div>
