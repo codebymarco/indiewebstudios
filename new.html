@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INDIE WEB STUDIO</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,300;0,700;1,700&family=IBM+Plex+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #080808;
+      --white: #F2F2F2;
+      --off: #141414;
+      --mid: #1E1E1E;
+      --grey: #555;
+      --lgrey: #999;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mix-blend-mode: normal;
+      background: rgba(8, 8, 8, 0.9);
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .nav-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-book {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      padding: 10px 24px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-book:hover {
+      background: var(--grey);
+      color: var(--white);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 64px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    /* Diagonal slash background element */
+    .hero-slash {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 52%;
+      height: 100%;
+      background: var(--off);
+      clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .hero-slash-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Placeholder photo area */
+    .hero-photo-ph {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #111 0%, #0a0a0a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+    }
+
+    .hero-photo-ph::after {
+      content: 'PHOTO\AHERE';
+      white-space: pre;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: #2a2a2a;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-eyebrow::before {
+      content: '//';
+      color: var(--white);
+    }
+
+    .hero-h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(6rem, 13vw, 14rem);
+      line-height: 0.85;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 40px;
+    }
+
+    .hero-h1 .stroke {
+      -webkit-text-stroke: 2px var(--white);
+      color: transparent;
+    }
+
+    .hero-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--lgrey);
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    .hero-cta {
+      flex-shrink: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      padding: 20px 48px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--black);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.35s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .hero-cta:hover {
+      color: var(--white);
+    }
+
+    .hero-cta:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .hero-cta span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Big background word */
+    .hero-bg-word {
+      position: absolute;
+      bottom: -30px;
+      right: 48px;
+      font-family: 'Anton', sans-serif;
+      font-size: 22vw;
+      color: rgba(255, 255, 255, 0.025);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 1;
+      letter-spacing: -0.02em;
+    }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      background: var(--white);
+      padding: 12px 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ticker-track {
+      display: flex;
+      animation: tick 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-item {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--black);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-transform: uppercase;
+    }
+
+    .ticker-item::after {
+      content: '—';
+      opacity: 0.3;
+    }
+
+    @keyframes tick {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ─── SERVICES ─── */
+    #services {
+      padding: 120px 48px;
+    }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .section-label span {
+      color: var(--white);
+    }
+
+    .services-list {
+      border-top: 1px solid #1e1e1e;
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto auto;
+      align-items: center;
+      gap: 48px;
+      padding: 36px 0;
+      border-bottom: 1px solid #1e1e1e;
+      cursor: default;
+      transition: background 0.2s;
+      padding-left: 0;
+      padding-right: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-row::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 0;
+    }
+
+    .service-row:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-row:hover .svc-num,
+    .service-row:hover .svc-name,
+    .service-row:hover .svc-desc,
+    .service-row:hover .svc-price {
+      color: var(--black);
+    }
+
+    .service-row>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .svc-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--grey);
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+
+    .svc-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .svc-desc {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--grey);
+      transition: color 0.3s;
+      text-align: right;
+      max-width: 260px;
+    }
+
+    .svc-price {
+      font-family: 'Anton', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      min-width: 100px;
+      text-align: right;
+      transition: color 0.3s;
+    }
+
+    /* ─── GALLERY ─── */
+    #gallery {
+      padding: 0 48px 120px;
+    }
+
+    .gallery-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .gallery-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      letter-spacing: 0.03em;
+      line-height: 0.9;
+      text-transform: uppercase;
+    }
+
+    .gallery-title .outline {
+      -webkit-text-stroke: 1px var(--white);
+      color: transparent;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 300px 220px;
+      gap: 4px;
+    }
+
+    .g1 {
+      grid-column: 1 / 6;
+      grid-row: 1 / 3;
+    }
+
+    .g2 {
+      grid-column: 6 / 9;
+      grid-row: 1;
+    }
+
+    .g3 {
+      grid-column: 9 / 13;
+      grid-row: 1;
+    }
+
+    .g4 {
+      grid-column: 6 / 10;
+      grid-row: 2;
+    }
+
+    .g5 {
+      grid-column: 10 / 13;
+      grid-row: 2;
+    }
+
+    .gallery-cell {
+      background: var(--off);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-cell-inner {
+      width: 100%;
+      height: 100%;
+      background: var(--mid);
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .gallery-cell:hover .gallery-cell-inner {
+      transform: scale(1.06);
+    }
+
+    .gallery-cell-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--white);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+    }
+
+    .gallery-cell:hover .gallery-cell-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* placeholder patterns for gallery cells */
+    .gph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gph-1 {
+      background: linear-gradient(135deg, #111 40%, #181818 100%);
+    }
+
+    .gph-2 {
+      background: linear-gradient(200deg, #0e0e0e, #181818);
+    }
+
+    .gph-3 {
+      background: linear-gradient(45deg, #131313, #1a1a1a);
+    }
+
+    .gph-4 {
+      background: linear-gradient(160deg, #0f0f0f, #181818);
+    }
+
+    .gph-5 {
+      background: linear-gradient(90deg, #111, #161616);
+    }
+
+    .gph-icon {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: #2a2a2a;
+      text-transform: uppercase;
+    }
+
+    /* ─── REVIEWS ─── */
+    #reviews {
+      padding: 120px 48px;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .reviews-top {
+      margin-bottom: 80px;
+    }
+
+    .reviews-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .reviews-title .outline {
+      -webkit-text-stroke: 1px var(--white);
+      color: transparent;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #1a1a1a;
+    }
+
+    .review-card {
+      background: var(--black);
+      padding: 52px 44px;
+      transition: background 0.3s;
+    }
+
+    .review-card:hover {
+      background: var(--off);
+    }
+
+    .review-rating {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      margin-bottom: 28px;
+    }
+
+    .review-body {
+      font-size: 1.3rem;
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--white);
+      margin-bottom: 32px;
+      text-transform: uppercase;
+    }
+
+    .review-author {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      color: var(--grey);
+      text-transform: uppercase;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--white);
+      color: var(--black);
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contact::before {
+      content: 'BOOK';
+      position: absolute;
+      right: -20px;
+      bottom: -40px;
+      font-family: 'Anton', sans-serif;
+      font-size: 28vw;
+      color: rgba(0, 0, 0, 0.06);
+      line-height: 1;
+      pointer-events: none;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-left h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      line-height: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 40px;
+      color: var(--black);
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      border-top: 1px solid #ddd;
+      padding-top: 40px;
+    }
+
+    .ci-row {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .ci-key {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #999;
+      width: 80px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .ci-val {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--black);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .cf-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .cf-field {
+      border-bottom: 1px solid #ccc;
+      border-right: 1px solid transparent;
+      padding: 24px 0;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .cf-row .cf-field:first-child {
+      border-right: 1px solid #ccc;
+      padding-right: 32px;
+    }
+
+    .cf-row .cf-field:last-child {
+      padding-left: 32px;
+    }
+
+    .cf-field:last-of-type {
+      border-bottom: none;
+    }
+
+    .cf-field label {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .cf-field input,
+    .cf-field select,
+    .cf-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      color: var(--black);
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .cf-field select option {
+      background: var(--white);
+    }
+
+    .cf-field textarea {
+      resize: none;
+      height: 70px;
+    }
+
+    .cf-field input::placeholder,
+    .cf-field textarea::placeholder {
+      color: #bbb;
+    }
+
+    .cf-submit {
+      margin-top: 40px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      border: none;
+      padding: 22px;
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+    }
+
+    .cf-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #333;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .cf-submit:hover::before {
+      transform: scaleX(1);
+    }
+
+    .cf-submit span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #030303;
+      border-top: 1px solid #111;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+    }
+
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: var(--grey);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .footer-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .sr {
+      opacity: 0;
+      transform: translateY(48px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .sr.on {
+      opacity: 1;
+      transform: none;
+    }
+
+    .sr-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .sr-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .sr-delay-3 {
+      transition-delay: 0.3s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo"><img src="/images/logo.png" height="50px" width="auto" alt=""></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li> <a href="/work">Work</a></li>
+      <li> <a href="/services">Services</a></li>
+      <li> <a href="/about">About</a></li>
+      <li> <a href="/contact">Contact</a></li>
+    </ul>
+    <a href="/contact" class="nav-book">Start Project</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-slash">
+      <div class="hero-slash-inner">
+        <div class="hero-photo-ph"></div>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Durban, South Africa — Web Studio</div>
+
+      <h1 class="hero-h1">
+        BUILD<br>
+        <span class="stroke">WEBSITES</span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="hero-tagline">
+          Clean, fast websites for businesses that want to look professional and get more customers.
+        </p>
+        <a href="/contact" class="hero-cta"><span>Start Your Project →</span></a>
+      </div>
+    </div>
+
+    <div class="hero-bg-word">WEB</div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item">Web Design</span>
+      <span class="ticker-item">Mobile Ready</span>
+      <span class="ticker-item">Fast Load Speed</span>
+      <span class="ticker-item">Modern UI</span>
+      <span class="ticker-item">Business Websites</span>
+      <span class="ticker-item">Landing Pages</span>
+
+      <span class="ticker-item">Web Design</span>
+      <span class="ticker-item">Mobile Ready</span>
+      <span class="ticker-item">Fast Load Speed</span>
+      <span class="ticker-item">Modern UI</span>
+      <span class="ticker-item">Business Websites</span>
+      <span class="ticker-item">Landing Pages</span>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="section-label sr"><span>//</span> 001 — Services</div>
+
+    <div class="services-list">
+      <div class="service-row sr">
+        <span class="svc-num">01</span>
+        <span class="svc-name">Website Design</span>
+        <span class="svc-desc">Custom design that actually looks professional</span>
+        <span class="svc-price"></span>
+      </div>
+
+      <div class="service-row sr sr-delay-1">
+        <span class="svc-num">02</span>
+        <span class="svc-name">Mobile Optimised</span>
+        <span class="svc-desc">Perfect on phones — where your customers are</span>
+        <span class="svc-price"></span>
+      </div>
+
+      <div class="service-row sr sr-delay-2">
+        <span class="svc-num">03</span>
+        <span class="svc-name">Fast Websites</span>
+        <span class="svc-desc">Loads quickly, no slow pages</span>
+        <span class="svc-price"></span>
+      </div>
+
+      <div class="service-row sr sr-delay-3">
+        <span class="svc-num">04</span>
+        <span class="svc-name">Hosting</span>
+        <span class="svc-desc">We host and keep your website online and running</span>
+        <span class="svc-price"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="gallery-header sr">
+      <h2 class="gallery-title">OUR<br><span class="outline">WORK</span></h2>
+      <div
+        style="font-family:'IBM Plex Mono';font-size:0.55rem;letter-spacing:0.25em;color:#555;text-transform:uppercase;">
+        // 002 — Projects
+      </div>
+    </div>
+
+    <div class="gallery-grid sr" style="grid-template-columns: repeat(2, 1fr); grid-template-rows: 300px;">
+
+      <!-- PROJECT 1 -->
+      <div class="gallery-cell">
+        <div class="gallery-cell-inner">
+          <img src="/images/roxy.png" alt="Roxy Website" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="gallery-cell-label">Roxy Buchanan — Skincare Website</div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="gallery-cell">
+        <div class="gallery-cell-inner">
+          <img src="/images/dad.png" alt="El-Shaddai Interiors" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="gallery-cell-label">El-Shaddai Interiors — Business Website</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="reviews-top sr">
+      <div class="section-label" style="margin-bottom:32px"><span>//</span> 003 — Clients</div>
+      <h2 class="reviews-title">CLIENT<br><span class="outline">REVIEWS</span></h2>
+    </div>
+
+    <div class="reviews-grid sr" style="grid-template-columns: repeat(2, 1fr);">
+
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <p class="review-body">
+          "He built our website fast and it looks really clean on mobile."
+        </p>
+        <div class="review-author">— Roxy Buchanan, Durban</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <p class="review-body">
+          "Simple process, no stress, and the site looks professional."
+        </p>
+        <div class="review-author">— Sanjeev Ramcharan, Durban</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid">
+
+      <div class="contact-left sr">
+        <h2>START<br>YOUR<br>WEBSITE.</h2>
+
+        <div class="contact-info-list">
+          <div class="ci-row">
+            <span class="ci-key">Location</span>
+            <span class="ci-val">Durban, South Africa</span>
+          </div>
+
+          <div class="ci-row">
+            <span class="ci-key">Focus</span>
+            <span class="ci-val">Business Websites</span>
+          </div>
+
+          <div class="ci-row">
+            <span class="ci-key">Phone</span>
+            <span class="ci-val">+27 64 291 9889</span>
+          </div>
+
+          <div class="ci-row">
+            <span class="ci-key">Email</span>
+            <span class="ci-val">indiewebstudiosa@gmail.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sr sr-delay-1">
+        <div class="contact-form">
+
+          <div class="cf-row">
+            <div class="cf-field">
+              <label>Name</label>
+              <input type="text" placeholder="Your name">
+            </div>
+            <div class="cf-field">
+              <label>Phone</label>
+              <input type="tel" placeholder="+27 ...">
+            </div>
+          </div>
+
+          <div class="cf-field">
+            <label>Website Type</label>
+            <select>
+              <option disabled selected>Select</option>
+              <option>Business Website</option>
+              <option>Landing Page</option>
+              <option>Portfolio</option>
+            </select>
+          </div>
+
+          <div class="cf-field">
+            <label>Notes</label>
+            <textarea placeholder="Tell me what you need..."></textarea>
+          </div>
+
+          <button class="cf-submit"><span>Submit →</span></button>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/" class="nav-logo"><img src="/images/logo.png" height="20px" width="auto" alt=""></a>
+    <div class="footer-copy">© 2026 Indie Web Studio</div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/indiewebstudio/">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61582214095686">Facebook</a>
+      <a href="https://x.com/indewebstudio">X</a>
+    </div>
+  </footer>
+
+  <!-- REQUIRED SCRIPT -->
+  <script>
+    const items = document.querySelectorAll('.sr');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('on');
+      });
+    }, { threshold: 0.08 });
+    items.forEach(i => io.observe(i));
+  </script>
+  <script>
+    // Scroll reveal (THIS FIXES YOUR ISSUE)
+    const items = document.querySelectorAll('.sr');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('on');
+      });
+    }, { threshold: 0.08 });
+    items.forEach(i => io.observe(i));
+
+    // Nav scroll effect
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 60 ? '#222' : '#1a1a1a';
+    });
+
+    // Service hover color fix
+    document.querySelectorAll('.service-row').forEach(row => {
+      row.addEventListener('mouseenter', () => {
+        row.querySelectorAll('.svc-name, .svc-num, .svc-desc, .svc-price').forEach(el => {
+          el.style.color = '#080808';
+        });
+      });
+      row.addEventListener('mouseleave', () => {
+        row.querySelectorAll('.svc-name, .svc-price').forEach(el => el.style.color = '');
+        row.querySelectorAll('.svc-num, .svc-desc').forEach(el => el.style.color = '');
+      });
+    });
+  </script>
+
+</body>
+
+</html>
