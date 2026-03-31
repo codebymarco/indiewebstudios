@@ -4,219 +4,177 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — IndieWebStudios</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --black: #0a0905;
-  --dark:  #100f0c;
-  --card:  #141310;
-  --rule:  #1e1c18;
-  --rule2: #2e2c25;
-  --gold:  #c8a85a;
-  --gold2: #e8c87a;
-  --cream: #f5f0e8;
-  --warm:  #b0a890;
-  --dim:   #504838;
-  --mute:  #2a2820;
+  --black:#080808;
+  --white:#F2F2F2;
+  --off:#141414;
+  --mid:#1E1E1E;
+  --grey:#555;
+  --lgrey:#999;
 }
-
 html{scroll-behavior:smooth;overflow-x:hidden}
-body{background:var(--black);color:var(--warm);font-family:'IBM Plex Mono',monospace;font-weight:300;overflow-x:hidden;cursor:none}
+body{background:var(--black);color:var(--white);font-family:'IBM Plex Mono',monospace;font-weight:300;overflow-x:hidden}
 
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");opacity:.9;mix-blend-mode:multiply}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");opacity:0.04;pointer-events:none;z-index:1000}
 
-#cur{position:fixed;width:5px;height:5px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#curR{position:fixed;width:26px;height:26px;border:1px solid rgba(200,168,90,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
-.hv #cur{transform:translate(-50%,-50%) scale(2)}
-.hv #curR{width:44px;height:44px;border-color:var(--gold)}
-
-nav{position:fixed;top:0;left:0;right:0;z-index:500;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid transparent;transition:border-color .4s,background .4s}
-nav.on{background:rgba(10,9,5,.96);border-color:var(--rule);backdrop-filter:blur(20px)}
-.logo{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 3s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.logo em{color:var(--gold);font-style:normal}
-.nav-links{display:flex;align-items:center;gap:0;list-style:none}
-.nav-links li a{font-family:'Anton',sans-serif;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:.4rem 1.3rem;border-left:1px solid var(--rule);transition:color .2s}
-.nav-links li a:hover{color:var(--cream)}
-.nav-links li a.active{color:var(--gold)}
-.nav-links li:last-child a{border-right:1px solid var(--rule)}
-.nav-cta{margin-left:20px;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1.3rem;background:var(--gold);color:var(--black);text-decoration:none;cursor:none;transition:background .2s,box-shadow .2s;white-space:nowrap}
-.nav-cta:hover{background:var(--gold2);box-shadow:0 0 28px rgba(200,168,90,.35)}
-.ham{display:none;flex-direction:column;gap:5px;background:none;border:1px solid var(--rule);padding:10px;cursor:none}
-.ham span{display:block;width:18px;height:1px;background:var(--cream);transition:transform .25s,opacity .2s}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:24px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,0.9);border-bottom:1px solid #1a1a1a;transition:border-color .3s}
+.nav-logo{font-family:'Anton',sans-serif;font-size:1.1rem;letter-spacing:.12em;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--grey)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--grey);text-decoration:none;padding:.4rem 1.2rem;border-left:1px solid #1a1a1a;transition:color .2s}
+.nav-links li:last-child a{border-right:1px solid #1a1a1a}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+.nav-cta{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--black);background:var(--white);padding:10px 24px;text-decoration:none;transition:background .2s,color .2s;margin-left:20px}
+.nav-cta:hover{background:var(--grey);color:var(--white)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:1px solid #1a1a1a;padding:10px;cursor:pointer}
+.ham span{display:block;width:18px;height:1px;background:var(--white);transition:transform .25s,opacity .2s}
 .ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .ham.open span:nth-child(2){opacity:0}
 .ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 .mob{position:fixed;inset:0;z-index:490;background:var(--black);display:flex;flex-direction:column;justify-content:center;padding:6rem 48px;opacity:0;pointer-events:none;transition:opacity .3s}
 .mob.open{opacity:1;pointer-events:all}
-.mob a{display:block;font-family:'Anton',sans-serif;font-size:clamp(2.8rem,10vw,5rem);letter-spacing:.04em;color:var(--cream);text-decoration:none;border-top:1px solid var(--rule);padding:.7rem 0;transition:color .2s}
-.mob a:last-of-type{border-bottom:1px solid var(--rule)}
-.mob a:hover{color:var(--gold)}
+.mob a{display:block;font-family:'Anton',sans-serif;font-size:clamp(2.8rem,10vw,5rem);letter-spacing:.04em;color:var(--white);text-decoration:none;border-top:1px solid #1a1a1a;padding:.7rem 0;transition:color .2s}
+.mob a:last-of-type{border-bottom:1px solid #1a1a1a}
+.mob a:hover{color:var(--grey)}
 
-.hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 72px;position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
-.hero-glow{position:absolute;top:-10%;right:-5%;width:70vw;height:80vh;background:radial-gradient(ellipse 50% 45% at 70% 30%,rgba(200,168,90,.05) 0%,transparent 65%);pointer-events:none}
-.hero-bg-word{position:absolute;bottom:-4rem;left:-1vw;font-family:'Anton',sans-serif;font-size:clamp(16rem,30vw,38rem);color:transparent;-webkit-text-stroke:1px rgba(200,168,90,.04);line-height:1;pointer-events:none;user-select:none;letter-spacing:-.02em}
-.hero-eyebrow{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem;opacity:0;animation:up .5s .1s forwards}
-.hero-eyebrow::before{content:'—';color:var(--dim)}
-.hero-hl{font-family:'Anton',sans-serif;font-size:clamp(4.5rem,12vw,14rem);line-height:.88;letter-spacing:-.01em;color:var(--cream);padding-top:calc(64px + 4vw);position:relative;z-index:1;opacity:0;animation:up .9s .25s forwards}
-.hero-hl em{color:var(--gold);font-style:normal}
-.hero-hl .ghost{-webkit-text-stroke:1px rgba(200,168,90,.2);color:transparent}
-.hero-hl .push{display:block;padding-left:clamp(2rem,6vw,9rem)}
-.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,1.8vw,1.6rem);color:var(--warm);line-height:1.65;max-width:600px;margin-top:3rem;position:relative;z-index:1;opacity:0;animation:up .6s .45s forwards}
-@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* HERO */
+.hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 72px;position:relative;overflow:hidden;border-bottom:1px solid #1a1a1a}
+.hero-slash{position:absolute;top:0;right:0;width:45%;height:100%;background:var(--off);clip-path:polygon(12% 0,100% 0,100% 100%,0% 100%);z-index:0}
+.hero-bg-word{position:absolute;bottom:-30px;left:-10px;font-family:'Anton',sans-serif;font-size:clamp(16rem,28vw,36rem);color:rgba(255,255,255,.025);line-height:1;pointer-events:none;z-index:1;letter-spacing:-.02em}
+.hero-content{position:relative;z-index:2;max-width:750px}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--grey);margin-bottom:20px;display:flex;align-items:center;gap:16px;padding-top:calc(64px + 5vw);opacity:0;animation:fadeUp .5s .1s forwards}
+.hero-eyebrow::before{content:'//';color:var(--white)}
+.hero-h1{font-family:'Anton',sans-serif;font-size:clamp(4.5rem,11vw,13rem);line-height:.85;letter-spacing:-.01em;text-transform:uppercase;color:var(--white);margin-bottom:36px;opacity:0;animation:fadeUp .9s .25s forwards}
+.hero-h1 .stroke{-webkit-text-stroke:2px var(--white);color:transparent}
+.hero-h1 .push{display:block;padding-left:clamp(2rem,6vw,8rem)}
+.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:300;color:var(--lgrey);line-height:1.9;max-width:520px;opacity:0;animation:fadeUp .7s .45s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-.s{padding:11rem 48px}
+/* SHARED */
+section{padding:120px 48px}
 .inner{max-width:1200px;margin:0 auto}
-.sec-label{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:5rem;display:flex;align-items:center;gap:1.4rem}
-.sec-label::before{content:'—';color:var(--dim)}
-.big-title{font-family:'Anton',sans-serif;font-size:clamp(3.5rem,7vw,8.5rem);line-height:.88;letter-spacing:.01em;color:var(--cream)}
-.big-title em{color:var(--gold);font-style:normal}
-.big-title .ghost{-webkit-text-stroke:1px rgba(200,168,90,.2);color:transparent}
+.section-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--grey);margin-bottom:60px;display:flex;align-items:center;gap:20px}
+.section-label span{color:var(--white)}
+.big-h{font-family:'Anton',sans-serif;font-size:clamp(3.5rem,7vw,8rem);line-height:.88;letter-spacing:.01em;text-transform:uppercase;color:var(--white)}
+.big-h .stroke{-webkit-text-stroke:1px var(--white);color:transparent}
 
-.story{border-top:1px solid var(--rule);position:relative;overflow:hidden}
-.story-glow{position:absolute;bottom:-10%;left:-5%;width:700px;height:600px;background:radial-gradient(ellipse,rgba(200,168,90,.04) 0%,transparent 60%);pointer-events:none}
+/* STORY */
+#story{border-top:1px solid #1a1a1a}
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start}
-.story-body{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.2rem,1.7vw,1.6rem);line-height:1.75;color:var(--warm);margin-bottom:3rem}
-.story-body strong{color:var(--cream);font-weight:600}
-.story-body em{color:var(--gold);font-style:italic}
-.story-detail{font-size:.62rem;line-height:2;color:var(--dim);margin-top:4rem;padding-top:3rem;border-top:1px solid var(--rule)}
-.story-detail span{color:var(--gold)}
+.story-body{font-size:.8rem;line-height:2;color:var(--lgrey);margin-bottom:2rem}
+.story-body strong{color:var(--white);font-weight:400}
+.story-body em{color:var(--white);font-style:normal;border-bottom:1px solid var(--grey);padding-bottom:1px}
+.story-detail{margin-top:4rem;padding-top:3rem;border-top:1px solid #1e1e1e;display:flex;flex-direction:column;gap:0}
+.story-detail-row{display:flex;gap:2rem;align-items:baseline;padding:.75rem 0;border-bottom:1px solid #1a1a1a}
+.story-detail-row:first-child{border-top:1px solid #1a1a1a}
+.sd-key{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);width:100px;flex-shrink:0}
+.sd-val{font-size:.75rem;color:var(--white)}
+.story-right-title{font-family:'Anton',sans-serif;font-size:clamp(2.5rem,4.5vw,5rem);line-height:.9;text-transform:uppercase;color:var(--white);margin-bottom:3rem}
+.story-right-title .stroke{-webkit-text-stroke:1px var(--white);color:transparent}
+.story-right-body{font-size:.68rem;line-height:2;color:var(--grey);max-width:380px}
 
-.founder{border-top:1px solid var(--rule);background:var(--dark)}
+/* FOUNDER */
+#founder{border-top:1px solid #1a1a1a;background:var(--off)}
 .founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-.founder-photo-wrap{position:relative}
-.founder-photo{width:100%;aspect-ratio:3/4;background:var(--card);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.founder-photo-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(200,168,90,.06) 0%,transparent 65%)}
-.founder-photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:1;pointer-events:none}
-.founder-photo-label{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(10,9,5,.9) 0%,transparent 100%);display:flex;align-items:flex-end;justify-content:space-between;z-index:2}
-.founder-photo-name{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--cream)}
-.founder-photo-role{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.founder-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(30%) contrast(1.05)}
-.founder-tag{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;display:flex;align-items:center;gap:1.2rem}
-.founder-tag::before{content:'—';color:var(--dim)}
-.founder-title{font-family:'Anton',sans-serif;font-size:clamp(2.8rem,5vw,5.5rem);line-height:.9;letter-spacing:.01em;color:var(--cream);margin-bottom:3rem}
-.founder-title em{color:var(--gold);font-style:normal}
-.founder-bio{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.1rem,1.5vw,1.4rem);line-height:1.8;color:var(--warm);margin-bottom:2rem}
-.founder-bio strong{color:var(--cream);font-weight:600}
-.founder-bio em{color:var(--gold);font-style:italic}
-.founder-facts{margin-top:3.5rem;padding-top:3rem;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:0}
-.founder-fact{display:flex;align-items:baseline;gap:1.5rem;padding:.9rem 0;border-bottom:1px solid var(--rule)}
-.founder-fact:first-child{border-top:1px solid var(--rule)}
-.founder-fact-label{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);width:110px;flex-shrink:0}
-.founder-fact-val{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--cream)}
+.founder-photo{width:100%;aspect-ratio:3/4;background:var(--mid);border:1px solid #1e1e1e;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.founder-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(20%) contrast(1.05)}
+.founder-photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);z-index:1;pointer-events:none}
+.founder-photo-label{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(8,8,8,.95) 0%,transparent 100%);display:flex;align-items:flex-end;justify-content:space-between;z-index:2}
+.founder-photo-name{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);text-transform:uppercase}
+.founder-photo-role{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lgrey)}
+.founder-tag{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--grey);margin-bottom:2.5rem;display:flex;align-items:center;gap:16px}
+.founder-tag::before{content:'//';color:var(--white)}
+.founder-title{font-family:'Anton',sans-serif;font-size:clamp(2.8rem,5vw,5.5rem);line-height:.9;letter-spacing:.01em;text-transform:uppercase;color:var(--white);margin-bottom:3rem}
+.founder-title .stroke{-webkit-text-stroke:1px var(--white);color:transparent}
+.founder-bio{font-size:.75rem;line-height:2;color:var(--lgrey);margin-bottom:1.5rem}
+.founder-bio strong{color:var(--white);font-weight:400}
+.founder-bio em{color:var(--white);font-style:normal;border-bottom:1px solid var(--grey);padding-bottom:1px}
+.founder-facts{margin-top:3.5rem;padding-top:3rem;border-top:1px solid #1e1e1e}
+.founder-fact{display:flex;align-items:baseline;gap:1.5rem;padding:.9rem 0;border-bottom:1px solid #1a1a1a}
+.founder-fact:first-child{border-top:1px solid #1a1a1a}
+.ff-label{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);width:110px;flex-shrink:0}
+.ff-val{font-size:.75rem;color:var(--white)}
 
-.values{border-top:1px solid var(--rule)}
-.values-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--rule);margin-top:6rem}
-.value-item{padding:3.5rem;border-right:1px solid var(--rule);transition:background .3s}
-.value-item:last-child{border-right:none}
-.value-item:hover{background:rgba(200,168,90,.03)}
-.value-num{font-family:'Anton',sans-serif;font-size:3.5rem;color:var(--rule2);line-height:1;margin-bottom:1.5rem;transition:color .3s}
-.value-item:hover .value-num{color:var(--gold)}
-.value-title{font-family:'Anton',sans-serif;font-size:1.6rem;letter-spacing:.03em;color:var(--cream);margin-bottom:1rem}
-.value-desc{font-size:.65rem;line-height:1.85;color:var(--dim)}
+/* VALUES */
+#values{border-top:1px solid #1a1a1a}
+.values-list{border-top:1px solid #1e1e1e;margin-top:60px}
+.value-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:48px;align-items:start;padding:44px 0;border-bottom:1px solid #1e1e1e;position:relative;overflow:hidden;cursor:default;transition:none}
+.value-row::before{content:'';position:absolute;inset:0;background:var(--white);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.77,0,.175,1);z-index:0}
+.value-row:hover::before{transform:scaleX(1)}
+.value-row>*{position:relative;z-index:1}
+.value-row:hover .v-num,.value-row:hover .v-name,.value-row:hover .v-desc{color:var(--black)}
+.v-num{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--grey);letter-spacing:.1em;transition:color .3s}
+.v-name{font-family:'Anton',sans-serif;font-size:clamp(1.8rem,3vw,3rem);letter-spacing:.04em;text-transform:uppercase;transition:color .3s}
+.v-desc{font-size:.65rem;color:var(--grey);line-height:1.8;transition:color .3s;padding-top:8px}
 
-.location{border-top:1px solid var(--rule);background:var(--dark);position:relative;overflow:hidden}
-.location-glow{position:absolute;top:50%;right:-5%;width:600px;height:500px;background:radial-gradient(ellipse,rgba(200,168,90,.04) 0%,transparent 60%);transform:translateY(-50%);pointer-events:none}
+/* LOCATION */
+#location{border-top:1px solid #1a1a1a;background:var(--off)}
 .location-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-.location-city{font-family:'Anton',sans-serif;font-size:clamp(5rem,12vw,13rem);color:transparent;-webkit-text-stroke:1px rgba(200,168,90,.15);line-height:.85;letter-spacing:-.02em;margin-bottom:2rem}
-.location-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.4rem,2.2vw,2rem);color:var(--warm);line-height:1.5}
-.location-tagline em{color:var(--gold)}
-.location-body{font-size:.7rem;line-height:2;color:var(--dim);margin-bottom:3rem}
-.location-detail{display:flex;flex-direction:column;gap:0}
-.loc-row{display:flex;align-items:baseline;gap:1.5rem;padding:.85rem 0;border-bottom:1px solid var(--rule)}
-.loc-row:first-child{border-top:1px solid var(--rule)}
-.loc-lbl{font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);width:100px;flex-shrink:0}
-.loc-val{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--cream)}
+.location-city{font-family:'Anton',sans-serif;font-size:clamp(5rem,12vw,13rem);color:transparent;-webkit-text-stroke:1px rgba(242,242,242,.15);line-height:.85;letter-spacing:-.02em;margin-bottom:2rem}
+.location-tagline{font-size:.9rem;line-height:2;color:var(--lgrey)}
+.location-tagline em{color:var(--white);font-style:normal}
+.location-body{font-size:.68rem;line-height:2;color:var(--grey);margin-bottom:3rem}
+.loc-detail{display:flex;flex-direction:column;gap:0}
+.loc-row{display:flex;align-items:baseline;gap:1.5rem;padding:.85rem 0;border-bottom:1px solid #1a1a1a}
+.loc-row:first-child{border-top:1px solid #1a1a1a}
+.loc-lbl{font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);width:100px;flex-shrink:0}
+.loc-val{font-size:.75rem;color:var(--white)}
 
-.cta-sec{border-top:1px solid var(--rule);position:relative;overflow:hidden}
-.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:500px;background:radial-gradient(ellipse,rgba(200,168,90,.07) 0%,transparent 58%);pointer-events:none}
+/* CTA */
+#cta{border-top:1px solid #1a1a1a;background:var(--white);color:var(--black);position:relative;overflow:hidden}
+#cta::before{content:'START';position:absolute;right:-20px;bottom:-40px;font-family:'Anton',sans-serif;font-size:28vw;color:rgba(0,0,0,.05);line-height:1;pointer-events:none;letter-spacing:-.02em}
 .cta-inner{position:relative;z-index:1}
-.cta-hl{font-family:'Anton',sans-serif;font-size:clamp(4rem,11vw,14rem);line-height:.85;letter-spacing:-.01em;color:var(--cream);margin-bottom:6rem}
-.cta-hl em{color:var(--gold);font-style:normal}
-.cta-hl .ghost{-webkit-text-stroke:1px rgba(200,168,90,.18);color:transparent}
-.cta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:3rem;padding-top:3.5rem;border-top:1px solid var(--rule)}
-.cta-info-l{font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
-.cta-info-v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:var(--cream)}
-.cta-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.88rem 2rem;text-decoration:none;cursor:none;display:inline-block;transition:box-shadow .2s,transform .15s,background .2s}
-.btn-fill{background:var(--gold);color:var(--black)}
-.btn-fill:hover{background:var(--gold2);box-shadow:0 0 32px rgba(200,168,90,.4);transform:translateY(-2px)}
-.btn-out{background:transparent;color:var(--warm);border:1px solid var(--rule2)}
-.btn-out:hover{border-color:var(--gold);color:var(--gold)}
+.cta-h{font-family:'Anton',sans-serif;font-size:clamp(4rem,11vw,13rem);line-height:.85;letter-spacing:-.01em;text-transform:uppercase;color:var(--black);margin-bottom:60px}
+.cta-h .stroke{-webkit-text-stroke:2px var(--black);color:transparent}
+.cta-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:60px;padding-top:40px;border-top:1px solid #ccc;align-items:end}
+.cta-info-l{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:#999;margin-bottom:.5rem}
+.cta-info-v{font-family:'IBM Plex Mono',monospace;font-size:.9rem;color:var(--black)}
+.cta-btns{display:flex;flex-direction:column;gap:10px}
+.btn-fill{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:18px 32px;background:var(--black);color:var(--white);text-decoration:none;display:inline-block;transition:background .2s;text-align:center}
+.btn-fill:hover{background:#333}
+.btn-out{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:18px 32px;background:transparent;color:var(--black);border:1px solid #ccc;text-decoration:none;display:inline-block;transition:border-color .2s;text-align:center}
+.btn-out:hover{border-color:var(--black)}
 
 /* FOOTER */
-footer{border-top:1px solid var(--rule);background:var(--dark)}
-.ft-top{display:grid;grid-template-columns:1.3fr 1fr 1.2fr;gap:5rem;padding:6rem 48px;border-bottom:1px solid var(--rule)}
-.ft-logo{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:.15em;color:var(--cream);text-decoration:none;display:flex;align-items:center;gap:10px;margin-bottom:1.8rem}
-.ft-logo-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2.5s ease-in-out infinite}
-.ft-logo em{color:var(--gold);font-style:normal}
-.ft-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:1.05rem;line-height:1.7;color:var(--dim);max-width:240px;margin-bottom:2.5rem}
-.ft-tagline em{color:var(--gold)}
-.ft-legal{font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);line-height:2}
-.ft-legal span{color:var(--gold)}
-.ft-nav-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
-.ft-nav{display:flex;flex-direction:column}
-.ft-nav a{display:flex;align-items:center;gap:.65rem;text-decoration:none;padding:.85rem 0;border-bottom:1px solid var(--rule);color:var(--warm);font-family:'Anton',sans-serif;font-size:1.35rem;letter-spacing:.04em;transition:color .2s}
-.ft-nav a:first-child{border-top:1px solid var(--rule)}
-.ft-nav a .fn{font-family:'IBM Plex Mono',monospace;font-size:.44rem;letter-spacing:.15em;color:var(--dim);transition:color .2s;flex-shrink:0}
-.ft-nav a:hover{color:var(--gold)}
-.ft-nav a:hover .fn{color:var(--gold)}
-.ft-contact-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
-.ft-contact-items{display:flex;flex-direction:column;gap:2rem}
-.ft-item-l{font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:.35rem}
-.ft-item-v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--cream);text-decoration:none;transition:color .2s;display:block}
-a.ft-item-v:hover{color:var(--gold)}
-.ft-wa{display:inline-flex;align-items:center;gap:.55rem;margin-top:2.5rem;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1.3rem;background:rgba(37,211,102,.06);color:#25D366;border:1px solid rgba(37,211,102,.15);text-decoration:none;cursor:none;transition:background .2s,border-color .2s}
-.ft-wa:hover{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.38)}
-.ft-wa-dot{width:5px;height:5px;background:#25D366;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+footer{background:#030303;border-top:1px solid #111;padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-logo{font-family:'Anton',sans-serif;font-size:1.1rem;letter-spacing:.15em;color:var(--white)}
+.footer-logo span{color:var(--grey)}
+.footer-copy{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;color:var(--grey)}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--white)}
 
-/* FOOTER SOCIAL */
-.ft-social-lbl{font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;margin-top:2.5rem}
-.ft-social-icons{display:flex;gap:0}
-.ft-social-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--rule);color:var(--dim);text-decoration:none;cursor:none;transition:color .2s,border-color .2s,background .2s}
-.ft-social-icon:not(:first-child){border-left:none}
-.ft-social-icon svg{width:16px;height:16px;fill:currentColor;transition:transform .2s}
-.ft-social-icon:hover{color:var(--gold);border-color:var(--gold);background:rgba(200,168,90,.05)}
-.ft-social-icon:hover svg{transform:scale(1.15)}
-
-.ft-bot{padding:1.2rem 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.ft-bot span{font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.ft-bot em{color:var(--gold);font-style:normal}
-
-.wa-float{position:fixed;bottom:2rem;right:2rem;z-index:800;width:50px;height:50px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 28px rgba(37,211,102,.28);text-decoration:none;cursor:none;transition:transform .2s;animation:wapulse 3s ease-in-out infinite}
+.wa-float{position:fixed;bottom:2rem;right:2rem;z-index:800;width:50px;height:50px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 28px rgba(37,211,102,.28);text-decoration:none;transition:transform .2s;animation:wapulse 3s ease-in-out infinite}
 .wa-float:hover{transform:scale(1.1)}
 .wa-float svg{width:23px;height:23px;fill:#fff}
 @keyframes wapulse{0%,100%{box-shadow:0 4px 28px rgba(37,211,102,.28)}50%{box-shadow:0 4px 44px rgba(37,211,102,.52)}}
 
-.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
-.rv.in{opacity:1;transform:translateY(0)}
-.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+.sr{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.sr.on{opacity:1;transform:none}
+.sr.d1{transition-delay:.1s}.sr.d2{transition-delay:.2s}.sr.d3{transition-delay:.3s}
 
 @media(max-width:880px){
-  nav{padding:0 20px}
+  nav{padding:16px 20px}
   .nav-links,.nav-cta{display:none}
   .ham{display:flex}
-  .hero,.s,.location{padding-left:20px;padding-right:20px}
-  .s{padding-top:6rem;padding-bottom:6rem}
+  .hero{padding:0 20px 52px}
+  .hero-slash{display:none}
+  section{padding:80px 20px}
   .story-grid,.founder-grid,.location-grid{grid-template-columns:1fr;gap:4rem}
-  .values-grid{grid-template-columns:1fr;border:none}
-  .value-item{border-right:none;border-bottom:1px solid var(--rule);padding:2.5rem 0}
-  .value-item:last-child{border-bottom:none}
-  .cta-hl{font-size:clamp(3rem,13vw,6rem)}
-  .cta-row{flex-direction:column;align-items:flex-start}
-  .ft-top{grid-template-columns:1fr;gap:3rem;padding:3.5rem 20px}
-  .ft-bot{padding:1.2rem 20px;flex-direction:column;text-align:center}
+  .value-row{grid-template-columns:44px 1fr;gap:16px}
+  .v-desc{display:none}
+  .cta-row{grid-template-columns:1fr;gap:32px}
+  footer{flex-direction:column;align-items:flex-start;padding:32px 20px}
+  .footer-links{gap:16px;flex-wrap:wrap}
   .mob{padding:6rem 20px}
 }
 </style>
 </head>
 <body>
-
-<div id="cur"></div>
-<div id="curR"></div>
 
 <a href="https://wa.me/27642919889?text=Hi%20IndieWebStudios!" class="wa-float" target="_blank">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -231,7 +189,7 @@ a.ft-item-v:hover{color:var(--gold)}
 </div>
 
 <nav id="nav">
-  <a href="/" class="logo"><img src="/images/logo.png" alt="IndieWebStudios" style="height:36px;width:auto;display:block"></a>
+  <a href="/" class="nav-logo">INDIE<span>WEB</span>STUDIOS</a>
   <ul class="nav-links">
     <li><a href="/">Home</a></li>
     <li><a href="/work">Work</a></li>
@@ -239,133 +197,129 @@ a.ft-item-v:hover{color:var(--gold)}
     <li><a href="/about" class="active">About</a></li>
     <li><a href="/contact">Contact</a></li>
   </ul>
-  <a href="https://wa.me/27642919889?text=Hi!" target="_blank" class="nav-cta">Start a Project</a>
+  <a href="https://wa.me/27642919889?text=Hi%20IndieWebStudios!" target="_blank" class="nav-cta">Start a Project</a>
   <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-glow"></div>
+  <div class="hero-slash"></div>
   <div class="hero-bg-word">IWS</div>
-  <div class="hero-eyebrow">About the Studio</div>
-  <h1 class="hero-hl">
-    Born in<br>
-    <span class="push"><em>Durban.</em></span><br>
-    <span class="ghost">Built</span> Different.
-  </h1>
-  <p class="hero-sub">A web design studio that actually gives a damn about the businesses it builds for — started in 2024 by a developer who got tired of watching great local businesses lose to bad websites.</p>
+  <div class="hero-content">
+    <div class="hero-eyebrow">About the Studio</div>
+    <h1 class="hero-h1">
+      BORN IN<br>
+      <span class="push">DURBAN.</span><br>
+      <span class="stroke">BUILT</span> DIFFERENT.
+    </h1>
+    <p class="hero-sub">A web design studio that actually gives a damn about the businesses it builds for — started in 2024 by a developer who got tired of watching great local businesses lose to bad websites.</p>
+  </div>
 </section>
 
-<section class="s story">
-  <div class="story-glow"></div>
-  <div class="inner">
-    <div class="sec-label rv">Our Story</div>
-    <div class="story-grid">
-      <div class="story-left">
-        <p class="story-body rv"><strong>IndieWebStudios started with a simple observation:</strong> the best businesses in Durban — the ones with real skill, real service, real heart — were invisible online. Not because they didn't deserve to be found. Because the web had left them behind.</p>
-        <p class="story-body rv d1">Big agencies weren't interested. DIY builders produced <em>embarrassing results.</em> And the gap between "we have a website" and "our website actually works for us" had never been wider.</p>
-        <p class="story-body rv d2">So in 2024, we opened our doors in Durban with one purpose: <em>build world-class websites for the businesses that deserve them most.</em> No fluff. No agency overhead. Just craft.</p>
-        <div class="story-detail rv d3">
-          <div>Founded <span>2024</span></div>
-          <div>Based in <span>Durban, South Africa</span></div>
-          <div>Studio type <span>Independent</span></div>
-          <div>Specialty <span>Small Business Web Design</span></div>
-        </div>
+<!-- STORY -->
+<section id="story">
+  <div class="section-label sr"><span>//</span> 001 — Our Story</div>
+  <div class="story-grid">
+    <div>
+      <p class="story-body sr"><strong>IndieWebStudios started with a simple observation:</strong> the best businesses in Durban — the ones with real skill, real service, real heart — were invisible online. Not because they didn't deserve to be found. Because the web had left them behind.</p>
+      <p class="story-body sr d1">Big agencies weren't interested. DIY builders produced <em>embarrassing results.</em> And the gap between "we have a website" and "our website actually works for us" had never been wider.</p>
+      <p class="story-body sr d2">So in 2024, we opened our doors with one purpose: <em>build world-class websites for the businesses that deserve them most.</em> No fluff. No agency overhead. Just craft.</p>
+      <div class="story-detail sr d3">
+        <div class="story-detail-row"><span class="sd-key">Founded</span><span class="sd-val">2024</span></div>
+        <div class="story-detail-row"><span class="sd-key">Based in</span><span class="sd-val">Durban, South Africa</span></div>
+        <div class="story-detail-row"><span class="sd-key">Studio type</span><span class="sd-val">Independent</span></div>
+        <div class="story-detail-row"><span class="sd-key">Specialty</span><span class="sd-val">Small Business Web Design</span></div>
       </div>
-      <div class="story-right rv d1">
-        <h2 class="big-title" style="margin-bottom:3rem">We Build.<br>We <em>Care.</em><br>We <span class="ghost">Deliver.</span></h2>
-        <p style="font-size:.68rem;line-height:2;color:var(--dim);max-width:380px">Every site we build gets the same attention we'd give our own. That means late nights if that's what it takes, honest feedback when the brief needs pushing, and a site that still looks good five years from now.</p>
-      </div>
+    </div>
+    <div class="sr d1">
+      <h2 class="story-right-title">WE BUILD.<br>WE CARE.<br><span class="stroke">WE DELIVER.</span></h2>
+      <p class="story-right-body">Every site we build gets the same attention we'd give our own. That means late nights if that's what it takes, honest feedback when the brief needs pushing, and a site that still looks good five years from now.</p>
     </div>
   </div>
 </section>
 
-<section class="s founder">
-  <div class="inner">
-    <div class="sec-label rv">The Founder</div>
-    <div class="founder-grid">
-      <div class="founder-photo-wrap rv">
-        <div class="founder-photo">
-          <img src="/images/marco.jpeg" alt="Marco Ramcharan">
-          <div class="founder-photo-overlay"></div>
-          <div class="founder-photo-glow"></div>
-          <div class="founder-photo-label">
-            <div>
-              <div class="founder-photo-name">Marco Ramcharan</div>
-              <div class="founder-photo-role">Founder & Developer</div>
-            </div>
-            <span style="font-size:.7rem;opacity:.4">🇿🇦</span>
+<!-- FOUNDER -->
+<section id="founder">
+  <div class="section-label sr"><span>//</span> 002 — The Founder</div>
+  <div class="founder-grid">
+    <div class="sr">
+      <div class="founder-photo">
+        <img src="/images/marco.jpeg" alt="Marco Ramcharan">
+        <div class="founder-photo-overlay"></div>
+        <div class="founder-photo-label">
+          <div>
+            <div class="founder-photo-name">Marco Ramcharan</div>
+            <div class="founder-photo-role">Founder & Developer</div>
           </div>
+          <span style="font-size:.8rem;opacity:.5">🇿🇦</span>
         </div>
       </div>
-      <div class="founder-right rv d1">
-        <div class="founder-tag">Founder & Developer</div>
-        <h2 class="founder-title">Marco<br><em>Ramcharan.</em></h2>
-        <p class="founder-bio"><strong>Marco has been around computers his whole life.</strong> What started as pure curiosity grew into a full career in technology — today he works as a full stack developer building production software used by businesses across the world.</p>
-        <p class="founder-bio">IndieWebStudios is the other side of that coin. The chance to take that same technical skill and <em>point it at something closer to home</em> — the restaurants, salons, contractors, and creatives that make Durban what it is.</p>
-        <p class="founder-bio">When you work with IndieWebStudios, you're not dealing with an account manager or a junior designer. You're working directly with <em>the developer.</em> Every line of code, every design decision, every pixel — Marco.</p>
-        <div class="founder-facts rv d2">
-          <div class="founder-fact"><span class="founder-fact-label">Role</span><span class="founder-fact-val">Full Stack Developer & Studio Founder</span></div>
-          <div class="founder-fact"><span class="founder-fact-label">Based</span><span class="founder-fact-val">Durban, South Africa</span></div>
-          <div class="founder-fact"><span class="founder-fact-label">Background</span><span class="founder-fact-val">Software Engineering, Web Development</span></div>
-          <div class="founder-fact"><span class="founder-fact-label">Studio</span><span class="founder-fact-val">IndieWebStudios, Est. 2024</span></div>
-        </div>
+    </div>
+    <div class="sr d1">
+      <div class="founder-tag">Founder & Developer</div>
+      <h2 class="founder-title">MARCO<br><span class="stroke">RAMCHARAN.</span></h2>
+      <p class="founder-bio"><strong>Marco has been around computers his whole life.</strong> What started as pure curiosity grew into a full career in technology — today he works as a full stack developer building production software used by businesses across the world.</p>
+      <p class="founder-bio">IndieWebStudios is the other side of that coin. The chance to take that same technical skill and <em>point it at something closer to home</em> — the restaurants, salons, contractors, and creatives that make Durban what it is.</p>
+      <p class="founder-bio">When you work with IndieWebStudios, you're not dealing with an account manager or a junior designer. You're working directly with <em>the developer.</em> Every line of code, every design decision, every pixel — Marco.</p>
+      <div class="founder-facts sr d2">
+        <div class="founder-fact"><span class="ff-label">Role</span><span class="ff-val">Full Stack Developer & Studio Founder</span></div>
+        <div class="founder-fact"><span class="ff-label">Based</span><span class="ff-val">Durban, South Africa</span></div>
+        <div class="founder-fact"><span class="ff-label">Background</span><span class="ff-val">Software Engineering, Web Development</span></div>
+        <div class="founder-fact"><span class="ff-label">Studio</span><span class="ff-val">IndieWebStudios, Est. 2024</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="s values">
-  <div class="inner">
-    <div class="sec-label rv">What We Stand For</div>
-    <h2 class="big-title rv d1">How We<br>Do <em>Things.</em></h2>
-    <div class="values-grid rv d2">
-      <div class="value-item">
-        <div class="value-num">01</div>
-        <div class="value-title">Craft Over Templates</div>
-        <div class="value-desc">Every site is built from the ground up. No drag-and-drop. No cookie-cutter layouts. Your business is unique — your website should be too.</div>
-      </div>
-      <div class="value-item">
-        <div class="value-num">02</div>
-        <div class="value-title">Speed Without Shortcuts</div>
-        <div class="value-desc">We move fast because we're good, not because we're cutting corners. Seven days means seven days — and the work doesn't suffer for it.</div>
-      </div>
-      <div class="value-item">
-        <div class="value-num">03</div>
-        <div class="value-title">Durban Built, World Class</div>
-        <div class="value-desc">We're a local studio but we hold ourselves to a global standard. Your site will stand up next to anything built by agencies charging 10× more.</div>
+<!-- VALUES -->
+<section id="values">
+  <div class="section-label sr"><span>//</span> 003 — What We Stand For</div>
+  <h2 class="big-h sr d1">HOW WE<br><span class="stroke">DO THINGS.</span></h2>
+  <div class="values-list sr d2">
+    <div class="value-row">
+      <span class="v-num">01</span>
+      <span class="v-name">Craft Over Templates</span>
+      <span class="v-desc">Every site is built from the ground up. No drag-and-drop. No cookie-cutter layouts. Your business is unique — your website should be too.</span>
+    </div>
+    <div class="value-row">
+      <span class="v-num">02</span>
+      <span class="v-name">Speed Without Shortcuts</span>
+      <span class="v-desc">We move fast because we're good, not because we're cutting corners. Seven days means seven days — and the work doesn't suffer for it.</span>
+    </div>
+    <div class="value-row">
+      <span class="v-num">03</span>
+      <span class="v-name">Durban Built, World Class</span>
+      <span class="v-desc">We're a local studio but we hold ourselves to a global standard. Your site will stand up next to anything built by agencies charging 10× more.</span>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="location-grid">
+    <div class="sr">
+      <div class="location-city">DUR<br>BAN</div>
+      <p class="location-tagline">Proudly local.<br><em>Built for the city we love.</em></p>
+    </div>
+    <div class="sr d1">
+      <div class="section-label" style="margin-bottom:3rem"><span>//</span> Where We're From</div>
+      <p class="location-body">Durban is one of South Africa's most vibrant cities — and some of its best businesses have never had a website worth their reputation. We're here to change that. Based in Durban, building for Durban, but with an eye on what the rest of the world is doing.</p>
+      <div class="loc-detail">
+        <div class="loc-row"><span class="loc-lbl">City</span><span class="loc-val">Durban, KwaZulu-Natal</span></div>
+        <div class="loc-row"><span class="loc-lbl">Country</span><span class="loc-val">South Africa 🇿🇦</span></div>
+        <div class="loc-row"><span class="loc-lbl">Timezone</span><span class="loc-val">SAST (UTC+2)</span></div>
+        <div class="loc-row"><span class="loc-lbl">Contact</span><span class="loc-val">WhatsApp or Email, always</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="s location">
-  <div class="location-glow"></div>
-  <div class="inner">
-    <div class="location-grid">
-      <div class="location-left rv">
-        <div class="location-city">DUR<br>BAN</div>
-        <p class="location-tagline">Proudly local.<br><em>Built for the city we love.</em></p>
-      </div>
-      <div class="location-right rv d1">
-        <div class="sec-label" style="margin-bottom:3rem">Where We're From</div>
-        <p class="location-body">Durban is one of South Africa's most vibrant cities — and some of its best businesses have never had a website worth their reputation. We're here to change that. Based in Durban, building for Durban, but with an eye on what the rest of the world is doing.</p>
-        <div class="location-detail">
-          <div class="loc-row"><span class="loc-lbl">City</span><span class="loc-val">Durban, KwaZulu-Natal</span></div>
-          <div class="loc-row"><span class="loc-lbl">Country</span><span class="loc-val">South Africa 🇿🇦</span></div>
-          <div class="loc-row"><span class="loc-lbl">Timezone</span><span class="loc-val">SAST (UTC+2)</span></div>
-          <div class="loc-row"><span class="loc-lbl">Contact</span><span class="loc-val">WhatsApp or Email, always</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="s cta-sec">
-  <div class="cta-glow"></div>
-  <div class="inner cta-inner">
-    <div class="sec-label rv">// Let's talk</div>
-    <h2 class="cta-hl rv d1">Ready to<br><span class="ghost">Get</span><br><em>Started?</em></h2>
-    <div class="cta-row rv d2">
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="section-label sr" style="color:#999"><span style="color:#333">//</span> Let's Talk</div>
+    <h2 class="cta-h sr d1">READY TO<br><span class="stroke">GET</span><br>STARTED.</h2>
+    <div class="cta-row sr d2">
       <div>
         <div class="cta-info-l">WhatsApp</div>
         <div class="cta-info-v">064 291 9889</div>
@@ -375,86 +329,36 @@ a.ft-item-v:hover{color:var(--gold)}
         <div class="cta-info-v">indiewebstudiosa@gmail.com</div>
       </div>
       <div class="cta-btns">
-        <a href="https://wa.me/27642919889?text=Hi%20IndieWebStudios!" target="_blank" class="btn btn-fill">WhatsApp Now →</a>
-        <a href="mailto:indiewebstudiosa@gmail.com" class="btn btn-out">Send Email</a>
+        <a href="https://wa.me/27642919889?text=Hi%20IndieWebStudios!" target="_blank" class="btn-fill">WhatsApp Now →</a>
+        <a href="mailto:indiewebstudiosa@gmail.com" class="btn-out">Send Email</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <div class="ft-top">
-    <div>
-      <a href="/" class="ft-logo"><img src="/images/logo.png" alt="IndieWebStudios" style="height:30px;width:auto;display:block;margin-bottom:1.8rem"></a>
-      <p class="ft-tagline">Making South African small businesses <em>impossible to ignore</em> online.</p>
-      <div class="ft-social-lbl">// Follow Us</div>
-      <div class="ft-social-icons">
-        <a href="https://instagram.com/indiewebstudio" target="_blank" class="ft-social-icon" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        </a>
-        <a href="https://x.com/indewebstudio" target="_blank" class="ft-social-icon" aria-label="X">
-          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/share/1DqwGZD1BJ/" target="_blank" class="ft-social-icon" aria-label="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://za.pinterest.com/indiewebstudio/_profile/" target="_blank" class="ft-social-icon" aria-label="Pinterest">
-          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-        </a>
-        <a href="https://youtube.com/@indiewebstudio" target="_blank" class="ft-social-icon" aria-label="YouTube">
-          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-      </div>
-      <div class="ft-legal" style="margin-top:2rem">© 2025 <span>IndieWebStudios.co.za</span><br>Durban, South Africa</div>
-    </div>
-    <div>
-      <div class="ft-nav-lbl">// Navigate</div>
-      <div class="ft-nav">
-        <a href="/"><span class="fn">01</span>Home</a>
-        <a href="/work"><span class="fn">02</span>Work</a>
-        <a href="/services"><span class="fn">03</span>Services</a>
-        <a href="/about"><span class="fn">04</span>About</a>
-        <a href="/contact"><span class="fn">05</span>Contact</a>
-      </div>
-    </div>
-    <div>
-      <div class="ft-contact-lbl">// Get In Touch</div>
-      <div class="ft-contact-items">
-        <div>
-          <div class="ft-item-l">WhatsApp</div>
-          <a href="https://wa.me/27642919889" target="_blank" class="ft-item-v">064 291 9889</a>
-        </div>
-        <div>
-          <div class="ft-item-l">Email</div>
-          <a href="mailto:indiewebstudiosa@gmail.com" class="ft-item-v">indiewebstudiosa@gmail.com</a>
-        </div>
-        <div>
-          <div class="ft-item-l">Location</div>
-          <span class="ft-item-v">Durban, South Africa</span>
-        </div>
-      </div>
-      <a href="https://wa.me/27642919889?text=Hi%20IndieWebStudios!" target="_blank" class="ft-wa">
-        <span class="ft-wa-dot"></span>Chat on WhatsApp
-      </a>
-    </div>
-  </div>
-  <div class="ft-bot">
-    <span>© 2025 <em>IndieWebStudios</em> · All rights reserved</span>
-    <span>Durban · South Africa · Est. 2024</span>
+  <div class="footer-logo">INDIE<span>WEB</span>STUDIOS</div>
+  <div class="footer-copy">© 2026 IndieWebStudios · Durban, South Africa</div>
+  <div class="footer-links">
+    <a href="https://instagram.com/indiewebstudio" target="_blank">Instagram</a>
+    <a href="https://wa.me/27642919889" target="_blank">WhatsApp</a>
+    <a href="https://facebook.com/share/1DqwGZD1BJ/" target="_blank">Facebook</a>
   </div>
 </footer>
 
 <script>
-const cur=document.getElementById('cur'),curR=document.getElementById('curR');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.classList.add('hv');curR.classList.add('hv')});
-  el.addEventListener('mouseleave',()=>{cur.classList.remove('hv');curR.classList.remove('hv')});
+const items=document.querySelectorAll('.sr');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')});
+},{threshold:.08});
+items.forEach(i=>io.observe(i));
+
+const nav=document.querySelector('nav');
+window.addEventListener('scroll',()=>{
+  nav.style.borderBottomColor=window.scrollY>60?'#222':'#1a1a1a';
 });
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>40));
+
 const ham=document.getElementById('ham'),mob=document.getElementById('mob');
 ham.addEventListener('click',()=>{
   const o=mob.classList.toggle('open');
@@ -464,8 +368,15 @@ ham.addEventListener('click',()=>{
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   mob.classList.remove('open');ham.classList.remove('open');document.body.style.overflow='';
 }));
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.06});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+document.querySelectorAll('.value-row').forEach(row=>{
+  row.addEventListener('mouseenter',()=>{
+    row.querySelectorAll('.v-num,.v-name,.v-desc').forEach(el=>el.style.color='#080808');
+  });
+  row.addEventListener('mouseleave',()=>{
+    row.querySelectorAll('.v-num,.v-name,.v-desc').forEach(el=>el.style.color='');
+  });
+});
 </script>
 </body>
 </html>
