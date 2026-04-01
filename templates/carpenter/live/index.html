@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrainCraft — Bespoke Carpentry & Joinery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5f0e8;
+    --cream: #faf7f2;
+    --warm-white: #fffef9;
+    --walnut: #3d2b1f;
+    --walnut-mid: #5c3d2b;
+    --walnut-light: #7a5540;
+    --oak: #c8a97e;
+    --oak-light: #e0c9a6;
+    --oak-pale: #f0e4cc;
+    --forest: #2d4a35;
+    --forest-light: #3d6449;
+    --sage: #7a9e7e;
+    --ink: #1a1209;
+    --gray-warm: #8a7d70;
+    --gray-light: #b8aca0;
+    --border: rgba(61,43,31,0.12);
+    --border-strong: rgba(61,43,31,0.22);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--walnut);
+    font-family: 'Jost', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* PAPER TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.4s;
+  }
+
+  nav.scrolled {
+    background: rgba(250,247,242,0.98);
+    border-bottom-color: var(--border-strong);
+    box-shadow: 0 4px 30px rgba(61,43,31,0.06);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+    background: var(--walnut);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background 0.3s;
+  }
+
+  .logo:hover .logo-mark { background: var(--walnut-mid); }
+
+  .logo-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.45rem;
+    color: var(--walnut);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-name span {
+    color: var(--oak);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-warm);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--walnut);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--walnut); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--walnut) !important;
+    color: var(--parchment) !important;
+    padding: 0.6rem 1.6rem;
+    border-radius: 2px;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase;
+    transition: background 0.3s, transform 0.2s !important;
+  }
+
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--walnut-mid) !important; transform: translateY(-1px); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1100;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 1.5px;
+    background: var(--walnut);
+    transition: all 0.35s ease;
+    transform-origin: center;
+  }
+
+  .hamburger span:nth-child(1) { width: 28px; }
+  .hamburger span:nth-child(2) { width: 20px; }
+  .hamburger span:nth-child(3) { width: 24px; }
+
+  .hamburger.open span:nth-child(1) { width: 26px; transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { width: 26px; transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* MOBILE MENU */
+  .mob-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,18,9,0.5);
+    z-index: 1040;
+    opacity: 0;
+    transition: opacity 0.35s;
+    backdrop-filter: blur(4px);
+  }
+  .mob-overlay.open { opacity: 1; }
+
+  .mob-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(320px, 88vw);
+    height: 100vh;
+    background: var(--warm-white);
+    border-left: 1px solid var(--border-strong);
+    z-index: 1050;
+    padding: 6rem 2.5rem 2.5rem;
+    flex-direction: column;
+    transition: right 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .mob-menu.open { right: 0; }
+
+  .mob-menu a {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--gray-warm);
+    text-decoration: none;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  .mob-menu a:hover { color: var(--walnut); padding-left: 0.5rem; }
+
+  .mob-cta {
+    margin-top: 2rem;
+    background: var(--walnut) !important;
+    color: var(--parchment) !important;
+    text-align: center;
+    padding: 1rem !important;
+    border: none !important;
+    letter-spacing: 2px !important;
+    border-radius: 2px;
+  }
+
+  .mob-tagline {
+    margin-top: auto;
+    padding-top: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--oak);
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--walnut);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 9rem 4rem 5rem 3rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  /* Wood grain texture on dark side */
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      92deg,
+      transparent,
+      transparent 4px,
+      rgba(200,169,126,0.03) 4px,
+      rgba(200,169,126,0.03) 5px
+    );
+    pointer-events: none;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 30% 60%, rgba(200,169,126,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-right {
+    background: var(--parchment);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 9rem 3rem 5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Diagonal slice between panels */
+  .hero-left .slice {
+    position: absolute;
+    top: 0;
+    right: -60px;
+    width: 120px;
+    height: 100%;
+    background: var(--walnut);
+    transform: skewX(-3deg);
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+    position: relative;
+    z-index: 3;
+  }
+
+  .eyebrow-dash {
+    width: 28px;
+    height: 1px;
+    background: var(--oak);
+  }
+
+  .eyebrow-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--oak);
+  }
+
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(3.2rem, 5.5vw, 5.8rem);
+    line-height: 1.05;
+    color: var(--parchment);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease 0.1s both;
+    position: relative;
+    z-index: 3;
+  }
+
+  .hero-h1 em {
+    display: block;
+    font-style: italic;
+    color: var(--oak);
+    font-weight: 400;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: rgba(240,228,204,0.75);
+    line-height: 1.8;
+    max-width: 380px;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s ease 0.2s both;
+    position: relative;
+    z-index: 3;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.3s both;
+    position: relative;
+    z-index: 3;
+  }
+
+  .btn-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--parchment);
+    color: var(--walnut);
+    padding: 0.9rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.3s;
+    border: 1px solid var(--parchment);
+  }
+
+  .btn-light:hover {
+    background: var(--oak-light);
+    border-color: var(--oak-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .btn-outline-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    color: var(--oak-light);
+    padding: 0.9rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-radius: 2px;
+    border: 1px solid rgba(200,169,126,0.4);
+    transition: all 0.3s;
+  }
+
+  .btn-outline-light:hover {
+    border-color: var(--oak-light);
+    color: var(--parchment);
+    transform: translateY(-2px);
+  }
+
+  /* Hero right content */
+  .hero-aside-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--walnut-mid);
+    line-height: 1.5;
+    margin-bottom: 3rem;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--oak);
+    animation: fadeUp 0.8s ease 0.25s both;
+  }
+
+  .hero-aside-quote cite {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-style: normal;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-warm);
+    margin-top: 0.75rem;
+  }
+
+  .hero-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.8s ease 0.35s both;
+  }
+
+  .h-stat {
+    padding: 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--border-strong);
+    background: var(--warm-white);
+    transition: background 0.3s;
+  }
+
+  .h-stat:last-child { border-right: none; }
+  .h-stat:hover { background: var(--oak-pale); }
+
+  .h-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--walnut);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .h-stat-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray-warm);
+  }
+
+  /* Decorative corner marks */
+  .corner-mark {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: var(--oak);
+    border-style: solid;
+    opacity: 0.4;
+  }
+
+  .corner-mark.tl { top: 1.5rem; left: 1.5rem; border-width: 1px 0 0 1px; }
+  .corner-mark.tr { top: 1.5rem; right: 1.5rem; border-width: 1px 1px 0 0; }
+  .corner-mark.bl { bottom: 1.5rem; left: 1.5rem; border-width: 0 0 1px 1px; }
+  .corner-mark.br { bottom: 1.5rem; right: 1.5rem; border-width: 0 1px 1px 0; }
+
+  /* ── MARQUEE STRIP ── */
+  .marquee-strip {
+    background: var(--forest);
+    overflow: hidden;
+    padding: 0.85rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .marquee-inner {
+    display: inline-flex;
+    animation: marquee 35s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 2.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(240,228,204,0.8);
+    white-space: nowrap;
+  }
+
+  .marquee-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--oak);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── CONTAINER ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  /* ── WORK / SERVICES ── */
+  #services {
+    padding: 8rem 0;
+    background: var(--warm-white);
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-intro {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 4rem;
+    align-items: end;
+    margin-bottom: 5rem;
+  }
+
+  .section-label-tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--oak);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label-tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--oak);
+  }
+
+  .sec-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--walnut);
+    letter-spacing: -0.5px;
+  }
+
+  .sec-h2 em {
+    font-style: italic;
+    color: var(--walnut-mid);
+    font-weight: 400;
+  }
+
+  .sec-p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--gray-warm);
+    line-height: 1.85;
+    max-width: 500px;
+  }
+
+  /* Services — editorial card layout */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .svc {
+    background: var(--warm-white);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.35s;
+    cursor: default;
+  }
+
+  .svc::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--walnut);
+    transition: width 0.4s ease;
+  }
+
+  .svc:hover { background: var(--parchment); }
+  .svc:hover::after { width: 100%; }
+
+  .svc-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--oak-light);
+    line-height: 1;
+    margin-bottom: 1rem;
+    display: block;
+    transition: color 0.3s;
+  }
+
+  .svc:hover .svc-num { color: var(--oak); }
+
+  .svc-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--walnut);
+    margin-bottom: 0.7rem;
+  }
+
+  .svc-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.84rem;
+    color: var(--gray-warm);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── ABOUT / CRAFT SECTION ── */
+  #craft {
+    padding: 8rem 0;
+    background: var(--walnut);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  #craft::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      88deg,
+      transparent,
+      transparent 6px,
+      rgba(200,169,126,0.025) 6px,
+      rgba(200,169,126,0.025) 7px
+    );
+    pointer-events: none;
+  }
+
+  .craft-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .craft-text .section-label-tag { color: var(--oak-light); }
+  .craft-text .section-label-tag::before { background: var(--oak-light); }
+
+  .craft-text .sec-h2 { color: var(--parchment); }
+  .craft-text .sec-h2 em { color: var(--oak); }
+
+  .craft-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(240,228,204,0.7);
+    line-height: 1.9;
+    margin-top: 1.5rem;
+  }
+
+  .craft-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--oak-light);
+    text-decoration: none;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(200,169,126,0.4);
+    transition: all 0.3s;
+  }
+
+  .craft-btn:hover {
+    color: var(--oak);
+    border-bottom-color: var(--oak);
+    gap: 1.2rem;
+  }
+
+  /* Feature pillars */
+  .craft-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .pillar {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.8rem 2rem;
+    background: rgba(200,169,126,0.06);
+    border: 1px solid rgba(200,169,126,0.12);
+    border-radius: 4px;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .pillar:hover {
+    background: rgba(200,169,126,0.1);
+    border-left-color: var(--oak);
+    transform: translateX(4px);
+  }
+
+  .pillar-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .pillar-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--parchment);
+    margin-bottom: 0.4rem;
+  }
+
+  .pillar-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    color: rgba(200,169,126,0.7);
+    line-height: 1.65;
+  }
+
+  /* ── PROCESS ── */
+  #process {
+    padding: 8rem 0;
+    background: var(--parchment);
+    position: relative;
+    z-index: 1;
+  }
+
+  .process-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin-top: 5rem;
+    position: relative;
+  }
+
+  .process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.8rem;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--oak), transparent);
+  }
+
+  .p-step {
+    text-align: center;
+    position: relative;
+  }
+
+  .p-step-num {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--oak);
+    border-radius: 50%;
+    background: var(--parchment);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--walnut-mid);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+
+  .p-step:hover .p-step-num {
+    background: var(--walnut);
+    border-color: var(--walnut);
+    color: var(--parchment);
+  }
+
+  .p-step-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--walnut);
+    margin-bottom: 0.5rem;
+  }
+
+  .p-step-desc {
+    font-size: 0.82rem;
+    color: var(--gray-warm);
+    line-height: 1.65;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    padding: 8rem 0;
+    background: var(--warm-white);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .testi-overflow {
+    overflow: hidden;
+    margin-top: 4rem;
+  }
+
+  .testi-track {
+    display: flex;
+    gap: 2rem;
+    animation: tscroll 40s linear infinite;
+    width: max-content;
+  }
+
+  .testi-track:hover { animation-play-state: paused; }
+
+  @keyframes tscroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .t-card {
+    width: 380px;
+    flex-shrink: 0;
+    background: var(--parchment);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+
+  .t-card:hover {
+    box-shadow: 0 12px 40px rgba(61,43,31,0.08);
+    transform: translateY(-4px);
+  }
+
+  .t-card::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--oak-pale);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .t-stars {
+    color: var(--oak);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+  }
+
+  .t-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--walnut-mid);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .t-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .t-av {
+    width: 40px;
+    height: 40px;
+    background: var(--walnut);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--parchment);
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  .t-name {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--walnut);
+  }
+
+  .t-loc {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    color: var(--gray-warm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 8rem 0;
+    background: var(--walnut);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      91deg,
+      transparent,
+      transparent 8px,
+      rgba(200,169,126,0.02) 8px,
+      rgba(200,169,126,0.02) 9px
+    );
+    pointer-events: none;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .c-left .section-label-tag { color: var(--oak-light); }
+  .c-left .section-label-tag::before { background: var(--oak-light); }
+  .c-left .sec-h2 { color: var(--parchment); }
+  .c-left .sec-h2 em { color: var(--oak); }
+  .c-left .sec-p { color: rgba(240,228,204,0.65); margin-top: 1.5rem; }
+
+  .c-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .c-method {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    background: rgba(200,169,126,0.06);
+    border: 1px solid rgba(200,169,126,0.15);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--parchment);
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .c-method:hover {
+    border-left-color: var(--oak);
+    background: rgba(200,169,126,0.1);
+    transform: translateX(4px);
+  }
+
+  .c-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(200,169,126,0.12);
+    border: 1px solid rgba(200,169,126,0.2);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .c-text small {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--oak-light);
+    margin-bottom: 0.2rem;
+  }
+
+  .c-text b {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--parchment);
+  }
+
+  /* FORM */
+  .c-form {
+    background: var(--parchment);
+    border-radius: 4px;
+    padding: 2.8rem;
+    border: 1px solid var(--border-strong);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .c-form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--walnut), var(--oak), var(--forest));
+  }
+
+  .c-form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--walnut);
+    margin-bottom: 0.4rem;
+  }
+
+  .c-form-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--gray-warm);
+    margin-bottom: 2rem;
+  }
+
+  .fg {
+    margin-bottom: 1.1rem;
+  }
+
+  .fg label {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-warm);
+    margin-bottom: 0.45rem;
+  }
+
+  .fg input, .fg select, .fg textarea {
+    width: 100%;
+    background: var(--warm-white);
+    border: 1px solid var(--border-strong);
+    border-radius: 2px;
+    padding: 0.8rem 1rem;
+    color: var(--walnut);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .fg select option { background: var(--warm-white); }
+
+  .fg input:focus, .fg select:focus, .fg textarea:focus {
+    border-color: var(--walnut-mid);
+    box-shadow: 0 0 0 3px rgba(61,43,31,0.06);
+  }
+
+  .fg textarea { min-height: 100px; resize: vertical; }
+
+  .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--walnut);
+    color: var(--parchment);
+    border: none;
+    padding: 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover {
+    background: var(--walnut-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(61,43,31,0.18);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 3rem 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .foot-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(200,169,126,0.12);
+    margin-bottom: 2rem;
+  }
+
+  .foot-logo .logo-name { color: var(--parchment); }
+
+  .foot-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .foot-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(200,169,126,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .foot-links a:hover { color: var(--oak); }
+
+  .foot-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .foot-copy {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(200,169,126,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .studio-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .studio-link:hover .studio-nm { color: var(--oak-light); }
+
+  .studio-by {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(200,169,126,0.35);
+  }
+
+  .studio-icon {
+    width: 20px;
+    height: 20px;
+    background: var(--oak);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    transition: background 0.2s;
+  }
+
+  .studio-link:hover .studio-icon { background: var(--oak-light); }
+
+  .studio-nm {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--oak);
+    transition: color 0.2s;
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-timeline { grid-template-columns: repeat(2, 1fr); }
+    .process-timeline::before { display: none; }
+    .hero-left, .hero-right { padding-left: 2.5rem; padding-right: 2.5rem; }
+    .craft-layout { gap: 3rem; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mob-menu { display: flex; }
+    .mob-overlay { display: block; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-left {
+      padding: 7rem 1.5rem 3rem;
+      min-height: 60vh;
+    }
+    .hero-right {
+      padding: 3rem 1.5rem 4rem;
+    }
+    .hero-left .slice { display: none; }
+
+    .section-intro { grid-template-columns: 1fr; gap: 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .craft-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .fg-row { grid-template-columns: 1fr; }
+
+    .foot-top { flex-direction: column; }
+    .foot-bottom { flex-direction: column; }
+
+    .container { padding: 0 1.5rem; }
+    #services, #craft, #process, #testimonials, #contact { padding: 5rem 0; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-buttons { flex-direction: column; }
+    .btn-light, .btn-outline-light { justify-content: center; }
+    .hero-stats-row { grid-template-columns: 1fr; }
+    .h-stat { border-right: none; border-bottom: 1px solid var(--border-strong); }
+    .h-stat:last-child { border-bottom: none; }
+    .process-timeline { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">
+    <div class="logo-mark">🪵</div>
+    <div class="logo-name">Grain<span>Craft</span></div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#craft">Our Craft</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+
+  <div class="hamburger" id="ham" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE -->
+<div class="mob-overlay" id="mobOverlay" onclick="toggleMenu()"></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#craft" onclick="toggleMenu()">Our Craft</a>
+  <a href="#process" onclick="toggleMenu()">Process</a>
+  <a href="#testimonials" onclick="toggleMenu()">Reviews</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#contact" class="mob-cta" onclick="toggleMenu()">Request a Quote</a>
+  <p class="mob-tagline">"Every piece of wood has a story. We help you tell it."</p>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <!-- LEFT: dark walnut -->
+  <div class="hero-left">
+    <div class="slice"></div>
+    <div class="corner-mark tl"></div>
+    <div class="corner-mark bl"></div>
+
+    <div class="hero-eyebrow">
+      <div class="eyebrow-dash"></div>
+      <span class="eyebrow-text">Bespoke Carpentry & Joinery</span>
+    </div>
+
+    <h1 class="hero-h1">
+      Built by<br>
+      Hand,<br>
+      <em>Built to Last</em>
+    </h1>
+
+    <p class="hero-desc">
+      Custom furniture, fitted kitchens, built-in wardrobes, and fine joinery — crafted from sustainably sourced timber with old-world skill and modern precision.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#contact" class="btn-light">Request a Quote</a>
+      <a href="#services" class="btn-outline-light">View Services →</a>
+    </div>
+  </div>
+
+  <!-- RIGHT: parchment -->
+  <div class="hero-right">
+    <div class="corner-mark tr"></div>
+    <div class="corner-mark br"></div>
+
+    <blockquote class="hero-aside-quote">
+      "Good timber does not grow with ease; the stronger the wind, the stronger the trees."
+      <cite>— Artisan's Creed</cite>
+    </blockquote>
+
+    <div class="hero-stats-row">
+      <div class="h-stat">
+        <div class="h-stat-num counter" data-target="850">0</div>
+        <div class="h-stat-label">Pieces Made</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-num counter" data-target="20">0</div>
+        <div class="h-stat-label">Years Mastery</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-num">5.0★</div>
+        <div class="h-stat-label">Avg Review</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="marquee-item">Custom Furniture <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Fitted Kitchens <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Built-in Wardrobes <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wooden Floors <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Decks & Pergolas <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Bespoke Joinery <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Door & Frame Hanging <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wood Restoration <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom Furniture <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Fitted Kitchens <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Built-in Wardrobes <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wooden Floors <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Decks & Pergolas <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Bespoke Joinery <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Door & Frame Hanging <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wood Restoration <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-intro reveal">
+      <div>
+        <div class="section-label-tag">What We Build</div>
+        <h2 class="sec-h2">Our<br><em>Services</em></h2>
+      </div>
+      <p class="sec-p">
+        Whether you need a single statement piece or a complete home transformation, every project receives the same level of care — meticulous, unhurried, and built to outlast trends.
+      </p>
+    </div>
+
+    <div class="services-grid reveal">
+      <div class="svc">
+        <span class="svc-num">i</span>
+        <div class="svc-name">Custom Furniture</div>
+        <p class="svc-desc">Dining tables, bed frames, bookshelves, and display cabinets made to your exact dimensions, timber choice, and finish. One of a kind, forever.</p>
+      </div>
+      <div class="svc">
+        <span class="svc-num">ii</span>
+        <div class="svc-name">Fitted Kitchens</div>
+        <p class="svc-desc">Hand-crafted kitchen units, island benches, and pantry storage. We design around your space to maximise every centimetre with beauty and function.</p>
+      </div>
+      <div class="svc">
+        <span class="svc-num">iii</span>
+        <div class="svc-name">Built-in Wardrobes</div>
+        <p class="svc-desc">Floor-to-ceiling fitted wardrobes and walk-in closet systems. Custom compartments, soft-close rails, and seamless finishes that look built into the architecture.</p>
+      </div>
+      <div class="svc">
+        <span class="svc-num">iv</span>
+        <div class="svc-name">Decks & Pergolas</div>
+        <p class="svc-desc">Hardwood and treated pine outdoor structures that turn your garden into a living space. Engineered for the KZN climate, beautiful for life.</p>
+      </div>
+      <div class="svc">
+        <span class="svc-num">v</span>
+        <div class="svc-name">Doors & Frames</div>
+        <p class="svc-desc">Solid timber doors, architraves, and skirting boards. We hang, fit, and finish — restoring character to older homes or adding warmth to new builds.</p>
+      </div>
+      <div class="svc">
+        <span class="svc-num">vi</span>
+        <div class="svc-name">Wood Restoration</div>
+        <p class="svc-desc">Stripping, sanding, and refinishing antique and worn timber pieces. We restore their original warmth without losing the patina that makes them irreplaceable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRAFT / ABOUT -->
+<section id="craft">
+  <div class="container">
+    <div class="craft-layout">
+      <div class="craft-text reveal">
+        <div class="section-label-tag">About the Studio</div>
+        <h2 class="sec-h2" style="color:var(--parchment);">The Art of<br><em style="color:var(--oak);">True Craft</em></h2>
+        <p class="craft-body">
+          We're a small, dedicated joinery studio based in Durban, KZN. Not a factory, not a franchise — just master craftspeople who believe furniture should be made the right way, using real wood, real joinery, and real care.
+          <br><br>
+          Every piece starts as a conversation. We listen to how you live, sketch together, source the timber, and build from scratch in our workshop. No shortcuts, no flat-pack. Just wood, tools, and decades of knowing what we're doing.
+        </p>
+        <a href="#contact" class="craft-btn">Start your project →</a>
+      </div>
+
+      <div class="craft-pillars reveal">
+        <div class="pillar">
+          <div class="pillar-icon">🌲</div>
+          <div>
+            <div class="pillar-title">Sustainably Sourced Timber</div>
+            <p class="pillar-desc">We work with responsible South African suppliers — local species where possible, FSC-certified imports when needed.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📐</div>
+          <div>
+            <div class="pillar-title">Measured to the Millimetre</div>
+            <p class="pillar-desc">Everything is built to precise specifications. We take four measurements where others take two — because a perfect fit is non-negotiable.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🤝</div>
+          <div>
+            <div class="pillar-title">Fixed Price, No Surprises</div>
+            <p class="pillar-desc">We quote thoroughly upfront. If something changes, we discuss it with you before spending a cent more. Always.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🛡️</div>
+          <div>
+            <div class="pillar-title">Guaranteed Craftsmanship</div>
+            <p class="pillar-desc">All our work carries a 5-year structural guarantee. If a joint fails or a finish deteriorates prematurely, we make it right.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-intro reveal">
+      <div>
+        <div class="section-label-tag">How It Works</div>
+        <h2 class="sec-h2">The<br><em>Process</em></h2>
+      </div>
+      <p class="sec-p">From first conversation to final delivery, every step is thoughtful, transparent, and focused on producing something you'll treasure for decades.</p>
+    </div>
+
+    <div class="process-timeline reveal">
+      <div class="p-step">
+        <div class="p-step-num">I</div>
+        <div class="p-step-title">Consultation</div>
+        <p class="p-step-desc">We visit your space, discuss your vision, lifestyle, and budget. No obligation — just a good conversation about what's possible.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-step-num">II</div>
+        <div class="p-step-title">Design & Quote</div>
+        <p class="p-step-desc">We sketch the concept, select materials, and provide a fully detailed fixed quote. You see exactly what you're getting before we start.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-step-num">III</div>
+        <div class="p-step-title">Build in Workshop</div>
+        <p class="p-step-desc">Work begins in our Durban workshop. We share progress photos throughout the build. Precision, patience, and no rushing.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-step-num">IV</div>
+        <div class="p-step-title">Deliver & Install</div>
+        <p class="p-step-desc">We deliver, install, and only leave when everything is perfectly in place and you're completely satisfied. Then we disappear quietly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-intro reveal">
+      <div>
+        <div class="section-label-tag">Kind Words</div>
+        <h2 class="sec-h2">Clients<br><em>Love Us</em></h2>
+      </div>
+      <p class="sec-p">We let our work do the talking — but occasionally our clients say it better than we ever could.</p>
+    </div>
+  </div>
+
+  <div class="testi-overflow">
+    <div class="testi-track">
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"They built our entire kitchen — every cabinet, the island, the pantry. It looks like it's always been there. The finish is immaculate. We can't stop showing it off."</p>
+        <div class="t-author">
+          <div class="t-av">SM</div>
+          <div><div class="t-name">Sarah Mitchell</div><div class="t-loc">Durban North, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Commissioned a solid oak dining table for 10. They matched the exact grain pattern I wanted, delivered on time, and it's genuinely the most beautiful thing in our home."</p>
+        <div class="t-author">
+          <div class="t-av">KN</div>
+          <div><div class="t-name">Khaya Nxumalo</div><div class="t-loc">Umhlanga, Durban</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Our built-in wardrobe runs the full length of the room. Every drawer glides perfectly, the shelving is exactly what I drew on a napkin. Exceeded every expectation."</p>
+        <div class="t-author">
+          <div class="t-av">LD</div>
+          <div><div class="t-name">Liezel du Plessis</div><div class="t-loc">Hillcrest, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"They restored my grandmother's antique sideboard — 80 years of scratches and damage gone, but all the character remains. I cried when they delivered it. Absolute masters."</p>
+        <div class="t-author">
+          <div class="t-av">TP</div>
+          <div><div class="t-name">Thabo Petersen</div><div class="t-loc">Westville, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"The deck they built has transformed our backyard. Hardwood boards, hand-cut balustrades, and a pergola to die for. Best investment we've made in the house."</p>
+        <div class="t-author">
+          <div class="t-av">MR</div>
+          <div><div class="t-name">Mike Redgment</div><div class="t-loc">Morningside, Durban</div></div>
+        </div>
+      </div>
+      <!-- Duplicate -->
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"They built our entire kitchen — every cabinet, the island, the pantry. It looks like it's always been there. The finish is immaculate. We can't stop showing it off."</p>
+        <div class="t-author">
+          <div class="t-av">SM</div>
+          <div><div class="t-name">Sarah Mitchell</div><div class="t-loc">Durban North, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Commissioned a solid oak dining table for 10. They matched the exact grain pattern I wanted, delivered on time, and it's genuinely the most beautiful thing in our home."</p>
+        <div class="t-author">
+          <div class="t-av">KN</div>
+          <div><div class="t-name">Khaya Nxumalo</div><div class="t-loc">Umhlanga, Durban</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Our built-in wardrobe runs the full length of the room. Every drawer glides perfectly, the shelving is exactly what I drew on a napkin. Exceeded every expectation."</p>
+        <div class="t-author">
+          <div class="t-av">LD</div>
+          <div><div class="t-name">Liezel du Plessis</div><div class="t-loc">Hillcrest, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"They restored my grandmother's antique sideboard — 80 years of scratches and damage gone, but all the character remains. I cried when they delivered it. Absolute masters."</p>
+        <div class="t-author">
+          <div class="t-av">TP</div>
+          <div><div class="t-name">Thabo Petersen</div><div class="t-loc">Westville, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"The deck they built has transformed our backyard. Hardwood boards, hand-cut balustrades, and a pergola to die for. Best investment we've made in the house."</p>
+        <div class="t-author">
+          <div class="t-av">MR</div>
+          <div><div class="t-name">Mike Redgment</div><div class="t-loc">Morningside, Durban</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="c-left reveal">
+        <div class="section-label-tag">Start a Project</div>
+        <h2 class="sec-h2">Let's Build<br><em>Something Beautiful</em></h2>
+        <p class="sec-p">Tell us what you have in mind. We offer free consultations — no pressure, just a craftsperson and a good conversation.</p>
+
+        <div class="c-methods">
+          <a href="tel:+27310000002" class="c-method">
+            <div class="c-icon">📞</div>
+            <div class="c-text"><small>Call the Workshop</small><b>031 000 0002</b></div>
+          </a>
+          <a href="https://wa.me/27820000002" class="c-method">
+            <div class="c-icon">💬</div>
+            <div class="c-text"><small>WhatsApp</small><b>082 000 0002</b></div>
+          </a>
+          <a href="mailto:hello@graincraft.co.za" class="c-method">
+            <div class="c-icon">✉️</div>
+            <div class="c-text"><small>Email Us</small><b>hello@graincraft.co.za</b></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="c-form reveal">
+        <div class="c-form-title">Request a Consultation</div>
+        <p class="c-form-sub">Free, no obligation — just a conversation about your project.</p>
+
+        <div class="fg-row">
+          <div class="fg"><label>First Name</label><input type="text" placeholder="Sarah"></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="Mitchell"></div>
+        </div>
+        <div class="fg"><label>Phone Number</label><input type="tel" placeholder="082 000 0000"></div>
+        <div class="fg">
+          <label>Project Type</label>
+          <select>
+            <option value="" disabled selected>What are you looking to build?</option>
+            <option>Custom Furniture</option>
+            <option>Fitted Kitchen</option>
+            <option>Built-in Wardrobes</option>
+            <option>Deck or Pergola</option>
+            <option>Doors & Frames</option>
+            <option>Wood Restoration</option>
+            <option>Something Else</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Tell Us About Your Project</label>
+          <textarea placeholder="Describe what you have in mind — dimensions, timber preference, style, timeline..."></textarea>
+        </div>
+        <button class="submit-btn" id="submitBtn">Request a Consultation</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <a href="#" class="logo foot-logo">
+        <div class="logo-mark" style="background:var(--oak);">🪵</div>
+        <div class="logo-name" style="color:var(--parchment);">Grain<span>Craft</span></div>
+      </a>
+      <ul class="foot-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#craft">Our Craft</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2025 GrainCraft Carpentry · Durban, KZN · Crafted with care</p>
+      <a href="https://indiewebstudio.co.za" target="_blank" rel="noopener" class="studio-link">
+        <span class="studio-by">Website by</span>
+        <div class="studio-icon">I</div>
+        <span class="studio-nm">Indie Web Studio</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // NAV
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50);
+  });
+
+  // MOBILE MENU
+  function toggleMenu() {
+    const ham = document.getElementById('ham');
+    const menu = document.getElementById('mobMenu');
+    const overlay = document.getElementById('mobOverlay');
+    const open = menu.classList.contains('open');
+    ham.classList.toggle('open', !open);
+    menu.classList.toggle('open', !open);
+    overlay.classList.toggle('open', !open);
+    document.body.style.overflow = open ? '' : 'hidden';
+  }
+
+  // COUNTERS
+  function runCounter(el) {
+    const target = +el.dataset.target;
+    const start = performance.now();
+    const dur = 2000;
+    (function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(ease * target).toLocaleString() + (target > 100 ? '+' : '');
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+
+  // Hero counters on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.hero .counter').forEach(runCounter);
+    }, 600);
+  });
+
+  // SCROLL REVEAL
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.counter').forEach(runCounter);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // SUBMIT
+  document.getElementById('submitBtn').addEventListener('click', function() {
+    this.textContent = '✓ Message Received';
+    this.style.background = 'var(--forest)';
+    setTimeout(() => {
+      this.textContent = 'Request a Consultation';
+      this.style.background = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
