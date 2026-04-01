@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoltEdge Electrical — Licensed Electricians Durban</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050608;
+    --dark: #0d0f14;
+    --dark2: #131720;
+    --dark3: #1a1f2e;
+    --panel: #1e2436;
+    --border: rgba(255,255,255,0.07);
+    --volt: #f5e642;
+    --volt-dim: rgba(245,230,66,0.15);
+    --volt-glow: rgba(245,230,66,0.4);
+    --cyan: #00d4ff;
+    --cyan-dim: rgba(0,212,255,0.1);
+    --red: #ff3b3b;
+    --white: #f0f4ff;
+    --gray: #8892a4;
+    --gray-light: #b0bac8;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* CIRCUIT GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,230,66,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,230,66,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    background: rgba(5,6,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  nav.scrolled {
+    background: rgba(5,6,8,0.97);
+    border-bottom-color: rgba(245,230,66,0.2);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .logo-bolt {
+    width: 36px;
+    height: 36px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-bolt svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 8px var(--volt-glow));
+    animation: boltPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes boltPulse {
+    0%, 100% { filter: drop-shadow(0 0 6px var(--volt-glow)); }
+    50% { filter: drop-shadow(0 0 16px var(--volt-glow)) drop-shadow(0 0 30px rgba(245,230,66,0.2)); }
+  }
+
+  .logo-text {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .logo-text span { color: var(--volt); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: color 0.2s;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .nav-links a:hover { color: var(--volt); }
+
+  .nav-call {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--volt);
+    color: var(--black) !important;
+    padding: 0.5rem 1.3rem;
+    border-radius: 4px;
+    font-weight: 700 !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 1px !important;
+    transition: all 0.2s !important;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .nav-call:hover {
+    background: #fff !important;
+    box-shadow: 0 0 20px var(--volt-glow) !important;
+  }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 1100;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--volt);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger span:nth-child(1) { width: 26px; }
+  .hamburger span:nth-child(2) { width: 18px; }
+  .hamburger span:nth-child(3) { width: 22px; }
+
+  .hamburger.open span:nth-child(1) { width: 26px; transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { width: 26px; transform: translateY(-7px) rotate(-45deg); }
+
+  /* MOBILE MENU */
+  .mob-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1040;
+    opacity: 0;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(4px);
+  }
+  .mob-overlay.open { opacity: 1; }
+
+  .mob-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(300px, 85vw);
+    height: 100vh;
+    background: var(--dark2);
+    border-left: 1px solid rgba(245,230,66,0.15);
+    z-index: 1050;
+    padding: 5.5rem 2rem 2rem;
+    flex-direction: column;
+    gap: 0;
+    transition: right 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .mob-menu.open { right: 0; }
+
+  .mob-menu a {
+    display: flex;
+    align-items: center;
+    color: var(--gray-light);
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: color 0.2s, padding-left 0.2s;
+    gap: 0.75rem;
+  }
+
+  .mob-menu a:hover { color: var(--volt); padding-left: 0.5rem; }
+
+  .mob-cta-btn {
+    margin-top: 1.5rem;
+    background: var(--volt) !important;
+    color: var(--black) !important;
+    text-align: center;
+    padding: 1rem !important;
+    border: none !important;
+    border-radius: 4px;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .mob-emergency {
+    margin-top: 2rem;
+    background: rgba(255,59,59,0.08);
+    border: 1px solid rgba(255,59,59,0.25);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .mob-emergency small { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray); margin-bottom: 0.3rem; }
+  .mob-emergency a { color: var(--red) !important; font-family: 'Orbitron', monospace !important; font-size: 1.1rem !important; font-weight: 700 !important; border: none !important; padding: 0 !important; letter-spacing: 2px !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 8rem 2.5rem 5rem;
+  }
+
+  /* Electric arc background */
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 80% 40%, rgba(245,230,66,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 50% at 10% 70%, rgba(0,212,255,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 60% at 50% 100%, rgba(13,15,20,0.9) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Scanlines */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+    animation: fadeSlide 0.7s ease both;
+  }
+
+  .eyebrow-line {
+    width: 30px;
+    height: 1px;
+    background: var(--cyan);
+    box-shadow: 0 0 6px var(--cyan);
+  }
+
+  .hero-h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+    animation: fadeSlide 0.7s ease 0.1s both;
+  }
+
+  .hero-h1 em {
+    display: block;
+    font-style: normal;
+    color: var(--volt);
+    text-shadow: 0 0 30px var(--volt-glow), 0 0 60px rgba(245,230,66,0.15);
+    animation: voltFlicker 6s ease-in-out infinite;
+  }
+
+  @keyframes voltFlicker {
+    0%, 90%, 100% { opacity: 1; text-shadow: 0 0 30px var(--volt-glow), 0 0 60px rgba(245,230,66,0.15); }
+    92% { opacity: 0.85; text-shadow: 0 0 10px var(--volt-glow); }
+    94% { opacity: 1; text-shadow: 0 0 40px var(--volt-glow), 0 0 80px rgba(245,230,66,0.2); }
+    96% { opacity: 0.9; }
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.75;
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    animation: fadeSlide 0.7s ease 0.2s both;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    animation: fadeSlide 0.7s ease 0.3s both;
+  }
+
+  .btn-volt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--volt);
+    color: var(--black);
+    padding: 0.9rem 2rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.25s;
+  }
+
+  .btn-volt:hover {
+    background: #fff;
+    box-shadow: 0 0 30px var(--volt-glow), 0 0 60px rgba(245,230,66,0.1);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    color: var(--gray-light);
+    padding: 0.9rem 2rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.25s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--volt);
+    color: var(--volt);
+    transform: translateY(-2px);
+  }
+
+  .hero-trust {
+    display: flex;
+    gap: 2rem;
+    animation: fadeSlide 0.7s ease 0.4s both;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray);
+  }
+
+  .trust-check {
+    width: 18px;
+    height: 18px;
+    background: rgba(245,230,66,0.12);
+    border: 1px solid var(--volt);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--volt);
+    flex-shrink: 0;
+  }
+
+  /* HERO RIGHT — Power Panel */
+  .power-panel {
+    position: relative;
+    animation: fadeSlide 0.7s ease 0.2s both;
+  }
+
+  .panel-frame {
+    background: var(--dark3);
+    border: 1px solid rgba(245,230,66,0.15);
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--volt), var(--cyan), transparent);
+    animation: scanLine 3s linear infinite;
+  }
+
+  @keyframes scanLine {
+    0% { transform: scaleX(0); transform-origin: left; }
+    50% { transform: scaleX(1); transform-origin: left; }
+    50.1% { transform: scaleX(1); transform-origin: right; }
+    100% { transform: scaleX(0); transform-origin: right; }
+  }
+
+  .panel-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,59,59,0.1);
+    border: 1px solid rgba(255,59,59,0.3);
+    color: #ff8080;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.6rem;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+
+  .live-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: liveBlink 1s ease-in-out infinite;
+    box-shadow: 0 0 6px var(--red);
+  }
+
+  @keyframes liveBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .volt-meter {
+    margin: 1.5rem 0;
+  }
+
+  .meter-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .meter-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray);
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .meter-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .meter-fill {
+    height: 100%;
+    border-radius: 3px;
+    animation: fillBar 2s cubic-bezier(0.16,1,0.3,1) forwards;
+    position: relative;
+  }
+
+  .meter-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 6px;
+    height: 10px;
+    background: inherit;
+    border-radius: 2px;
+    box-shadow: 0 0 8px currentColor;
+    filter: brightness(1.5);
+  }
+
+  @keyframes fillBar {
+    from { width: 0; }
+  }
+
+  .meter-val {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 36px;
+    text-align: right;
+    color: var(--volt);
+  }
+
+  .m-volt { background: linear-gradient(90deg, var(--volt), #fff176); width: 94%; }
+  .m-speed { background: linear-gradient(90deg, var(--cyan), #7ef8ff); width: 88%; }
+  .m-safe { background: linear-gradient(90deg, #22c55e, #86efac); width: 100%; }
+  .m-price { background: linear-gradient(90deg, #a855f7, #d8b4fe); width: 92%; }
+
+  .panel-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .cert-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cert-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-light);
+  }
+
+  .panel-cta {
+    margin-top: 1.5rem;
+    width: 100%;
+    background: var(--volt);
+    color: var(--black);
+    border: none;
+    padding: 1rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.25s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .panel-cta:hover {
+    background: #fff;
+    box-shadow: 0 0 30px var(--volt-glow);
+  }
+
+  /* ── POWER STRIP ── */
+  .power-strip {
+    background: var(--volt);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .strip-inner {
+    display: flex;
+    animation: stripScroll 25s linear infinite;
+    width: max-content;
+  }
+
+  .strip-item {
+    padding: 0.65rem 2rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--black);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .strip-bolt { opacity: 0.4; font-size: 0.8rem; }
+
+  @keyframes stripScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    padding: 8rem 0;
+    background: var(--dark);
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-head {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .sec-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--volt);
+    margin-bottom: 1rem;
+  }
+
+  .sec-tag::before, .sec-tag::after {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--volt);
+    box-shadow: 0 0 4px var(--volt);
+  }
+
+  .sec-h2 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+  }
+
+  .sec-h2 span { color: var(--volt); }
+
+  .sec-p {
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .svc-card {
+    background: var(--dark2);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .svc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    background: linear-gradient(180deg, rgba(245,230,66,0.04) 0%, transparent 100%);
+    transition: height 0.4s;
+  }
+
+  .svc-card:hover { background: var(--dark3); }
+  .svc-card:hover::before { height: 100%; }
+
+  .svc-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(245,230,66,0.3);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .svc-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+    filter: grayscale(0.3);
+    transition: filter 0.3s, transform 0.3s;
+  }
+
+  .svc-card:hover .svc-icon { filter: grayscale(0); transform: scale(1.1); }
+
+  .svc-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+
+  .svc-desc {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.65;
+  }
+
+  .svc-arrow {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(245,230,66,0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: var(--volt);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .svc-card:hover .svc-arrow { opacity: 1; transform: translate(2px, -2px); }
+
+  /* ── PROCESS ── */
+  #process {
+    padding: 8rem 0;
+    background: var(--dark2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .process-grid::before {
+    content: '';
+    position: absolute;
+    top: 2.5rem;
+    left: 12.5%;
+    right: 12.5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--volt), var(--cyan), var(--volt), transparent);
+    opacity: 0.3;
+  }
+
+  .process-step {
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  .step-num {
+    width: 50px;
+    height: 50px;
+    background: var(--dark3);
+    border: 1px solid rgba(245,230,66,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--volt);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+
+  .process-step:hover .step-num {
+    background: var(--volt);
+    color: var(--black);
+    box-shadow: 0 0 20px var(--volt-glow);
+  }
+
+  .step-icon { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+
+  .step-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── WHY US ── */
+  #why {
+    padding: 8rem 0;
+    background: var(--dark);
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .big-stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .big-stat {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .big-stat::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 0;
+    background: rgba(245,230,66,0.04);
+    transition: height 0.3s;
+  }
+
+  .big-stat:hover { border-color: rgba(245,230,66,0.25); transform: translateY(-3px); }
+  .big-stat:hover::after { height: 100%; }
+
+  .big-stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--volt);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(245,230,66,0.3);
+  }
+
+  .big-stat-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+  }
+
+  .why-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .why-feat {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .why-feat:hover { border-left-color: var(--volt); transform: translateX(4px); }
+
+  .feat-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .feat-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+  }
+
+  .feat-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.55; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    padding: 8rem 0;
+    background: var(--dark2);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .testi-scroll {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: hidden;
+    margin-top: 3rem;
+  }
+
+  .testi-track {
+    display: flex;
+    gap: 1.5rem;
+    animation: tScroll 35s linear infinite;
+    width: max-content;
+  }
+
+  .testi-track:hover { animation-play-state: paused; }
+
+  @keyframes tScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .t-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    width: 320px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .t-card::before {
+    content: '"';
+    position: absolute;
+    top: -0.5rem;
+    right: 1.5rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 4rem;
+    color: rgba(245,230,66,0.06);
+    line-height: 1;
+  }
+
+  .t-card:hover { border-color: rgba(245,230,66,0.2); }
+
+  .t-stars { color: var(--volt); font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 1rem; text-shadow: 0 0 8px var(--volt-glow); }
+
+  .t-text { font-size: 0.88rem; color: var(--gray-light); line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .t-author { display: flex; align-items: center; gap: 0.75rem; }
+
+  .t-av {
+    width: 38px;
+    height: 38px;
+    background: var(--volt);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .t-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .t-loc { font-size: 0.72rem; color: var(--gray); }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 8rem 0;
+    background: var(--dark);
+    position: relative;
+    z-index: 1;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--volt), var(--cyan), var(--volt), transparent);
+    opacity: 0.3;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .c-info { padding-top: 0.5rem; }
+
+  .c-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .c-method {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--white);
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .c-method:hover { border-left-color: var(--volt); transform: translateX(4px); }
+
+  .c-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--volt-dim);
+    border: 1px solid rgba(245,230,66,0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .c-text small { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray); margin-bottom: 0.2rem; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+  .c-text b { font-size: 0.95rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+
+  .c-form {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .c-form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--volt), var(--cyan));
+  }
+
+  .c-form-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.4rem;
+  }
+
+  .c-form-sub { font-size: 0.82rem; color: var(--gray); margin-bottom: 2rem; }
+
+  .fg { margin-bottom: 1rem; }
+
+  .fg label {
+    display: block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 0.4rem;
+  }
+
+  .fg input, .fg select, .fg textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .fg select option { background: var(--dark2); }
+
+  .fg input:focus, .fg select:focus, .fg textarea:focus {
+    border-color: var(--volt);
+    background: rgba(245,230,66,0.02);
+    box-shadow: 0 0 0 3px rgba(245,230,66,0.05);
+  }
+
+  .fg textarea { min-height: 100px; resize: vertical; }
+
+  .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--volt);
+    color: var(--black);
+    border: none;
+    padding: 1rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.25s;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover {
+    background: #fff;
+    box-shadow: 0 0 25px var(--volt-glow);
+    transform: translateY(-1px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 3rem 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .foot-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .foot-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .foot-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+
+  .foot-links a:hover { color: var(--volt); }
+
+  .foot-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .foot-copy {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(136,146,164,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .studio-credit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .studio-credit:hover .studio-name { color: #fff; text-shadow: 0 0 10px var(--volt-glow); }
+
+  .studio-tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+  }
+
+  .studio-badge {
+    width: 20px;
+    height: 20px;
+    background: var(--volt);
+    clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: var(--black);
+    font-family: 'Orbitron', monospace;
+  }
+
+  .studio-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--volt);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.2s;
+  }
+
+  /* ── UTILS ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .process-grid::before { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mob-menu { display: flex; }
+    .mob-overlay { display: block; }
+
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .power-panel { display: none; }
+    .hero { padding-top: 6.5rem; }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .why-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .fg-row { grid-template-columns: 1fr; }
+
+    .foot-top { flex-direction: column; }
+    .foot-bottom { flex-direction: column; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-trust { flex-direction: column; gap: 0.75rem; }
+    .hero-actions { flex-direction: column; }
+    .btn-volt, .btn-ghost { justify-content: center; }
+    .big-stat-block { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">
+    <div class="logo-bolt">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="20,2 8,20 16,20 14,34 28,14 20,14" fill="#f5e642"/>
+      </svg>
+    </div>
+    <div class="logo-text">Volt<span>Edge</span></div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="tel:+27310000001" class="nav-call">⚡ 031 000 0001</a></li>
+  </ul>
+
+  <div class="hamburger" id="ham" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE OVERLAY + MENU -->
+<div class="mob-overlay" id="mobOverlay" onclick="toggleNav()"></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="toggleNav()">⚡ Services</a>
+  <a href="#process" onclick="toggleNav()">🔄 Our Process</a>
+  <a href="#why" onclick="toggleNav()">🏆 Why Us</a>
+  <a href="#testimonials" onclick="toggleNav()">⭐ Reviews</a>
+  <a href="#contact" onclick="toggleNav()">📋 Get Quote</a>
+  <a href="#contact" class="mob-cta-btn" onclick="toggleNav()">Book an Electrician</a>
+  <div class="mob-emergency">
+    <small>24/7 Emergency</small>
+    <a href="tel:+27310000001">031 000 0001</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-inner container">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-line"></span>
+        ECB Registered &amp; Fully Insured
+      </div>
+
+      <h1 class="hero-h1">
+        Power<br>Your<br><em>World</em>
+      </h1>
+
+      <p class="hero-sub">
+        Licensed electricians for residential, commercial, and industrial projects. From fault finding to full rewires — we get it live, safe, and certified.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#contact" class="btn-volt">⚡ Get Free Quote</a>
+        <a href="tel:+27310000001" class="btn-ghost">📞 031 000 0001</a>
+      </div>
+
+      <div class="hero-trust">
+        <div class="trust-item"><div class="trust-check">✓</div>ECB Certified</div>
+        <div class="trust-item"><div class="trust-check">✓</div>CoC Issued</div>
+        <div class="trust-item"><div class="trust-check">✓</div>24/7 Emergency</div>
+      </div>
+    </div>
+
+    <div class="power-panel">
+      <div class="panel-frame">
+        <div class="panel-label">
+          System Status
+          <div class="live-indicator"><span class="live-dot"></span>Live</div>
+        </div>
+
+        <div class="volt-meter">
+          <div class="meter-row">
+            <div class="meter-label">Expertise</div>
+            <div class="meter-bar"><div class="meter-fill m-volt"></div></div>
+            <div class="meter-val">94%</div>
+          </div>
+          <div class="meter-row">
+            <div class="meter-label">Response</div>
+            <div class="meter-bar"><div class="meter-fill m-speed"></div></div>
+            <div class="meter-val">88%</div>
+          </div>
+          <div class="meter-row">
+            <div class="meter-label">Safety</div>
+            <div class="meter-bar"><div class="meter-fill m-safe"></div></div>
+            <div class="meter-val">100%</div>
+          </div>
+          <div class="meter-row">
+            <div class="meter-label">Value</div>
+            <div class="meter-bar"><div class="meter-fill m-price"></div></div>
+            <div class="meter-val">92%</div>
+          </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <div class="cert-badges">
+          <div class="cert-badge">⚡ ECB Reg.</div>
+          <div class="cert-badge">📋 CoC Issued</div>
+          <div class="cert-badge">🛡️ Insured</div>
+          <div class="cert-badge">🏠 Residential</div>
+          <div class="cert-badge">🏢 Commercial</div>
+        </div>
+
+        <a href="#contact" class="panel-cta">Request Callout ⚡</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POWER STRIP -->
+<div class="power-strip">
+  <div class="strip-inner">
+    <span class="strip-item">Fault Finding <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">DB Board Upgrades <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Solar Installations <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Certificate of Compliance <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">3-Phase Wiring <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Surge Protection <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Security Lighting <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Emergency Callouts <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Fault Finding <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">DB Board Upgrades <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Solar Installations <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Certificate of Compliance <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">3-Phase Wiring <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Surge Protection <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Security Lighting <span class="strip-bolt">⚡</span></span>
+    <span class="strip-item">Emergency Callouts <span class="strip-bolt">⚡</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">What We Do</div>
+      <h2 class="sec-h2">Our <span>Services</span></h2>
+      <p class="sec-p">From a tripped breaker to a full industrial install — our team handles it all with precision and a CoC to prove it.</p>
+    </div>
+
+    <div class="services-grid reveal">
+      <div class="svc-card">
+        <span class="svc-num">SVC // 01</span>
+        <span class="svc-icon">⚡</span>
+        <div class="svc-name">Fault Finding</div>
+        <p class="svc-desc">Tripped breakers, dead circuits, intermittent faults — we diagnose and fix it fast using advanced testing equipment.</p>
+        <div class="svc-arrow">↗</div>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">SVC // 02</span>
+        <span class="svc-icon">🔌</span>
+        <div class="svc-name">DB Board Upgrades</div>
+        <p class="svc-desc">Replace old fuse boards with modern circuit breakers, earth leakage, and surge protection for total safety compliance.</p>
+        <div class="svc-arrow">↗</div>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">SVC // 03</span>
+        <span class="svc-icon">☀️</span>
+        <div class="svc-name">Solar & Backup Power</div>
+        <p class="svc-desc">Grid-tied, off-grid, and hybrid solar systems. Battery backup and inverter installations to keep you powered through load shedding.</p>
+        <div class="svc-arrow">↗</div>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">SVC // 04</span>
+        <span class="svc-icon">📋</span>
+        <div class="svc-name">Certificate of Compliance</div>
+        <p class="svc-desc">Selling or buying property? We conduct full electrical inspections and issue official Certificates of Compliance (CoC).</p>
+        <div class="svc-arrow">↗</div>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">SVC // 05</span>
+        <span class="svc-icon">🏢</span>
+        <div class="svc-name">Commercial Electrical</div>
+        <p class="svc-desc">3-phase installations, industrial wiring, motor control, and large-scale commercial fit-outs. Fully ECB registered.</p>
+        <div class="svc-arrow">↗</div>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">SVC // 06</span>
+        <span class="svc-icon">💡</span>
+        <div class="svc-name">Lighting & Automation</div>
+        <p class="svc-desc">LED retrofits, smart home automation, security lighting, and feature lighting. Bright ideas, expertly installed.</p>
+        <div class="svc-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">How It Works</div>
+      <h2 class="sec-h2">The <span>Process</span></h2>
+    </div>
+
+    <div class="process-grid reveal">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <span class="step-icon">📞</span>
+        <div class="step-title">You Call or Quote</div>
+        <p class="step-desc">Reach out via phone, WhatsApp, or our form. We respond fast — usually within the hour.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <span class="step-icon">🔍</span>
+        <div class="step-title">We Assess & Quote</div>
+        <p class="step-desc">A qualified electrician visits, diagnoses the issue, and provides a clear upfront quote. No surprises.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <span class="step-icon">⚡</span>
+        <div class="step-title">Work Gets Done</div>
+        <p class="step-desc">Our team gets to work. Clean, safe, and efficient. We respect your space and time.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <span class="step-icon">📋</span>
+        <div class="step-title">Certified & Done</div>
+        <p class="step-desc">We test and certify the work. You receive a full CoC if applicable. Guaranteed craftsmanship.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="container">
+    <div class="why-layout">
+      <div class="big-stat-block reveal">
+        <div class="big-stat">
+          <div class="big-stat-num counter" data-target="3200">0</div>
+          <div class="big-stat-label">Jobs Completed</div>
+        </div>
+        <div class="big-stat">
+          <div class="big-stat-num counter" data-target="18">0</div>
+          <div class="big-stat-label">Years Experience</div>
+        </div>
+        <div class="big-stat">
+          <div class="big-stat-num">100%</div>
+          <div class="big-stat-label">CoC Pass Rate</div>
+        </div>
+        <div class="big-stat">
+          <div class="big-stat-num">4.9★</div>
+          <div class="big-stat-label">Google Rating</div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="sec-tag" style="margin-bottom:1rem;">Why Choose Us</div>
+        <h2 class="sec-h2" style="text-align:left; margin-bottom:1rem;">Wired for <span>Excellence</span></h2>
+        <p class="sec-p" style="margin:0; text-align:left;">We don't cut corners. Every job is done to SANS 10142 standards with a licensed master electrician overseeing the work.</p>
+
+        <div class="why-features">
+          <div class="why-feat">
+            <div class="feat-icon">🎓</div>
+            <div>
+              <div class="feat-title">ECB Registered Master Electricians</div>
+              <p class="feat-desc">All our electricians are registered with the Electrical Contractors Board and carry their tickets on every job.</p>
+            </div>
+          </div>
+          <div class="why-feat">
+            <div class="feat-icon">⏱️</div>
+            <div>
+              <div class="feat-title">Same-Day Emergency Response</div>
+              <p class="feat-desc">Electrical faults are dangerous. We're on call 24/7 and aim to be on-site within 90 minutes for emergencies.</p>
+            </div>
+          </div>
+          <div class="why-feat">
+            <div class="feat-icon">💰</div>
+            <div>
+              <div class="feat-title">Transparent, Fixed Quoting</div>
+              <p class="feat-desc">Quote before we start, invoice matches the quote. No surprise charges, ever.</p>
+            </div>
+          </div>
+          <div class="why-feat">
+            <div class="feat-icon">🛡️</div>
+            <div>
+              <div class="feat-title">Fully Insured Work</div>
+              <p class="feat-desc">All workmanship is covered by our liability insurance. Your property is protected while we're on site.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">Client Reviews</div>
+      <h2 class="sec-h2">They <span>Trust</span> Us</h2>
+    </div>
+  </div>
+
+  <div class="testi-scroll">
+    <div class="testi-track">
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"DB board tripped and wouldn't reset. They were at my house within 90 minutes, found a wiring fault, fixed it, and issued the CoC same day. Brilliant."</p>
+        <div class="t-author">
+          <div class="t-av">BN</div>
+          <div><div class="t-name">Bongani Ndlovu</div><div class="t-loc">La Lucia, Durban</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Installed a full solar backup system — inverter, batteries, the works. Incredibly professional, explained everything. Zero issues since day one."</p>
+        <div class="t-author">
+          <div class="t-av">PV</div>
+          <div><div class="t-name">Priya Venkitesh</div><div class="t-loc">Hillcrest, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Needed a CoC urgently for our property sale. They came out the next morning, completed the inspection, did the remedial work, and issued the cert. Saved our deal."</p>
+        <div class="t-author">
+          <div class="t-av">GS</div>
+          <div><div class="t-name">Gareth Sinclair</div><div class="t-loc">Durban North</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Rewired our entire restaurant after a refurb. On time, on budget, and the 3-phase setup is perfect. Our go-to electricians from now on."</p>
+        <div class="t-author">
+          <div class="t-av">AM</div>
+          <div><div class="t-name">Aisha Mahomed</div><div class="t-loc">Musgrave, Durban</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Honest, clean, and fast. I've used loads of electricians over the years — VoltEdge is the first team I'll actually call back without hesitation."</p>
+        <div class="t-author">
+          <div class="t-av">DH</div>
+          <div><div class="t-name">Derek Hendricks</div><div class="t-loc">Bluff, Durban</div></div>
+        </div>
+      </div>
+      <!-- Duplicate for loop -->
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"DB board tripped and wouldn't reset. They were at my house within 90 minutes, found a wiring fault, fixed it, and issued the CoC same day. Brilliant."</p>
+        <div class="t-author">
+          <div class="t-av">BN</div>
+          <div><div class="t-name">Bongani Ndlovu</div><div class="t-loc">La Lucia, Durban</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Installed a full solar backup system — inverter, batteries, the works. Incredibly professional, explained everything. Zero issues since day one."</p>
+        <div class="t-author">
+          <div class="t-av">PV</div>
+          <div><div class="t-name">Priya Venkitesh</div><div class="t-loc">Hillcrest, KZN</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Needed a CoC urgently for our property sale. They came out the next morning, completed the inspection, did the remedial work, and issued the cert. Saved our deal."</p>
+        <div class="t-author">
+          <div class="t-av">GS</div>
+          <div><div class="t-name">Gareth Sinclair</div><div class="t-loc">Durban North</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Rewired our entire restaurant after a refurb. On time, on budget, and the 3-phase setup is perfect. Our go-to electricians from now on."</p>
+        <div class="t-author">
+          <div class="t-av">AM</div>
+          <div><div class="t-name">Aisha Mahomed</div><div class="t-loc">Musgrave, Durban</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Honest, clean, and fast. I've used loads of electricians over the years — VoltEdge is the first team I'll actually call back without hesitation."</p>
+        <div class="t-author">
+          <div class="t-av">DH</div>
+          <div><div class="t-name">Derek Hendricks</div><div class="t-loc">Bluff, Durban</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="c-info reveal">
+        <div class="sec-tag" style="margin-bottom:1rem;">Get in Touch</div>
+        <h2 class="sec-h2" style="text-align:left; margin-bottom:1rem;">Let's <span>Connect</span></h2>
+        <p class="sec-p" style="margin:0; text-align:left;">Emergency or planned project — we'll get back to you fast. Free quotes, no obligation.</p>
+
+        <div class="c-methods">
+          <a href="tel:+27310000001" class="c-method">
+            <div class="c-icon">📞</div>
+            <div class="c-text"><small>Call Anytime</small><b>031 000 0001</b></div>
+          </a>
+          <a href="https://wa.me/27820000001" class="c-method">
+            <div class="c-icon">💬</div>
+            <div class="c-text"><small>WhatsApp</small><b>082 000 0001</b></div>
+          </a>
+          <a href="mailto:info@voltedge.co.za" class="c-method">
+            <div class="c-icon">✉️</div>
+            <div class="c-text"><small>Email Us</small><b>info@voltedge.co.za</b></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="c-form reveal">
+        <div class="c-form-title">Request a Quote</div>
+        <div class="c-form-sub">We reply within 30 minutes during business hours.</div>
+
+        <div class="fg-row">
+          <div class="fg"><label>First Name</label><input type="text" placeholder="John"></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="Smith"></div>
+        </div>
+        <div class="fg"><label>Phone Number</label><input type="tel" placeholder="082 000 0000"></div>
+        <div class="fg">
+          <label>Service Required</label>
+          <select>
+            <option value="" disabled selected>Select a service...</option>
+            <option>Fault Finding / Emergency</option>
+            <option>DB Board Upgrade</option>
+            <option>Solar / Backup Power</option>
+            <option>Certificate of Compliance</option>
+            <option>Residential Rewire</option>
+            <option>Commercial / Industrial</option>
+            <option>Lighting Installation</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label>Details</label><textarea placeholder="Describe the issue or project..."></textarea></div>
+        <button class="submit-btn" id="submitBtn">⚡ Send Request</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <a href="#" class="logo">
+        <div class="logo-bolt">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="20,2 8,20 16,20 14,34 28,14 20,14" fill="#f5e642"/>
+          </svg>
+        </div>
+        <div class="logo-text">Volt<span>Edge</span></div>
+      </a>
+
+      <ul class="foot-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#why">About</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2025 VoltEdge Electrical · ECB Registered · Durban, KZN</p>
+      <a href="https://indiewebstudio.co.za" target="_blank" rel="noopener" class="studio-credit">
+        <span class="studio-tag">Built by</span>
+        <div class="studio-badge">I</div>
+        <span class="studio-name">Indie Web Studio</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // NAV SCROLL
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50));
+
+  // MOBILE NAV
+  function toggleNav() {
+    const ham = document.getElementById('ham');
+    const menu = document.getElementById('mobMenu');
+    const overlay = document.getElementById('mobOverlay');
+    const open = menu.classList.contains('open');
+    ham.classList.toggle('open', !open);
+    menu.classList.toggle('open', !open);
+    overlay.classList.toggle('open', !open);
+    document.body.style.overflow = open ? '' : 'hidden';
+  }
+
+  // COUNTERS
+  function runCounter(el) {
+    const target = +el.dataset.target;
+    const dur = 2000;
+    const start = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 4);
+      el.textContent = Math.floor(ease * target).toLocaleString() + (target > 100 ? '+' : '');
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+
+  // SCROLL REVEAL
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.counter').forEach(runCounter);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // SUBMIT BUTTON
+  document.getElementById('submitBtn').addEventListener('click', function() {
+    this.textContent = '✅ Request Sent!';
+    this.style.background = '#22c55e';
+    this.style.color = '#fff';
+    setTimeout(() => {
+      this.textContent = '⚡ Send Request';
+      this.style.background = '';
+      this.style.color = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>

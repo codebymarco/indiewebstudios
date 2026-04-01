@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowMaster Plumbing — Premium Plumbing Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0e1a;
+    --navy-2: #111827;
+    --navy-3: #1a2236;
+    --steel: #1e2d40;
+    --accent: #f59e0b;
+    --accent-hot: #ef4444;
+    --accent-light: #fcd34d;
+    --white: #f8fafc;
+    --gray: #94a3b8;
+    --gray-light: #cbd5e1;
+    --pipe: #334155;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0 2rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10, 14, 26, 0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(10, 14, 26, 0.98);
+    border-bottom-color: rgba(245, 158, 11, 0.3);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transform: rotate(-5deg);
+  }
+
+  .nav-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .nav-logo-text span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray-light);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--accent);
+    color: var(--navy) !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 6px;
+    font-weight: 700 !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--accent-light) !important; transform: translateY(-1px); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 1100;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 26px;
+    height: 2.5px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ── MOBILE DRAWER ── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(320px, 85vw);
+    height: 100vh;
+    background: var(--navy-2);
+    border-left: 1px solid rgba(245,158,11,0.2);
+    z-index: 1050;
+    padding: 6rem 2rem 2rem;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-menu.open { right: 0; }
+
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1040;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .mobile-overlay.open { opacity: 1; }
+
+  .mobile-menu a {
+    display: block;
+    color: var(--gray-light);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  .mobile-menu a:hover { color: var(--accent); padding-left: 0.5rem; }
+
+  .mobile-menu .mobile-cta {
+    margin-top: 1.5rem;
+    background: var(--accent);
+    color: var(--navy) !important;
+    text-align: center;
+    padding: 1rem !important;
+    border-radius: 8px;
+    border: none !important;
+  }
+
+  .mobile-menu .mobile-emergency {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .mobile-menu .mobile-emergency p { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 1px; }
+  .mobile-menu .mobile-emergency a { color: var(--accent-hot) !important; font-size: 1.4rem; border: none !important; padding: 0 !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 7rem 2rem 4rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(245, 158, 11, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(30, 45, 64, 0.8) 0%, transparent 50%),
+      linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
+  }
+
+  .hero-pipes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .pipe-h {
+    position: absolute;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(245,158,11,0.15), rgba(245,158,11,0.3), rgba(245,158,11,0.15), transparent);
+    border-radius: 2px;
+    animation: pipePulse 4s ease-in-out infinite;
+  }
+
+  .pipe-v {
+    position: absolute;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, rgba(245,158,11,0.15), rgba(245,158,11,0.25), rgba(245,158,11,0.1), transparent);
+    border-radius: 2px;
+    animation: pipePulse 5s ease-in-out infinite 1s;
+  }
+
+  @keyframes pipePulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: #fca5a5;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1.5rem;
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent-hot);
+    border-radius: 50%;
+    animation: dotBlink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-title .line-accent { color: var(--accent); display: block; }
+  .hero-title .line-outline {
+    -webkit-text-stroke: 2px rgba(248,250,252,0.3);
+    color: transparent;
+    display: block;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 460px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.4s both;
+    margin-bottom: 3rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent);
+    color: var(--navy);
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.25s;
+    border: 2px solid var(--accent);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(245,158,11,0.3);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.25s;
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .hero-stat h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .hero-stat p {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.2rem;
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .hero-card-main {
+    background: var(--steel);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 360px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-card-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-icon-big {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .card-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #86efac;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: dotBlink 1.5s infinite;
+  }
+
+  .card-title-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-sub { font-size: 0.85rem; color: var(--gray); margin-bottom: 1.5rem; }
+
+  .service-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chip {
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+    color: var(--accent-light);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .call-strip {
+    background: var(--accent);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .call-strip-left p { font-size: 0.7rem; color: var(--navy); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+  .call-strip-left h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--navy); letter-spacing: 1px; }
+
+  .call-strip-btn {
+    background: var(--navy);
+    color: var(--accent);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+
+  .call-strip-btn:hover { transform: scale(1.1); }
+
+  /* floating accent cards */
+  .float-card {
+    position: absolute;
+    background: var(--navy-2);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    animation: float 3s ease-in-out infinite;
+    white-space: nowrap;
+    z-index: 3;
+  }
+
+  .float-card-icon { font-size: 1.2rem; }
+  .float-card-text p { font-size: 0.7rem; color: var(--gray); }
+  .float-card-text b { font-size: 0.85rem; color: var(--white); }
+
+  .float-card.top-left { top: -20px; left: -60px; animation-delay: 0s; }
+  .float-card.bottom-right { bottom: -20px; right: -50px; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { position: relative; z-index: 1; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  .section-title span { color: var(--accent); }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  /* ── TICKER STRIP ── */
+  .ticker {
+    background: var(--accent);
+    overflow: hidden;
+    padding: 0.7rem 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 30s linear infinite;
+  }
+
+  .ticker-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--navy);
+    padding: 0 2rem;
+  }
+
+  .ticker-sep { color: rgba(10,14,26,0.4); }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    padding: 7rem 0;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+  }
+
+  .services-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--steel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    background: linear-gradient(180deg, transparent, rgba(245,158,11,0.05));
+    transition: height 0.3s;
+  }
+
+  .service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245,158,11,0.3);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(245,158,11,0.1);
+  }
+
+  .service-card:hover::before { height: 100%; }
+
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(245,158,11,0.4);
+    letter-spacing: 2px;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .service-icon-wrap {
+    width: 56px;
+    height: 56px;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .service-card:hover .service-icon-wrap {
+    background: rgba(245,158,11,0.15);
+    border-color: rgba(245,158,11,0.4);
+  }
+
+  .service-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.6rem;
+  }
+
+  .service-desc { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── WHY US ── */
+  #why {
+    padding: 7rem 0;
+    background: var(--navy-2);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .why-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .why-feature {
+    padding: 1.5rem;
+    background: var(--steel);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .why-feature:hover { border-color: rgba(245,158,11,0.2); transform: translateY(-3px); }
+
+  .why-feature-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .why-feature h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+  }
+
+  .why-feature p { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+
+  .stats-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-box {
+    background: var(--steel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .stat-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .stat-box:hover { transform: translateY(-4px); border-color: rgba(245,158,11,0.2); }
+  .stat-box:hover::after { opacity: 1; }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    padding: 7rem 0;
+    background: var(--navy);
+    overflow: hidden;
+  }
+
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .testimonials-track {
+    display: flex;
+    gap: 1.5rem;
+    animation: scroll 40s linear infinite;
+    width: max-content;
+  }
+
+  .testimonials-track:hover { animation-play-state: paused; }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .testi-card {
+    background: var(--steel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 340px;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+  }
+
+  .testi-card:hover { border-color: rgba(245,158,11,0.2); }
+
+  .stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+
+  .testi-quote { font-size: 0.9rem; color: var(--gray-light); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
+
+  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+
+  .testi-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--navy);
+    flex-shrink: 0;
+  }
+
+  .testi-name { font-weight: 700; font-size: 0.9rem; }
+  .testi-loc { font-size: 0.75rem; color: var(--gray); }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 7rem 0;
+    background: var(--navy-2);
+    position: relative;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(245,158,11,0.3), transparent);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info { padding-top: 1rem; }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--steel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--white);
+    transition: all 0.3s;
+  }
+
+  .contact-method:hover { border-color: rgba(245,158,11,0.3); transform: translateX(4px); }
+
+  .contact-method-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(245,158,11,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .contact-method-text p { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.1rem; }
+  .contact-method-text b { font-size: 1rem; }
+
+  .contact-form {
+    background: var(--steel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  }
+
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-subtitle { font-size: 0.85rem; color: var(--gray); margin-bottom: 2rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .form-group { margin-bottom: 1rem; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-group select option { background: var(--navy-2); }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    background: rgba(245,158,11,0.03);
+  }
+
+  .form-group textarea { min-height: 110px; resize: vertical; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--accent);
+    color: var(--navy);
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-submit:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(245,158,11,0.25);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 3rem 0 2rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy { font-size: 0.8rem; color: rgba(148,163,184,0.6); }
+
+  .footer-studio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .footer-studio-label {
+    font-size: 0.7rem;
+    color: rgba(148,163,184,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .footer-studio-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    transition: color 0.2s;
+  }
+
+  .footer-studio:hover .footer-studio-name { color: var(--accent-light); }
+
+  .footer-studio-badge {
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: var(--navy);
+    font-weight: 900;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-content { gap: 2.5rem; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-visual { display: none; }
+    .hero { padding-top: 6rem; }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .why-features { grid-template-columns: 1fr; }
+    .stats-panel { grid-template-columns: 1fr 1fr; }
+
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+    .float-card { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats { gap: 1.5rem; }
+    .hero-buttons { flex-direction: column; }
+    .btn-primary, .btn-secondary { justify-content: center; }
+    .stats-panel { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">🔧</div>
+    <div class="nav-logo-text">Flow<span>Master</span></div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:+27310000000" class="nav-cta">📞 Call Now</a></li>
+  </ul>
+
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ── MOBILE OVERLAY ── -->
+<div class="mobile-overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#why" onclick="toggleMenu()">Why Us</a>
+  <a href="#testimonials" onclick="toggleMenu()">Reviews</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#contact" class="mobile-cta" onclick="toggleMenu()">Get a Free Quote</a>
+  <div class="mobile-emergency">
+    <p>24/7 Emergency Line</p>
+    <a href="tel:+27310000000">031 000 0000</a>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-pipes">
+    <div class="pipe-h" style="top:20%; width:300px; left:60%;"></div>
+    <div class="pipe-h" style="top:70%; width:200px; left:55%;"></div>
+    <div class="pipe-v" style="left:58%; height:250px; top:15%;"></div>
+    <div class="pipe-v" style="left:75%; height:180px; top:55%;"></div>
+  </div>
+
+  <div class="hero-content container">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        24/7 Emergency Service Available
+      </div>
+
+      <h1 class="hero-title">
+        <span>Your City's</span>
+        <span class="line-accent">Trusted</span>
+        <span class="line-outline">Plumbers</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Professional plumbing solutions from burst pipes to full installations. Fast, reliable, and built to last — we show up, we fix it, we guarantee it.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">🔧 Get Free Quote</a>
+        <a href="tel:+27310000000" class="btn-secondary">📞 031 000 0000</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <h3 class="counter" data-target="2500">0</h3>
+          <p>Jobs Done</p>
+        </div>
+        <div class="hero-stat">
+          <h3 class="counter" data-target="15">0</h3>
+          <p>Years Experience</p>
+        </div>
+        <div class="hero-stat">
+          <h3>4.9★</h3>
+          <p>Avg Rating</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="float-card top-left">
+        <div class="float-card-icon">⚡</div>
+        <div class="float-card-text">
+          <p>Response Time</p>
+          <b>Under 60 mins</b>
+        </div>
+      </div>
+
+      <div class="hero-card-main">
+        <div class="card-header">
+          <div class="card-icon-big">🚿</div>
+          <div class="card-status">
+            <div class="status-dot"></div>
+            Available Now
+          </div>
+        </div>
+        <div class="card-title-text">Expert Plumbing Services</div>
+        <div class="card-sub">Licensed & insured professionals, serving Durban & surrounds.</div>
+        <div class="service-chips">
+          <span class="chip">Geysers</span>
+          <span class="chip">Drains</span>
+          <span class="chip">Burst Pipes</span>
+          <span class="chip">Leak Detection</span>
+          <span class="chip">Bathrooms</span>
+        </div>
+        <div class="call-strip">
+          <div class="call-strip-left">
+            <p>Emergency Hotline</p>
+            <h4>031 000 0000</h4>
+          </div>
+          <button class="call-strip-btn" onclick="window.location='tel:+27310000000'">📞</button>
+        </div>
+      </div>
+
+      <div class="float-card bottom-right">
+        <div class="float-card-icon">✅</div>
+        <div class="float-card-text">
+          <p>Guarantee</p>
+          <b>All Work Warranted</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Emergency Plumbing <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Geyser Installation & Repair <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Drain Unblocking <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Burst Pipe Repair <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Bathroom Renovations <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Leak Detection <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Commercial Plumbing <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Same-Day Service <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Emergency Plumbing <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Geyser Installation & Repair <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Drain Unblocking <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Burst Pipe Repair <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Bathroom Renovations <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Leak Detection <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Commercial Plumbing <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Same-Day Service <span class="ticker-sep">✦</span></span>
+  </div>
+</div>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="container">
+    <div class="services-header reveal">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Our <span>Services</span></h2>
+      <p class="section-desc" style="margin:0 auto;">Full-spectrum plumbing solutions for homes and businesses. We handle it all — fast, clean, and guaranteed.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-num">01</span>
+        <div class="service-icon-wrap">🚨</div>
+        <div class="service-name">Emergency Repairs</div>
+        <p class="service-desc">Burst pipes, flooding, no hot water — we're there within the hour, day or night. Don't panic, just call.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">02</span>
+        <div class="service-icon-wrap">🔥</div>
+        <div class="service-name">Geyser Services</div>
+        <p class="service-desc">Installation, replacement, and repairs for all makes and models. Solar, heat pump, and conventional geysers.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">03</span>
+        <div class="service-icon-wrap">🌀</div>
+        <div class="service-name">Drain Unblocking</div>
+        <p class="service-desc">High-pressure jetting clears even the worst blockages. Kitchen, bathroom, or main sewer lines.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">04</span>
+        <div class="service-icon-wrap">🔍</div>
+        <div class="service-name">Leak Detection</div>
+        <p class="service-desc">Advanced non-invasive detection pinpoints hidden leaks in walls, slabs, and underground pipes. Accurate every time.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">05</span>
+        <div class="service-icon-wrap">🛁</div>
+        <div class="service-name">Bathroom Renovations</div>
+        <p class="service-desc">Complete bathroom revamps or just a fixture upgrade. Design, supply, and install — one team, one bill.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">06</span>
+        <div class="service-icon-wrap">🏢</div>
+        <div class="service-name">Commercial Plumbing</div>
+        <p class="service-desc">Offices, restaurants, complexes, and industrial sites. We handle large-scale installations and maintenance contracts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY US ── -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="reveal">
+        <div class="section-label">Why Choose Us</div>
+        <h2 class="section-title">Built on <span>Trust</span></h2>
+        <p class="section-desc">We've been the go-to plumbers in Durban and surrounding areas for over 15 years. Our reputation is everything to us.</p>
+
+        <div class="why-features">
+          <div class="why-feature">
+            <div class="why-feature-icon">⚡</div>
+            <h4>Rapid Response</h4>
+            <p>Most jobs attended within 60 minutes. We track our team in real-time.</p>
+          </div>
+          <div class="why-feature">
+            <div class="why-feature-icon">🎓</div>
+            <h4>PIRB Certified</h4>
+            <p>All our plumbers are fully licensed and registered with the PIRB.</p>
+          </div>
+          <div class="why-feature">
+            <div class="why-feature-icon">💰</div>
+            <h4>Upfront Pricing</h4>
+            <p>No hidden fees. You get a quote before we start — always.</p>
+          </div>
+          <div class="why-feature">
+            <div class="why-feature-icon">🛡️</div>
+            <h4>Work Guaranteed</h4>
+            <p>Every job comes with a workmanship warranty. Peace of mind included.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-panel reveal">
+        <div class="stat-box">
+          <div class="stat-number counter" data-target="2500">0</div>
+          <div class="stat-label">Jobs Completed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number counter" data-target="15">0</div>
+          <div class="stat-label">Years in Business</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Customer Satisfaction</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Emergency Support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <div class="section-label">Happy Clients</div>
+      <h2 class="section-title">What People <span>Say</span></h2>
+    </div>
+  </div>
+
+  <div style="overflow:hidden; padding: 1rem 0;">
+    <div class="testimonials-track">
+      <!-- Set 1 -->
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Geyser burst at 11pm and they were there by midnight. Fixed everything and cleaned up after themselves. Absolute legends."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SN</div>
+          <div><div class="testi-name">Sipho Nkosi</div><div class="testi-loc">Umhlanga, Durban</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Used them for a full bathroom refit. The team was professional, the price was fair, and the finish was incredible. Highly recommend."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TM</div>
+          <div><div class="testi-name">Thandi Mkhize</div><div class="testi-loc">Pinetown, KZN</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Found a hidden slab leak that three other plumbers missed. Sorted it without breaking my tiles. Genuinely impressed."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RP</div>
+          <div><div class="testi-name">Raj Pillay</div><div class="testi-loc">Westville, Durban</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Called at 7am for an emergency and they were done by 9am. Transparent pricing, friendly team. Won't use anyone else."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">KD</div>
+          <div><div class="testi-name">Karen de Beer</div><div class="testi-loc">Morningside, Durban</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Sorted out our restaurant's blocked main drain in under an hour. Have a maintenance contract with them now. Game changers."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JM</div>
+          <div><div class="testi-name">Johan Mostert</div><div class="testi-loc">Berea, Durban</div></div>
+        </div>
+      </div>
+      <!-- Set 2 (duplicate for infinite scroll) -->
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Geyser burst at 11pm and they were there by midnight. Fixed everything and cleaned up after themselves. Absolute legends."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SN</div>
+          <div><div class="testi-name">Sipho Nkosi</div><div class="testi-loc">Umhlanga, Durban</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Used them for a full bathroom refit. The team was professional, the price was fair, and the finish was incredible. Highly recommend."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TM</div>
+          <div><div class="testi-name">Thandi Mkhize</div><div class="testi-loc">Pinetown, KZN</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Found a hidden slab leak that three other plumbers missed. Sorted it without breaking my tiles. Genuinely impressed."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RP</div>
+          <div><div class="testi-name">Raj Pillay</div><div class="testi-loc">Westville, Durban</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Called at 7am for an emergency and they were done by 9am. Transparent pricing, friendly team. Won't use anyone else."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">KD</div>
+          <div><div class="testi-name">Karen de Beer</div><div class="testi-loc">Morningside, Durban</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Sorted out our restaurant's blocked main drain in under an hour. Have a maintenance contract with them now. Game changers."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JM</div>
+          <div><div class="testi-name">Johan Mostert</div><div class="testi-loc">Berea, Durban</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="section-label">Get in Touch</div>
+        <h2 class="section-title">Ready to <span>Fix It?</span></h2>
+        <p class="section-desc">Emergency or planned — we're here to help. Get a free quote with no obligation.</p>
+
+        <div class="contact-methods">
+          <a href="tel:+27310000000" class="contact-method">
+            <div class="contact-method-icon">📞</div>
+            <div class="contact-method-text">
+              <p>Call Us Anytime</p>
+              <b>031 000 0000</b>
+            </div>
+          </a>
+          <a href="https://wa.me/27820000000" class="contact-method">
+            <div class="contact-method-icon">💬</div>
+            <div class="contact-method-text">
+              <p>WhatsApp Us</p>
+              <b>082 000 0000</b>
+            </div>
+          </a>
+          <a href="mailto:info@flowmasterplumbing.co.za" class="contact-method">
+            <div class="contact-method-icon">✉️</div>
+            <div class="contact-method-text">
+              <p>Email Us</p>
+              <b>info@flowmasterplumbing.co.za</b>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <h3 class="form-title">Free Quote Request</h3>
+        <p class="form-subtitle">We'll get back to you within 30 minutes during business hours.</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="082 000 0000">
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select>
+            <option value="" disabled selected>Select a service...</option>
+            <option>Emergency Repair</option>
+            <option>Geyser Installation / Repair</option>
+            <option>Drain Unblocking</option>
+            <option>Leak Detection</option>
+            <option>Bathroom Renovation</option>
+            <option>Commercial Plumbing</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell Us More</label>
+          <textarea placeholder="Briefly describe the issue or job..."></textarea>
+        </div>
+        <button class="form-submit">Send My Request 🔧</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">🔧</div>
+        <div class="nav-logo-text">Flow<span>Master</span></div>
+      </a>
+
+      <ul class="footer-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">About</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 FlowMaster Plumbing. All rights reserved. PIRB Registered.</p>
+      <a href="https://indiewebstudio.co.za" target="_blank" rel="noopener" class="footer-studio">
+        <span class="footer-studio-label">Website by</span>
+        <div class="footer-studio-badge">I</div>
+        <span class="footer-studio-name">Indie Web Studio</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── NAV SCROLL ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // ── MOBILE MENU ──
+  function toggleMenu() {
+    const ham = document.getElementById('hamburger');
+    const menu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('overlay');
+    const isOpen = menu.classList.contains('open');
+    ham.classList.toggle('open', !isOpen);
+    menu.classList.toggle('open', !isOpen);
+    overlay.classList.toggle('open', !isOpen);
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  }
+
+  // ── COUNTER ANIMATION ──
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const start = performance.now();
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(ease * target).toLocaleString() + (target > 100 ? '+' : '');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Trigger counters inside this element
+        entry.target.querySelectorAll('.counter').forEach(animateCounter);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Also observe hero stat counters
+  const heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.counter').forEach(animateCounter);
+        heroObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) heroObserver.observe(heroStats);
+
+  // ── FORM SUBMIT ──
+  document.querySelector('.form-submit').addEventListener('click', function() {
+    const btn = this;
+    btn.textContent = '✅ Request Sent!';
+    btn.style.background = '#22c55e';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = 'Send My Request 🔧';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
